@@ -1,0 +1,13 @@
+// Base Prisma configuration
+// - SQLite datasource
+// - Generated client placed under prisma/generated/client
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
