@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { AdminSidebar, AdminSidebarProvider } from "@/src/components/admin/sidebar-nav";
-import { SidebarInset, SidebarTrigger } from "@/src/components/ui/sidebar";
-import { Separator } from "@/src/components/ui/separator";
-import { ModeToggle } from "@/src/components/mode-toggle";
-import { UserMenu } from "@/src/components/user-menu";
+import { AdminSidebar, AdminSidebarProvider } from "@/features/admin/components/sidebar-nav";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { ModeToggle } from "@/components/core/mode-toggle";
+import { UserMenu } from "@/components/core/user-menu";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
