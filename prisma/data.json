@@ -1,0 +1,111 @@
+{
+  "user": {
+    "name": "Abdullah Khalid",
+    "username": "khalids01",
+    "email": "khalid.code03@gmail.com",
+    "image": null
+  },
+  "profile": {
+    "fullName": "Abdullah Khalid",
+    "headline": "Full Stack Engineer",
+    "bio": "Full Stack Engineer with experience in TypeScript-based application development using Next.js, NestJS, and Fastify. Familiar with Elixir, PHP, Docker, MySQL, MongoDB, and managing Linux VPS environments. Worked on AI-powered tools for document summarization and image-to-text processing. Passionate about building scalable, maintainable applications.",
+    "avatarUrl": null,
+    "location": "Dhaka, Bangladesh",
+    "phone": "+88 01604-152737",
+    "emailPublic": "khalid.code03@gmail.com",
+    "resumeUrl": null,
+    "linkedinUrl": "https://linkedin.com/in/khalid87",
+    "githubUrl": "https://github.com/khalids01",
+    "websiteUrl": null
+  },
+  "skills": [
+    { "name": "JavaScript", "category": "Programming Languages" },
+    { "name": "TypeScript", "category": "Programming Languages" },
+    { "name": "PHP", "category": "Programming Languages" },
+    { "name": "Dart", "category": "Programming Languages" },
+    { "name": "Elixir", "category": "Programming Languages" },
+
+    { "name": "React", "category": "Frameworks" },
+    { "name": "Next.js", "category": "Frameworks" },
+    { "name": "Express", "category": "Frameworks" },
+    { "name": "Fastify", "category": "Frameworks" },
+    { "name": "NestJS", "category": "Frameworks" },
+    { "name": "React Native", "category": "Frameworks" },
+    { "name": "Phoenix", "category": "Frameworks" },
+    { "name": "Elysia.js", "category": "Frameworks" },
+
+    { "name": "MySQL", "category": "Databases" },
+    { "name": "MongoDB", "category": "Databases" },
+    { "name": "Postgres", "category": "Databases" },
+    { "name": "SQLite", "category": "Databases" },
+
+    { "name": "AI-based document summarization", "category": "AI Tools & Capabilities" },
+    { "name": "image-to-text processing", "category": "AI Tools & Capabilities" },
+
+    { "name": "Linux", "category": "Tools & Others" },
+    { "name": "Docker", "category": "Tools & Others" },
+    { "name": "Podman", "category": "Tools & Others" },
+    { "name": "Git", "category": "Tools & Others" },
+    { "name": "Vite", "category": "Tools & Others" },
+    { "name": "Figma", "category": "Tools & Others" },
+    { "name": "Postman", "category": "Tools & Others" },
+
+    { "name": "English (Conversational)", "category": "Languages" },
+    { "name": "Bangla (Native)", "category": "Languages" }
+  ],
+  "experiences": [
+    {
+      "company": "QuantumLeap",
+      "role": "Full Stack Engineer",
+      "location": "Frisco, TX, USA (Remote)",
+      "startDate": "2023-01-01",
+      "endDate": null,
+      "current": true,
+      "description": null,
+      "highlights": [
+        "Built AI features and integrated AI APIs for image-to-text and content summarization.",
+        "Developed & maintaining Laboratory Management System (LMS) using Next.js, Fastify, MariaDB, RabbitMQ, Docker, and Linux VPS.",
+        "Contributed to EMR using PHP and OpenEMR.",
+        "Handled Linux VPS management, deployments, and server setup.",
+        "Presented product demos to stakeholders with occasional team support."
+      ]
+    },
+    {
+      "company": "Freelance",
+      "role": "Web Developer",
+      "location": "Remote",
+      "startDate": "2020-01-01",
+      "endDate": "2023-01-01",
+      "current": false,
+      "description": null,
+      "highlights": [
+        "Provided contract-based and freelance web development using TypeScript, Next.js, React etc.",
+        "Worked as a frontend developer on various e-commerce projects.",
+        "Completed 100+ website designs for regular clients through online marketplaces."
+      ]
+    }
+  ],
+  "educations": [
+    {
+      "institution": "Uttara University",
+      "degree": "BSC in CSE",
+      "field": null,
+      "startDate": "2024-01-01",
+      "endDate": null,
+      "grade": null
+    },
+    {
+      "institution": "Tangail Polytechnic Institute",
+      "degree": "Diploma in CSE",
+      "field": null,
+      "startDate": "2019-01-01",
+      "endDate": "2023-01-01",
+      "grade": null
+    }
+  ],
+  "projects": [],
+  "socialLinks": [
+    { "platform": "LinkedIn", "url": "https://linkedin.com/in/khalid87", "order": 0 },
+    { "platform": "GitHub", "url": "https://github.com/khalids01", "order": 1 }
+  ]
+}
