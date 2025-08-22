@@ -1,0 +1,7 @@
+-- CreateTable
+CREATE TABLE "FeatureFlag" (
+    "key" TEXT NOT NULL PRIMARY KEY,
+    "value" BOOLEAN NOT NULL DEFAULT false,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);

@@ -1,0 +1,10 @@
+// Feature flags / app-level settings
+
+model FeatureFlag {
+  key   String @id
+  // For now we only need boolean; can extend with JSON in future
+  value Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

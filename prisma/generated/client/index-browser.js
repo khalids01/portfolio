@@ -264,6 +264,13 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FeatureFlagScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -291,7 +298,8 @@ exports.Prisma.ModelName = {
   Project: 'Project',
   Tag: 'Tag',
   SocialLink: 'SocialLink',
-  ContactMessage: 'ContactMessage'
+  ContactMessage: 'ContactMessage',
+  FeatureFlag: 'FeatureFlag'
 };
 
 /**

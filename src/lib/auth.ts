@@ -4,6 +4,7 @@ import { sendEmail } from "./email";
 import { magicLink } from "better-auth/plugins/magic-link";
 import { prisma } from "./prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { getFeatureFlag } from "./features";
 
 // Configure Better Auth instance
 export const auth = betterAuth({
@@ -13,6 +14,16 @@ export const auth = betterAuth({
   plugins: [
     magicLink({
       async sendMagicLink({ email, url }) {
+        // If sign-ups are disabled, only allow existing users to request a link
+        const [disabled, existing] = await Promise.all([
+          getFeatureFlag("disableSignUp"),
+          prisma.user.findUnique({ where: { email } }),
+        ]);
+        if (disabled && !existing) {
+          console.warn("Magic link blocked: sign-ups disabled and user does not exist", { email });
+          return; // Do not send email
+        }
+
         console.log("Sending magic link", { to: email, url });
         await sendEmail({
           to: email,

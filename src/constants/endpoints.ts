@@ -5,5 +5,6 @@ export const endpoints = {
   admin: {
     profile: "/api/admin/profile",
     skills: "/api/admin/skills",
+    features: "/api/admin/features",
   },
 } as const;

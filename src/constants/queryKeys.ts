@@ -7,4 +7,7 @@ export const queryKeys = {
     public: ["skills", "public"] as const,
     admin: ["skills", "admin"] as const,
   },
+  features: {
+    admin: ["features", "admin"] as const,
+  },
 } as const;
