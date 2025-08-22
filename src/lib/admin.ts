@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "khalid.code03@gmail.com";
+import { prisma } from "@/lib/prisma";
 
 export async function requireAdmin() {
   const hdrs = await headers();
@@ -9,9 +8,16 @@ export async function requireAdmin() {
   if (!session) {
     return { ok: false as const, status: 401, message: "Unauthorized" };
   }
-  const isAdmin = session.user?.email === ADMIN_EMAIL;
-  if (!isAdmin) {
+
+  // Ensure the current user's role is ADMIN
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
+
+  if (!user || user.role !== "ADMIN") {
     return { ok: false as const, status: 403, message: "Forbidden" };
   }
+
   return { ok: true as const, session };
 }
