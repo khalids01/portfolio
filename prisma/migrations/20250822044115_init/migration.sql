@@ -4,7 +4,7 @@ CREATE TABLE "User" (
     "name" TEXT,
     "username" TEXT,
     "email" TEXT,
-    "emailVerified" DATETIME,
+    "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
     "hashedPassword" TEXT,
     "role" TEXT NOT NULL DEFAULT 'USER',
@@ -72,9 +72,13 @@ CREATE TABLE "Skill" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "profileId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "label" TEXT,
+    "icon" TEXT,
     "category" TEXT NOT NULL,
     "level" INTEGER,
     "order" INTEGER DEFAULT 0,
+    "experienceYears" INTEGER DEFAULT 0,
+    "experienceMonths" INTEGER DEFAULT 0,
     CONSTRAINT "Skill_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -163,6 +167,14 @@ CREATE TABLE "_ProjectToTag" (
     CONSTRAINT "_ProjectToTag_B_fkey" FOREIGN KEY ("B") REFERENCES "Tag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "_ProjectToSkill" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    CONSTRAINT "_ProjectToSkill_A_fkey" FOREIGN KEY ("A") REFERENCES "Project" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "_ProjectToSkill_B_fkey" FOREIGN KEY ("B") REFERENCES "Skill" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -219,3 +231,9 @@ CREATE UNIQUE INDEX "_ProjectToTag_AB_unique" ON "_ProjectToTag"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ProjectToTag_B_index" ON "_ProjectToTag"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_ProjectToSkill_AB_unique" ON "_ProjectToSkill"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_ProjectToSkill_B_index" ON "_ProjectToSkill"("B");

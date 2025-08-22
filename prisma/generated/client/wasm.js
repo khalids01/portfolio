@@ -134,30 +134,38 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
+  accountId: 'accountId',
+  providerId: 'providerId',
   userId: 'userId',
-  type: 'type',
-  provider: 'provider',
-  providerAccountId: 'providerAccountId',
-  refresh_token: 'refresh_token',
-  access_token: 'access_token',
-  expires_at: 'expires_at',
-  token_type: 'token_type',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
   scope: 'scope',
-  id_token: 'id_token',
-  session_state: 'session_state'
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
-  sessionToken: 'sessionToken',
-  userId: 'userId',
-  expires: 'expires'
+  expiresAt: 'expiresAt',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
 };
 
-exports.Prisma.VerificationTokenScalarFieldEnum = {
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
   identifier: 'identifier',
-  token: 'token',
-  expires: 'expires'
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProfileScalarFieldEnum = {
@@ -182,9 +190,13 @@ exports.Prisma.SkillScalarFieldEnum = {
   id: 'id',
   profileId: 'profileId',
   name: 'name',
+  label: 'label',
+  icon: 'icon',
   category: 'category',
   level: 'level',
-  order: 'order'
+  order: 'order',
+  experienceYears: 'experienceYears',
+  experienceMonths: 'experienceMonths'
 };
 
 exports.Prisma.ExperienceScalarFieldEnum = {
@@ -270,7 +282,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
-  VerificationToken: 'VerificationToken',
+  Verification: 'Verification',
   Profile: 'Profile',
   Skill: 'Skill',
   Experience: 'Experience',

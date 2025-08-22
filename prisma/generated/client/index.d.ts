@@ -29,10 +29,10 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  */
 export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
 /**
- * Model VerificationToken
+ * Model Verification
  * 
  */
-export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
 /**
  * Model Profile
  * 
@@ -245,14 +245,14 @@ export class PrismaClient<
   get session(): Prisma.SessionDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
+   * `prisma.verification`: Exposes CRUD operations for the **Verification** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more VerificationTokens
-    * const verificationTokens = await prisma.verificationToken.findMany()
+    * // Fetch zero or more Verifications
+    * const verifications = await prisma.verification.findMany()
     * ```
     */
-  get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+  get verification(): Prisma.VerificationDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.profile`: Exposes CRUD operations for the **Profile** model.
@@ -786,7 +786,7 @@ export namespace Prisma {
     User: 'User',
     Account: 'Account',
     Session: 'Session',
-    VerificationToken: 'VerificationToken',
+    Verification: 'Verification',
     Profile: 'Profile',
     Skill: 'Skill',
     Experience: 'Experience',
@@ -814,7 +814,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "profile" | "skill" | "experience" | "experienceHighlight" | "education" | "project" | "tag" | "socialLink" | "contactMessage"
+      modelProps: "user" | "account" | "session" | "verification" | "profile" | "skill" | "experience" | "experienceHighlight" | "education" | "project" | "tag" | "socialLink" | "contactMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1040,77 +1040,77 @@ export namespace Prisma {
           }
         }
       }
-      VerificationToken: {
-        payload: Prisma.$VerificationTokenPayload<ExtArgs>
-        fields: Prisma.VerificationTokenFieldRefs
+      Verification: {
+        payload: Prisma.$VerificationPayload<ExtArgs>
+        fields: Prisma.VerificationFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.VerificationTokenFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+            args: Prisma.VerificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.VerificationTokenFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           findFirst: {
-            args: Prisma.VerificationTokenFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+            args: Prisma.VerificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.VerificationTokenFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           findMany: {
-            args: Prisma.VerificationTokenFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+            args: Prisma.VerificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>[]
           }
           create: {
-            args: Prisma.VerificationTokenCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           createMany: {
-            args: Prisma.VerificationTokenCreateManyArgs<ExtArgs>
+            args: Prisma.VerificationCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.VerificationTokenCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+            args: Prisma.VerificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>[]
           }
           delete: {
-            args: Prisma.VerificationTokenDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           update: {
-            args: Prisma.VerificationTokenUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           deleteMany: {
-            args: Prisma.VerificationTokenDeleteManyArgs<ExtArgs>
+            args: Prisma.VerificationDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.VerificationTokenUpdateManyArgs<ExtArgs>
+            args: Prisma.VerificationUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.VerificationTokenUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+            args: Prisma.VerificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>[]
           }
           upsert: {
-            args: Prisma.VerificationTokenUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+            args: Prisma.VerificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationPayload>
           }
           aggregate: {
-            args: Prisma.VerificationTokenAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateVerificationToken>
+            args: Prisma.VerificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVerification>
           }
           groupBy: {
-            args: Prisma.VerificationTokenGroupByArgs<ExtArgs>
-            result: $Utils.Optional<VerificationTokenGroupByOutputType>[]
+            args: Prisma.VerificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VerificationGroupByOutputType>[]
           }
           count: {
-            args: Prisma.VerificationTokenCountArgs<ExtArgs>
-            result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+            args: Prisma.VerificationCountArgs<ExtArgs>
+            result: $Utils.Optional<VerificationCountAggregateOutputType> | number
           }
         }
       }
@@ -1875,7 +1875,7 @@ export namespace Prisma {
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
-    verificationToken?: VerificationTokenOmit
+    verification?: VerificationOmit
     profile?: ProfileOmit
     skill?: SkillOmit
     experience?: ExperienceOmit
@@ -2068,6 +2068,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type SkillCountOutputType
+   */
+
+  export type SkillCountOutputType = {
+    projects: number
+  }
+
+  export type SkillCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    projects?: boolean | SkillCountOutputTypeCountProjectsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SkillCountOutputType without action
+   */
+  export type SkillCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillCountOutputType
+     */
+    select?: SkillCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SkillCountOutputType without action
+   */
+  export type SkillCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
+  }
+
+
+  /**
    * Count Type ExperienceCountOutputType
    */
 
@@ -2104,10 +2135,12 @@ export namespace Prisma {
 
   export type ProjectCountOutputType = {
     tags: number
+    skills: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tags?: boolean | ProjectCountOutputTypeCountTagsArgs
+    skills?: boolean | ProjectCountOutputTypeCountSkillsArgs
   }
 
   // Custom InputTypes
@@ -2126,6 +2159,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountTagsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TagWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountSkillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SkillWhereInput
   }
 
 
@@ -2179,7 +2219,7 @@ export namespace Prisma {
     name: string | null
     username: string | null
     email: string | null
-    emailVerified: Date | null
+    emailVerified: boolean | null
     image: string | null
     hashedPassword: string | null
     role: $Enums.Role | null
@@ -2194,7 +2234,7 @@ export namespace Prisma {
     name: string | null
     username: string | null
     email: string | null
-    emailVerified: Date | null
+    emailVerified: boolean | null
     image: string | null
     hashedPassword: string | null
     role: $Enums.Role | null
@@ -2343,8 +2383,8 @@ export namespace Prisma {
     id: string
     name: string | null
     username: string | null
-    email: string | null
-    emailVerified: Date | null
+    email: string
+    emailVerified: boolean
     image: string | null
     hashedPassword: string | null
     role: $Enums.Role
@@ -2456,8 +2496,8 @@ export namespace Prisma {
       id: string
       name: string | null
       username: string | null
-      email: string | null
-      emailVerified: Date | null
+      email: string
+      emailVerified: boolean
       image: string | null
       hashedPassword: string | null
       role: $Enums.Role
@@ -2895,7 +2935,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
-    readonly emailVerified: FieldRef<"User", 'DateTime'>
+    readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly image: FieldRef<"User", 'String'>
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
@@ -3380,118 +3420,106 @@ export namespace Prisma {
 
   export type AggregateAccount = {
     _count: AccountCountAggregateOutputType | null
-    _avg: AccountAvgAggregateOutputType | null
-    _sum: AccountSumAggregateOutputType | null
     _min: AccountMinAggregateOutputType | null
     _max: AccountMaxAggregateOutputType | null
   }
 
-  export type AccountAvgAggregateOutputType = {
-    expires_at: number | null
-  }
-
-  export type AccountSumAggregateOutputType = {
-    expires_at: number | null
-  }
-
   export type AccountMinAggregateOutputType = {
     id: string | null
+    accountId: string | null
+    providerId: string | null
     userId: string | null
-    type: string | null
-    provider: string | null
-    providerAccountId: string | null
-    refresh_token: string | null
-    access_token: string | null
-    expires_at: number | null
-    token_type: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
-    id_token: string | null
-    session_state: string | null
+    password: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AccountMaxAggregateOutputType = {
     id: string | null
+    accountId: string | null
+    providerId: string | null
     userId: string | null
-    type: string | null
-    provider: string | null
-    providerAccountId: string | null
-    refresh_token: string | null
-    access_token: string | null
-    expires_at: number | null
-    token_type: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
-    id_token: string | null
-    session_state: string | null
+    password: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type AccountCountAggregateOutputType = {
     id: number
+    accountId: number
+    providerId: number
     userId: number
-    type: number
-    provider: number
-    providerAccountId: number
-    refresh_token: number
-    access_token: number
-    expires_at: number
-    token_type: number
+    accessToken: number
+    refreshToken: number
+    idToken: number
+    accessTokenExpiresAt: number
+    refreshTokenExpiresAt: number
     scope: number
-    id_token: number
-    session_state: number
+    password: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type AccountAvgAggregateInputType = {
-    expires_at?: true
-  }
-
-  export type AccountSumAggregateInputType = {
-    expires_at?: true
-  }
-
   export type AccountMinAggregateInputType = {
     id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
-    type?: true
-    provider?: true
-    providerAccountId?: true
-    refresh_token?: true
-    access_token?: true
-    expires_at?: true
-    token_type?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
-    id_token?: true
-    session_state?: true
+    password?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type AccountMaxAggregateInputType = {
     id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
-    type?: true
-    provider?: true
-    providerAccountId?: true
-    refresh_token?: true
-    access_token?: true
-    expires_at?: true
-    token_type?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
-    id_token?: true
-    session_state?: true
+    password?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type AccountCountAggregateInputType = {
     id?: true
+    accountId?: true
+    providerId?: true
     userId?: true
-    type?: true
-    provider?: true
-    providerAccountId?: true
-    refresh_token?: true
-    access_token?: true
-    expires_at?: true
-    token_type?: true
+    accessToken?: true
+    refreshToken?: true
+    idToken?: true
+    accessTokenExpiresAt?: true
+    refreshTokenExpiresAt?: true
     scope?: true
-    id_token?: true
-    session_state?: true
+    password?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3533,18 +3561,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: AccountAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: AccountSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: AccountMinAggregateInputType
@@ -3575,28 +3591,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AccountCountAggregateInputType | true
-    _avg?: AccountAvgAggregateInputType
-    _sum?: AccountSumAggregateInputType
     _min?: AccountMinAggregateInputType
     _max?: AccountMaxAggregateInputType
   }
 
   export type AccountGroupByOutputType = {
     id: string
+    accountId: string
+    providerId: string
     userId: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token: string | null
-    access_token: string | null
-    expires_at: number | null
-    token_type: string | null
+    accessToken: string | null
+    refreshToken: string | null
+    idToken: string | null
+    accessTokenExpiresAt: Date | null
+    refreshTokenExpiresAt: Date | null
     scope: string | null
-    id_token: string | null
-    session_state: string | null
+    password: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: AccountCountAggregateOutputType | null
-    _avg: AccountAvgAggregateOutputType | null
-    _sum: AccountSumAggregateOutputType | null
     _min: AccountMinAggregateOutputType | null
     _max: AccountMaxAggregateOutputType | null
   }
@@ -3617,68 +3630,72 @@ export namespace Prisma {
 
   export type AccountSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
+    password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
+    password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
+    password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["account"]>
 
   export type AccountSelectScalar = {
     id?: boolean
+    accountId?: boolean
+    providerId?: boolean
     userId?: boolean
-    type?: boolean
-    provider?: boolean
-    providerAccountId?: boolean
-    refresh_token?: boolean
-    access_token?: boolean
-    expires_at?: boolean
-    token_type?: boolean
+    accessToken?: boolean
+    refreshToken?: boolean
+    idToken?: boolean
+    accessTokenExpiresAt?: boolean
+    refreshTokenExpiresAt?: boolean
     scope?: boolean
-    id_token?: boolean
-    session_state?: boolean
+    password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "type" | "provider" | "providerAccountId" | "refresh_token" | "access_token" | "expires_at" | "token_type" | "scope" | "id_token" | "session_state", ExtArgs["result"]["account"]>
+  export type AccountOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accountId" | "providerId" | "userId" | "accessToken" | "refreshToken" | "idToken" | "accessTokenExpiresAt" | "refreshTokenExpiresAt" | "scope" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["account"]>
   export type AccountInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3696,17 +3713,18 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      accountId: string
+      providerId: string
       userId: string
-      type: string
-      provider: string
-      providerAccountId: string
-      refresh_token: string | null
-      access_token: string | null
-      expires_at: number | null
-      token_type: string | null
+      accessToken: string | null
+      refreshToken: string | null
+      idToken: string | null
+      accessTokenExpiresAt: Date | null
+      refreshTokenExpiresAt: Date | null
       scope: string | null
-      id_token: string | null
-      session_state: string | null
+      password: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["account"]>
     composites: {}
   }
@@ -4132,17 +4150,18 @@ export namespace Prisma {
    */
   interface AccountFieldRefs {
     readonly id: FieldRef<"Account", 'String'>
+    readonly accountId: FieldRef<"Account", 'String'>
+    readonly providerId: FieldRef<"Account", 'String'>
     readonly userId: FieldRef<"Account", 'String'>
-    readonly type: FieldRef<"Account", 'String'>
-    readonly provider: FieldRef<"Account", 'String'>
-    readonly providerAccountId: FieldRef<"Account", 'String'>
-    readonly refresh_token: FieldRef<"Account", 'String'>
-    readonly access_token: FieldRef<"Account", 'String'>
-    readonly expires_at: FieldRef<"Account", 'Int'>
-    readonly token_type: FieldRef<"Account", 'String'>
+    readonly accessToken: FieldRef<"Account", 'String'>
+    readonly refreshToken: FieldRef<"Account", 'String'>
+    readonly idToken: FieldRef<"Account", 'String'>
+    readonly accessTokenExpiresAt: FieldRef<"Account", 'DateTime'>
+    readonly refreshTokenExpiresAt: FieldRef<"Account", 'DateTime'>
     readonly scope: FieldRef<"Account", 'String'>
-    readonly id_token: FieldRef<"Account", 'String'>
-    readonly session_state: FieldRef<"Account", 'String'>
+    readonly password: FieldRef<"Account", 'String'>
+    readonly createdAt: FieldRef<"Account", 'DateTime'>
+    readonly updatedAt: FieldRef<"Account", 'DateTime'>
   }
     
 
@@ -4567,46 +4586,70 @@ export namespace Prisma {
 
   export type SessionMinAggregateOutputType = {
     id: string | null
-    sessionToken: string | null
+    expiresAt: Date | null
+    token: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
     userId: string | null
-    expires: Date | null
   }
 
   export type SessionMaxAggregateOutputType = {
     id: string | null
-    sessionToken: string | null
+    expiresAt: Date | null
+    token: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
     userId: string | null
-    expires: Date | null
   }
 
   export type SessionCountAggregateOutputType = {
     id: number
-    sessionToken: number
+    expiresAt: number
+    token: number
+    createdAt: number
+    updatedAt: number
+    ipAddress: number
+    userAgent: number
     userId: number
-    expires: number
     _all: number
   }
 
 
   export type SessionMinAggregateInputType = {
     id?: true
-    sessionToken?: true
+    expiresAt?: true
+    token?: true
+    createdAt?: true
+    updatedAt?: true
+    ipAddress?: true
+    userAgent?: true
     userId?: true
-    expires?: true
   }
 
   export type SessionMaxAggregateInputType = {
     id?: true
-    sessionToken?: true
+    expiresAt?: true
+    token?: true
+    createdAt?: true
+    updatedAt?: true
+    ipAddress?: true
+    userAgent?: true
     userId?: true
-    expires?: true
   }
 
   export type SessionCountAggregateInputType = {
     id?: true
-    sessionToken?: true
+    expiresAt?: true
+    token?: true
+    createdAt?: true
+    updatedAt?: true
+    ipAddress?: true
+    userAgent?: true
     userId?: true
-    expires?: true
     _all?: true
   }
 
@@ -4684,9 +4727,13 @@ export namespace Prisma {
 
   export type SessionGroupByOutputType = {
     id: string
-    sessionToken: string
+    expiresAt: Date
+    token: string
+    createdAt: Date
+    updatedAt: Date
+    ipAddress: string | null
+    userAgent: string | null
     userId: string
-    expires: Date
     _count: SessionCountAggregateOutputType | null
     _min: SessionMinAggregateOutputType | null
     _max: SessionMaxAggregateOutputType | null
@@ -4708,36 +4755,52 @@ export namespace Prisma {
 
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionToken?: boolean
+    expiresAt?: boolean
+    token?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     userId?: boolean
-    expires?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionToken?: boolean
+    expiresAt?: boolean
+    token?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     userId?: boolean
-    expires?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    sessionToken?: boolean
+    expiresAt?: boolean
+    token?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     userId?: boolean
-    expires?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
     id?: boolean
-    sessionToken?: boolean
+    expiresAt?: boolean
+    token?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
     userId?: boolean
-    expires?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sessionToken" | "userId" | "expires", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "expiresAt" | "token" | "createdAt" | "updatedAt" | "ipAddress" | "userAgent" | "userId", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4755,9 +4818,13 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      sessionToken: string
+      expiresAt: Date
+      token: string
+      createdAt: Date
+      updatedAt: Date
+      ipAddress: string | null
+      userAgent: string | null
       userId: string
-      expires: Date
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -5183,9 +5250,13 @@ export namespace Prisma {
    */
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
-    readonly sessionToken: FieldRef<"Session", 'String'>
+    readonly expiresAt: FieldRef<"Session", 'DateTime'>
+    readonly token: FieldRef<"Session", 'String'>
+    readonly createdAt: FieldRef<"Session", 'DateTime'>
+    readonly updatedAt: FieldRef<"Session", 'DateTime'>
+    readonly ipAddress: FieldRef<"Session", 'String'>
+    readonly userAgent: FieldRef<"Session", 'String'>
     readonly userId: FieldRef<"Session", 'String'>
-    readonly expires: FieldRef<"Session", 'DateTime'>
   }
     
 
@@ -5599,313 +5670,349 @@ export namespace Prisma {
 
 
   /**
-   * Model VerificationToken
+   * Model Verification
    */
 
-  export type AggregateVerificationToken = {
-    _count: VerificationTokenCountAggregateOutputType | null
-    _min: VerificationTokenMinAggregateOutputType | null
-    _max: VerificationTokenMaxAggregateOutputType | null
+  export type AggregateVerification = {
+    _count: VerificationCountAggregateOutputType | null
+    _min: VerificationMinAggregateOutputType | null
+    _max: VerificationMaxAggregateOutputType | null
   }
 
-  export type VerificationTokenMinAggregateOutputType = {
+  export type VerificationMinAggregateOutputType = {
+    id: string | null
     identifier: string | null
-    token: string | null
-    expires: Date | null
+    value: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type VerificationTokenMaxAggregateOutputType = {
+  export type VerificationMaxAggregateOutputType = {
+    id: string | null
     identifier: string | null
-    token: string | null
-    expires: Date | null
+    value: string | null
+    expiresAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type VerificationTokenCountAggregateOutputType = {
+  export type VerificationCountAggregateOutputType = {
+    id: number
     identifier: number
-    token: number
-    expires: number
+    value: number
+    expiresAt: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type VerificationTokenMinAggregateInputType = {
+  export type VerificationMinAggregateInputType = {
+    id?: true
     identifier?: true
-    token?: true
-    expires?: true
+    value?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type VerificationTokenMaxAggregateInputType = {
+  export type VerificationMaxAggregateInputType = {
+    id?: true
     identifier?: true
-    token?: true
-    expires?: true
+    value?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
-  export type VerificationTokenCountAggregateInputType = {
+  export type VerificationCountAggregateInputType = {
+    id?: true
     identifier?: true
-    token?: true
-    expires?: true
+    value?: true
+    expiresAt?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type VerificationTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which VerificationToken to aggregate.
+     * Filter which Verification to aggregate.
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of VerificationTokens to fetch.
+     * Determine the order of Verifications to fetch.
      */
-    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    orderBy?: VerificationOrderByWithRelationInput | VerificationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: VerificationTokenWhereUniqueInput
+    cursor?: VerificationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` VerificationTokens from the position of the cursor.
+     * Take `±n` Verifications from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` VerificationTokens.
+     * Skip the first `n` Verifications.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned VerificationTokens
+     * Count returned Verifications
     **/
-    _count?: true | VerificationTokenCountAggregateInputType
+    _count?: true | VerificationCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: VerificationTokenMinAggregateInputType
+    _min?: VerificationMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: VerificationTokenMaxAggregateInputType
+    _max?: VerificationMaxAggregateInputType
   }
 
-  export type GetVerificationTokenAggregateType<T extends VerificationTokenAggregateArgs> = {
-        [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
+  export type GetVerificationAggregateType<T extends VerificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerification]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateVerificationToken[P]>
-      : GetScalarType<T[P], AggregateVerificationToken[P]>
+        : GetScalarType<T[P], AggregateVerification[P]>
+      : GetScalarType<T[P], AggregateVerification[P]>
   }
 
 
 
 
-  export type VerificationTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VerificationTokenWhereInput
-    orderBy?: VerificationTokenOrderByWithAggregationInput | VerificationTokenOrderByWithAggregationInput[]
-    by: VerificationTokenScalarFieldEnum[] | VerificationTokenScalarFieldEnum
-    having?: VerificationTokenScalarWhereWithAggregatesInput
+  export type VerificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationWhereInput
+    orderBy?: VerificationOrderByWithAggregationInput | VerificationOrderByWithAggregationInput[]
+    by: VerificationScalarFieldEnum[] | VerificationScalarFieldEnum
+    having?: VerificationScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: VerificationTokenCountAggregateInputType | true
-    _min?: VerificationTokenMinAggregateInputType
-    _max?: VerificationTokenMaxAggregateInputType
+    _count?: VerificationCountAggregateInputType | true
+    _min?: VerificationMinAggregateInputType
+    _max?: VerificationMaxAggregateInputType
   }
 
-  export type VerificationTokenGroupByOutputType = {
+  export type VerificationGroupByOutputType = {
+    id: string
     identifier: string
-    token: string
-    expires: Date
-    _count: VerificationTokenCountAggregateOutputType | null
-    _min: VerificationTokenMinAggregateOutputType | null
-    _max: VerificationTokenMaxAggregateOutputType | null
+    value: string
+    expiresAt: Date
+    createdAt: Date | null
+    updatedAt: Date | null
+    _count: VerificationCountAggregateOutputType | null
+    _min: VerificationMinAggregateOutputType | null
+    _max: VerificationMaxAggregateOutputType | null
   }
 
-  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
+  type GetVerificationGroupByPayload<T extends VerificationGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<VerificationTokenGroupByOutputType, T['by']> &
+      PickEnumerable<VerificationGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof VerificationGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
-            : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+              : GetScalarType<T[P], VerificationGroupByOutputType[P]>
+            : GetScalarType<T[P], VerificationGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type VerificationTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VerificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     identifier?: boolean
-    token?: boolean
-    expires?: boolean
-  }, ExtArgs["result"]["verificationToken"]>
+    value?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["verification"]>
 
-  export type VerificationTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VerificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     identifier?: boolean
-    token?: boolean
-    expires?: boolean
-  }, ExtArgs["result"]["verificationToken"]>
+    value?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["verification"]>
 
-  export type VerificationTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VerificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     identifier?: boolean
-    token?: boolean
-    expires?: boolean
-  }, ExtArgs["result"]["verificationToken"]>
+    value?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["verification"]>
 
-  export type VerificationTokenSelectScalar = {
+  export type VerificationSelectScalar = {
+    id?: boolean
     identifier?: boolean
-    token?: boolean
-    expires?: boolean
+    value?: boolean
+    expiresAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type VerificationTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"identifier" | "token" | "expires", ExtArgs["result"]["verificationToken"]>
+  export type VerificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "identifier" | "value" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["verification"]>
 
-  export type $VerificationTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "VerificationToken"
+  export type $VerificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Verification"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
+      id: string
       identifier: string
-      token: string
-      expires: Date
-    }, ExtArgs["result"]["verificationToken"]>
+      value: string
+      expiresAt: Date
+      createdAt: Date | null
+      updatedAt: Date | null
+    }, ExtArgs["result"]["verification"]>
     composites: {}
   }
 
-  type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenDefaultArgs> = $Result.GetResult<Prisma.$VerificationTokenPayload, S>
+  type VerificationGetPayload<S extends boolean | null | undefined | VerificationDefaultArgs> = $Result.GetResult<Prisma.$VerificationPayload, S>
 
-  type VerificationTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VerificationTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: VerificationTokenCountAggregateInputType | true
+  type VerificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VerificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VerificationCountAggregateInputType | true
     }
 
-  export interface VerificationTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VerificationToken'], meta: { name: 'VerificationToken' } }
+  export interface VerificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Verification'], meta: { name: 'Verification' } }
     /**
-     * Find zero or one VerificationToken that matches the filter.
-     * @param {VerificationTokenFindUniqueArgs} args - Arguments to find a VerificationToken
+     * Find zero or one Verification that matches the filter.
+     * @param {VerificationFindUniqueArgs} args - Arguments to find a Verification
      * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findUnique({
+     * // Get one Verification
+     * const verification = await prisma.verification.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends VerificationTokenFindUniqueArgs>(args: SelectSubset<T, VerificationTokenFindUniqueArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends VerificationFindUniqueArgs>(args: SelectSubset<T, VerificationFindUniqueArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one VerificationToken that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Verification that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
+     * @param {VerificationFindUniqueOrThrowArgs} args - Arguments to find a Verification
      * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
+     * // Get one Verification
+     * const verification = await prisma.verification.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends VerificationFindUniqueOrThrowArgs>(args: SelectSubset<T, VerificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first VerificationToken that matches the filter.
+     * Find the first Verification that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenFindFirstArgs} args - Arguments to find a VerificationToken
+     * @param {VerificationFindFirstArgs} args - Arguments to find a Verification
      * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findFirst({
+     * // Get one Verification
+     * const verification = await prisma.verification.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends VerificationTokenFindFirstArgs>(args?: SelectSubset<T, VerificationTokenFindFirstArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends VerificationFindFirstArgs>(args?: SelectSubset<T, VerificationFindFirstArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first VerificationToken that matches the filter or
+     * Find the first Verification that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
+     * @param {VerificationFindFirstOrThrowArgs} args - Arguments to find a Verification
      * @example
-     * // Get one VerificationToken
-     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
+     * // Get one Verification
+     * const verification = await prisma.verification.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends VerificationFindFirstOrThrowArgs>(args?: SelectSubset<T, VerificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more VerificationTokens that matches the filter.
+     * Find zero or more Verifications that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {VerificationFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all VerificationTokens
-     * const verificationTokens = await prisma.verificationToken.findMany()
+     * // Get all Verifications
+     * const verifications = await prisma.verification.findMany()
      * 
-     * // Get first 10 VerificationTokens
-     * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
+     * // Get first 10 Verifications
+     * const verifications = await prisma.verification.findMany({ take: 10 })
      * 
-     * // Only select the `identifier`
-     * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.findMany({ select: { identifier: true } })
+     * // Only select the `id`
+     * const verificationWithIdOnly = await prisma.verification.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends VerificationTokenFindManyArgs>(args?: SelectSubset<T, VerificationTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends VerificationFindManyArgs>(args?: SelectSubset<T, VerificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a VerificationToken.
-     * @param {VerificationTokenCreateArgs} args - Arguments to create a VerificationToken.
+     * Create a Verification.
+     * @param {VerificationCreateArgs} args - Arguments to create a Verification.
      * @example
-     * // Create one VerificationToken
-     * const VerificationToken = await prisma.verificationToken.create({
+     * // Create one Verification
+     * const Verification = await prisma.verification.create({
      *   data: {
-     *     // ... data to create a VerificationToken
+     *     // ... data to create a Verification
      *   }
      * })
      * 
      */
-    create<T extends VerificationTokenCreateArgs>(args: SelectSubset<T, VerificationTokenCreateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends VerificationCreateArgs>(args: SelectSubset<T, VerificationCreateArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many VerificationTokens.
-     * @param {VerificationTokenCreateManyArgs} args - Arguments to create many VerificationTokens.
+     * Create many Verifications.
+     * @param {VerificationCreateManyArgs} args - Arguments to create many Verifications.
      * @example
-     * // Create many VerificationTokens
-     * const verificationToken = await prisma.verificationToken.createMany({
+     * // Create many Verifications
+     * const verification = await prisma.verification.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends VerificationTokenCreateManyArgs>(args?: SelectSubset<T, VerificationTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends VerificationCreateManyArgs>(args?: SelectSubset<T, VerificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many VerificationTokens and returns the data saved in the database.
-     * @param {VerificationTokenCreateManyAndReturnArgs} args - Arguments to create many VerificationTokens.
+     * Create many Verifications and returns the data saved in the database.
+     * @param {VerificationCreateManyAndReturnArgs} args - Arguments to create many Verifications.
      * @example
-     * // Create many VerificationTokens
-     * const verificationToken = await prisma.verificationToken.createManyAndReturn({
+     * // Create many Verifications
+     * const verification = await prisma.verification.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many VerificationTokens and only return the `identifier`
-     * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.createManyAndReturn({
-     *   select: { identifier: true },
+     * // Create many Verifications and only return the `id`
+     * const verificationWithIdOnly = await prisma.verification.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -5914,28 +6021,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends VerificationTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, VerificationTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends VerificationCreateManyAndReturnArgs>(args?: SelectSubset<T, VerificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a VerificationToken.
-     * @param {VerificationTokenDeleteArgs} args - Arguments to delete one VerificationToken.
+     * Delete a Verification.
+     * @param {VerificationDeleteArgs} args - Arguments to delete one Verification.
      * @example
-     * // Delete one VerificationToken
-     * const VerificationToken = await prisma.verificationToken.delete({
+     * // Delete one Verification
+     * const Verification = await prisma.verification.delete({
      *   where: {
-     *     // ... filter to delete one VerificationToken
+     *     // ... filter to delete one Verification
      *   }
      * })
      * 
      */
-    delete<T extends VerificationTokenDeleteArgs>(args: SelectSubset<T, VerificationTokenDeleteArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends VerificationDeleteArgs>(args: SelectSubset<T, VerificationDeleteArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one VerificationToken.
-     * @param {VerificationTokenUpdateArgs} args - Arguments to update one VerificationToken.
+     * Update one Verification.
+     * @param {VerificationUpdateArgs} args - Arguments to update one Verification.
      * @example
-     * // Update one VerificationToken
-     * const verificationToken = await prisma.verificationToken.update({
+     * // Update one Verification
+     * const verification = await prisma.verification.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5945,30 +6052,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends VerificationTokenUpdateArgs>(args: SelectSubset<T, VerificationTokenUpdateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends VerificationUpdateArgs>(args: SelectSubset<T, VerificationUpdateArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more VerificationTokens.
-     * @param {VerificationTokenDeleteManyArgs} args - Arguments to filter VerificationTokens to delete.
+     * Delete zero or more Verifications.
+     * @param {VerificationDeleteManyArgs} args - Arguments to filter Verifications to delete.
      * @example
-     * // Delete a few VerificationTokens
-     * const { count } = await prisma.verificationToken.deleteMany({
+     * // Delete a few Verifications
+     * const { count } = await prisma.verification.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends VerificationTokenDeleteManyArgs>(args?: SelectSubset<T, VerificationTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends VerificationDeleteManyArgs>(args?: SelectSubset<T, VerificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more VerificationTokens.
+     * Update zero or more Verifications.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {VerificationUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many VerificationTokens
-     * const verificationToken = await prisma.verificationToken.updateMany({
+     * // Update many Verifications
+     * const verification = await prisma.verification.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5978,14 +6085,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends VerificationTokenUpdateManyArgs>(args: SelectSubset<T, VerificationTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends VerificationUpdateManyArgs>(args: SelectSubset<T, VerificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more VerificationTokens and returns the data updated in the database.
-     * @param {VerificationTokenUpdateManyAndReturnArgs} args - Arguments to update many VerificationTokens.
+     * Update zero or more Verifications and returns the data updated in the database.
+     * @param {VerificationUpdateManyAndReturnArgs} args - Arguments to update many Verifications.
      * @example
-     * // Update many VerificationTokens
-     * const verificationToken = await prisma.verificationToken.updateManyAndReturn({
+     * // Update many Verifications
+     * const verification = await prisma.verification.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5994,9 +6101,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more VerificationTokens and only return the `identifier`
-     * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.updateManyAndReturn({
-     *   select: { identifier: true },
+     * // Update zero or more Verifications and only return the `id`
+     * const verificationWithIdOnly = await prisma.verification.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6008,56 +6115,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends VerificationTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, VerificationTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends VerificationUpdateManyAndReturnArgs>(args: SelectSubset<T, VerificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one VerificationToken.
-     * @param {VerificationTokenUpsertArgs} args - Arguments to update or create a VerificationToken.
+     * Create or update one Verification.
+     * @param {VerificationUpsertArgs} args - Arguments to update or create a Verification.
      * @example
-     * // Update or create a VerificationToken
-     * const verificationToken = await prisma.verificationToken.upsert({
+     * // Update or create a Verification
+     * const verification = await prisma.verification.upsert({
      *   create: {
-     *     // ... data to create a VerificationToken
+     *     // ... data to create a Verification
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the VerificationToken we want to update
+     *     // ... the filter for the Verification we want to update
      *   }
      * })
      */
-    upsert<T extends VerificationTokenUpsertArgs>(args: SelectSubset<T, VerificationTokenUpsertArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends VerificationUpsertArgs>(args: SelectSubset<T, VerificationUpsertArgs<ExtArgs>>): Prisma__VerificationClient<$Result.GetResult<Prisma.$VerificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of VerificationTokens.
+     * Count the number of Verifications.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenCountArgs} args - Arguments to filter VerificationTokens to count.
+     * @param {VerificationCountArgs} args - Arguments to filter Verifications to count.
      * @example
-     * // Count the number of VerificationTokens
-     * const count = await prisma.verificationToken.count({
+     * // Count the number of Verifications
+     * const count = await prisma.verification.count({
      *   where: {
-     *     // ... the filter for the VerificationTokens we want to count
+     *     // ... the filter for the Verifications we want to count
      *   }
      * })
     **/
-    count<T extends VerificationTokenCountArgs>(
-      args?: Subset<T, VerificationTokenCountArgs>,
+    count<T extends VerificationCountArgs>(
+      args?: Subset<T, VerificationCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], VerificationTokenCountAggregateOutputType>
+          : GetScalarType<T['select'], VerificationCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a VerificationToken.
+     * Allows you to perform aggregations operations on a Verification.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {VerificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6077,13 +6184,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
+    aggregate<T extends VerificationAggregateArgs>(args: Subset<T, VerificationAggregateArgs>): Prisma.PrismaPromise<GetVerificationAggregateType<T>>
 
     /**
-     * Group by VerificationToken.
+     * Group by Verification.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {VerificationTokenGroupByArgs} args - Group by arguments.
+     * @param {VerificationGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6098,14 +6205,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends VerificationTokenGroupByArgs,
+      T extends VerificationGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VerificationTokenGroupByArgs['orderBy'] }
-        : { orderBy?: VerificationTokenGroupByArgs['orderBy'] },
+        ? { orderBy: VerificationGroupByArgs['orderBy'] }
+        : { orderBy?: VerificationGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6154,20 +6261,20 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, VerificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the VerificationToken model
+   * Fields of the Verification model
    */
-  readonly fields: VerificationTokenFieldRefs;
+  readonly fields: VerificationFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for VerificationToken.
+   * The delegate class that acts as a "Promise-like" for Verification.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__VerificationTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__VerificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6195,373 +6302,376 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the VerificationToken model
+   * Fields of the Verification model
    */
-  interface VerificationTokenFieldRefs {
-    readonly identifier: FieldRef<"VerificationToken", 'String'>
-    readonly token: FieldRef<"VerificationToken", 'String'>
-    readonly expires: FieldRef<"VerificationToken", 'DateTime'>
+  interface VerificationFieldRefs {
+    readonly id: FieldRef<"Verification", 'String'>
+    readonly identifier: FieldRef<"Verification", 'String'>
+    readonly value: FieldRef<"Verification", 'String'>
+    readonly expiresAt: FieldRef<"Verification", 'DateTime'>
+    readonly createdAt: FieldRef<"Verification", 'DateTime'>
+    readonly updatedAt: FieldRef<"Verification", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * VerificationToken findUnique
+   * Verification findUnique
    */
-  export type VerificationTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter, which VerificationToken to fetch.
+     * Filter, which Verification to fetch.
      */
-    where: VerificationTokenWhereUniqueInput
+    where: VerificationWhereUniqueInput
   }
 
   /**
-   * VerificationToken findUniqueOrThrow
+   * Verification findUniqueOrThrow
    */
-  export type VerificationTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter, which VerificationToken to fetch.
+     * Filter, which Verification to fetch.
      */
-    where: VerificationTokenWhereUniqueInput
+    where: VerificationWhereUniqueInput
   }
 
   /**
-   * VerificationToken findFirst
+   * Verification findFirst
    */
-  export type VerificationTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter, which VerificationToken to fetch.
+     * Filter, which Verification to fetch.
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of VerificationTokens to fetch.
+     * Determine the order of Verifications to fetch.
      */
-    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    orderBy?: VerificationOrderByWithRelationInput | VerificationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for VerificationTokens.
+     * Sets the position for searching for Verifications.
      */
-    cursor?: VerificationTokenWhereUniqueInput
+    cursor?: VerificationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` VerificationTokens from the position of the cursor.
+     * Take `±n` Verifications from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` VerificationTokens.
+     * Skip the first `n` Verifications.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of VerificationTokens.
+     * Filter by unique combinations of Verifications.
      */
-    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    distinct?: VerificationScalarFieldEnum | VerificationScalarFieldEnum[]
   }
 
   /**
-   * VerificationToken findFirstOrThrow
+   * Verification findFirstOrThrow
    */
-  export type VerificationTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter, which VerificationToken to fetch.
+     * Filter, which Verification to fetch.
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of VerificationTokens to fetch.
+     * Determine the order of Verifications to fetch.
      */
-    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    orderBy?: VerificationOrderByWithRelationInput | VerificationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for VerificationTokens.
+     * Sets the position for searching for Verifications.
      */
-    cursor?: VerificationTokenWhereUniqueInput
+    cursor?: VerificationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` VerificationTokens from the position of the cursor.
+     * Take `±n` Verifications from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` VerificationTokens.
+     * Skip the first `n` Verifications.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of VerificationTokens.
+     * Filter by unique combinations of Verifications.
      */
-    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    distinct?: VerificationScalarFieldEnum | VerificationScalarFieldEnum[]
   }
 
   /**
-   * VerificationToken findMany
+   * Verification findMany
    */
-  export type VerificationTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter, which VerificationTokens to fetch.
+     * Filter, which Verifications to fetch.
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of VerificationTokens to fetch.
+     * Determine the order of Verifications to fetch.
      */
-    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    orderBy?: VerificationOrderByWithRelationInput | VerificationOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing VerificationTokens.
+     * Sets the position for listing Verifications.
      */
-    cursor?: VerificationTokenWhereUniqueInput
+    cursor?: VerificationWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` VerificationTokens from the position of the cursor.
+     * Take `±n` Verifications from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` VerificationTokens.
+     * Skip the first `n` Verifications.
      */
     skip?: number
-    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+    distinct?: VerificationScalarFieldEnum | VerificationScalarFieldEnum[]
   }
 
   /**
-   * VerificationToken create
+   * Verification create
    */
-  export type VerificationTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * The data needed to create a VerificationToken.
+     * The data needed to create a Verification.
      */
-    data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    data: XOR<VerificationCreateInput, VerificationUncheckedCreateInput>
   }
 
   /**
-   * VerificationToken createMany
+   * Verification createMany
    */
-  export type VerificationTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many VerificationTokens.
+     * The data used to create many Verifications.
      */
-    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    data: VerificationCreateManyInput | VerificationCreateManyInput[]
   }
 
   /**
-   * VerificationToken createManyAndReturn
+   * Verification createManyAndReturn
    */
-  export type VerificationTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelectCreateManyAndReturn<ExtArgs> | null
+    select?: VerificationSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * The data used to create many VerificationTokens.
+     * The data used to create many Verifications.
      */
-    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    data: VerificationCreateManyInput | VerificationCreateManyInput[]
   }
 
   /**
-   * VerificationToken update
+   * Verification update
    */
-  export type VerificationTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * The data needed to update a VerificationToken.
+     * The data needed to update a Verification.
      */
-    data: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    data: XOR<VerificationUpdateInput, VerificationUncheckedUpdateInput>
     /**
-     * Choose, which VerificationToken to update.
+     * Choose, which Verification to update.
      */
-    where: VerificationTokenWhereUniqueInput
+    where: VerificationWhereUniqueInput
   }
 
   /**
-   * VerificationToken updateMany
+   * Verification updateMany
    */
-  export type VerificationTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update VerificationTokens.
+     * The data used to update Verifications.
      */
-    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    data: XOR<VerificationUpdateManyMutationInput, VerificationUncheckedUpdateManyInput>
     /**
-     * Filter which VerificationTokens to update
+     * Filter which Verifications to update
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
-     * Limit how many VerificationTokens to update.
+     * Limit how many Verifications to update.
      */
     limit?: number
   }
 
   /**
-   * VerificationToken updateManyAndReturn
+   * Verification updateManyAndReturn
    */
-  export type VerificationTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: VerificationSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * The data used to update VerificationTokens.
+     * The data used to update Verifications.
      */
-    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    data: XOR<VerificationUpdateManyMutationInput, VerificationUncheckedUpdateManyInput>
     /**
-     * Filter which VerificationTokens to update
+     * Filter which Verifications to update
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
-     * Limit how many VerificationTokens to update.
+     * Limit how many Verifications to update.
      */
     limit?: number
   }
 
   /**
-   * VerificationToken upsert
+   * Verification upsert
    */
-  export type VerificationTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * The filter to search for the VerificationToken to update in case it exists.
+     * The filter to search for the Verification to update in case it exists.
      */
-    where: VerificationTokenWhereUniqueInput
+    where: VerificationWhereUniqueInput
     /**
-     * In case the VerificationToken found by the `where` argument doesn't exist, create a new VerificationToken with this data.
+     * In case the Verification found by the `where` argument doesn't exist, create a new Verification with this data.
      */
-    create: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    create: XOR<VerificationCreateInput, VerificationUncheckedCreateInput>
     /**
-     * In case the VerificationToken was found with the provided `where` argument, update it with this data.
+     * In case the Verification was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    update: XOR<VerificationUpdateInput, VerificationUncheckedUpdateInput>
   }
 
   /**
-   * VerificationToken delete
+   * Verification delete
    */
-  export type VerificationTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
     /**
-     * Filter which VerificationToken to delete.
+     * Filter which Verification to delete.
      */
-    where: VerificationTokenWhereUniqueInput
+    where: VerificationWhereUniqueInput
   }
 
   /**
-   * VerificationToken deleteMany
+   * Verification deleteMany
    */
-  export type VerificationTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which VerificationTokens to delete
+     * Filter which Verifications to delete
      */
-    where?: VerificationTokenWhereInput
+    where?: VerificationWhereInput
     /**
-     * Limit how many VerificationTokens to delete.
+     * Limit how many Verifications to delete.
      */
     limit?: number
   }
 
   /**
-   * VerificationToken without action
+   * Verification without action
    */
-  export type VerificationTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VerificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VerificationToken
+     * Select specific fields to fetch from the Verification
      */
-    select?: VerificationTokenSelect<ExtArgs> | null
+    select?: VerificationSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the VerificationToken
+     * Omit specific fields from the Verification
      */
-    omit?: VerificationTokenOmit<ExtArgs> | null
+    omit?: VerificationOmit<ExtArgs> | null
   }
 
 
@@ -7908,38 +8018,54 @@ export namespace Prisma {
   export type SkillAvgAggregateOutputType = {
     level: number | null
     order: number | null
+    experienceYears: number | null
+    experienceMonths: number | null
   }
 
   export type SkillSumAggregateOutputType = {
     level: number | null
     order: number | null
+    experienceYears: number | null
+    experienceMonths: number | null
   }
 
   export type SkillMinAggregateOutputType = {
     id: string | null
     profileId: string | null
     name: string | null
+    label: string | null
+    icon: string | null
     category: string | null
     level: number | null
     order: number | null
+    experienceYears: number | null
+    experienceMonths: number | null
   }
 
   export type SkillMaxAggregateOutputType = {
     id: string | null
     profileId: string | null
     name: string | null
+    label: string | null
+    icon: string | null
     category: string | null
     level: number | null
     order: number | null
+    experienceYears: number | null
+    experienceMonths: number | null
   }
 
   export type SkillCountAggregateOutputType = {
     id: number
     profileId: number
     name: number
+    label: number
+    icon: number
     category: number
     level: number
     order: number
+    experienceYears: number
+    experienceMonths: number
     _all: number
   }
 
@@ -7947,38 +8073,54 @@ export namespace Prisma {
   export type SkillAvgAggregateInputType = {
     level?: true
     order?: true
+    experienceYears?: true
+    experienceMonths?: true
   }
 
   export type SkillSumAggregateInputType = {
     level?: true
     order?: true
+    experienceYears?: true
+    experienceMonths?: true
   }
 
   export type SkillMinAggregateInputType = {
     id?: true
     profileId?: true
     name?: true
+    label?: true
+    icon?: true
     category?: true
     level?: true
     order?: true
+    experienceYears?: true
+    experienceMonths?: true
   }
 
   export type SkillMaxAggregateInputType = {
     id?: true
     profileId?: true
     name?: true
+    label?: true
+    icon?: true
     category?: true
     level?: true
     order?: true
+    experienceYears?: true
+    experienceMonths?: true
   }
 
   export type SkillCountAggregateInputType = {
     id?: true
     profileId?: true
     name?: true
+    label?: true
+    icon?: true
     category?: true
     level?: true
     order?: true
+    experienceYears?: true
+    experienceMonths?: true
     _all?: true
   }
 
@@ -8072,9 +8214,13 @@ export namespace Prisma {
     id: string
     profileId: string
     name: string
+    label: string | null
+    icon: string | null
     category: string
     level: number | null
     order: number | null
+    experienceYears: number | null
+    experienceMonths: number | null
     _count: SkillCountAggregateOutputType | null
     _avg: SkillAvgAggregateOutputType | null
     _sum: SkillSumAggregateOutputType | null
@@ -8100,19 +8246,29 @@ export namespace Prisma {
     id?: boolean
     profileId?: boolean
     name?: boolean
+    label?: boolean
+    icon?: boolean
     category?: boolean
     level?: boolean
     order?: boolean
+    experienceYears?: boolean
+    experienceMonths?: boolean
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
+    projects?: boolean | Skill$projectsArgs<ExtArgs>
+    _count?: boolean | SkillCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["skill"]>
 
   export type SkillSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     profileId?: boolean
     name?: boolean
+    label?: boolean
+    icon?: boolean
     category?: boolean
     level?: boolean
     order?: boolean
+    experienceYears?: boolean
+    experienceMonths?: boolean
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["skill"]>
 
@@ -8120,9 +8276,13 @@ export namespace Prisma {
     id?: boolean
     profileId?: boolean
     name?: boolean
+    label?: boolean
+    icon?: boolean
     category?: boolean
     level?: boolean
     order?: boolean
+    experienceYears?: boolean
+    experienceMonths?: boolean
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["skill"]>
 
@@ -8130,14 +8290,20 @@ export namespace Prisma {
     id?: boolean
     profileId?: boolean
     name?: boolean
+    label?: boolean
+    icon?: boolean
     category?: boolean
     level?: boolean
     order?: boolean
+    experienceYears?: boolean
+    experienceMonths?: boolean
   }
 
-  export type SkillOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "name" | "category" | "level" | "order", ExtArgs["result"]["skill"]>
+  export type SkillOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "name" | "label" | "icon" | "category" | "level" | "order" | "experienceYears" | "experienceMonths", ExtArgs["result"]["skill"]>
   export type SkillInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
+    projects?: boolean | Skill$projectsArgs<ExtArgs>
+    _count?: boolean | SkillCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type SkillIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
@@ -8150,14 +8316,19 @@ export namespace Prisma {
     name: "Skill"
     objects: {
       profile: Prisma.$ProfilePayload<ExtArgs>
+      projects: Prisma.$ProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       profileId: string
       name: string
+      label: string | null
+      icon: string | null
       category: string
       level: number | null
       order: number | null
+      experienceYears: number | null
+      experienceMonths: number | null
     }, ExtArgs["result"]["skill"]>
     composites: {}
   }
@@ -8553,6 +8724,7 @@ export namespace Prisma {
   export interface Prisma__SkillClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    projects<T extends Skill$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Skill$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8585,9 +8757,13 @@ export namespace Prisma {
     readonly id: FieldRef<"Skill", 'String'>
     readonly profileId: FieldRef<"Skill", 'String'>
     readonly name: FieldRef<"Skill", 'String'>
+    readonly label: FieldRef<"Skill", 'String'>
+    readonly icon: FieldRef<"Skill", 'String'>
     readonly category: FieldRef<"Skill", 'String'>
     readonly level: FieldRef<"Skill", 'Int'>
     readonly order: FieldRef<"Skill", 'Int'>
+    readonly experienceYears: FieldRef<"Skill", 'Int'>
+    readonly experienceMonths: FieldRef<"Skill", 'Int'>
   }
     
 
@@ -8979,6 +9155,30 @@ export namespace Prisma {
      * Limit how many Skills to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Skill.projects
+   */
+  export type Skill$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
@@ -12468,6 +12668,7 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     tags?: boolean | Project$tagsArgs<ExtArgs>
+    skills?: boolean | Project$skillsArgs<ExtArgs>
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
@@ -12516,6 +12717,7 @@ export namespace Prisma {
   export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "title" | "slug" | "description" | "coverImage" | "url" | "repoUrl" | "startDate" | "endDate", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     tags?: boolean | Project$tagsArgs<ExtArgs>
+    skills?: boolean | Project$skillsArgs<ExtArgs>
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -12530,6 +12732,7 @@ export namespace Prisma {
     name: "Project"
     objects: {
       tags: Prisma.$TagPayload<ExtArgs>[]
+      skills: Prisma.$SkillPayload<ExtArgs>[]
       profile: Prisma.$ProfilePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -12938,6 +13141,7 @@ export namespace Prisma {
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     tags<T extends Project$tagsArgs<ExtArgs> = {}>(args?: Subset<T, Project$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    skills<T extends Project$skillsArgs<ExtArgs> = {}>(args?: Subset<T, Project$skillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SkillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     profile<T extends ProfileDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProfileDefaultArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -13393,6 +13597,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TagScalarFieldEnum | TagScalarFieldEnum[]
+  }
+
+  /**
+   * Project.skills
+   */
+  export type Project$skillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skill
+     */
+    select?: SkillSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Skill
+     */
+    omit?: SkillOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SkillInclude<ExtArgs> | null
+    where?: SkillWhereInput
+    orderBy?: SkillOrderByWithRelationInput | SkillOrderByWithRelationInput[]
+    cursor?: SkillWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SkillScalarFieldEnum | SkillScalarFieldEnum[]
   }
 
   /**
@@ -16583,17 +16811,18 @@ export namespace Prisma {
 
   export const AccountScalarFieldEnum: {
     id: 'id',
+    accountId: 'accountId',
+    providerId: 'providerId',
     userId: 'userId',
-    type: 'type',
-    provider: 'provider',
-    providerAccountId: 'providerAccountId',
-    refresh_token: 'refresh_token',
-    access_token: 'access_token',
-    expires_at: 'expires_at',
-    token_type: 'token_type',
+    accessToken: 'accessToken',
+    refreshToken: 'refreshToken',
+    idToken: 'idToken',
+    accessTokenExpiresAt: 'accessTokenExpiresAt',
+    refreshTokenExpiresAt: 'refreshTokenExpiresAt',
     scope: 'scope',
-    id_token: 'id_token',
-    session_state: 'session_state'
+    password: 'password',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type AccountScalarFieldEnum = (typeof AccountScalarFieldEnum)[keyof typeof AccountScalarFieldEnum]
@@ -16601,21 +16830,28 @@ export namespace Prisma {
 
   export const SessionScalarFieldEnum: {
     id: 'id',
-    sessionToken: 'sessionToken',
-    userId: 'userId',
-    expires: 'expires'
+    expiresAt: 'expiresAt',
+    token: 'token',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    userId: 'userId'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
-  export const VerificationTokenScalarFieldEnum: {
+  export const VerificationScalarFieldEnum: {
+    id: 'id',
     identifier: 'identifier',
-    token: 'token',
-    expires: 'expires'
+    value: 'value',
+    expiresAt: 'expiresAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
-  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+  export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
   export const ProfileScalarFieldEnum: {
@@ -16643,9 +16879,13 @@ export namespace Prisma {
     id: 'id',
     profileId: 'profileId',
     name: 'name',
+    label: 'label',
+    icon: 'icon',
     category: 'category',
     level: 'level',
-    order: 'order'
+    order: 'order',
+    experienceYears: 'experienceYears',
+    experienceMonths: 'experienceMonths'
   };
 
   export type SkillScalarFieldEnum = (typeof SkillScalarFieldEnum)[keyof typeof SkillScalarFieldEnum]
@@ -16766,9 +17006,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
+   * Reference to a field of type 'Boolean'
    */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -16780,9 +17020,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'DateTime'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
     
 
 
@@ -16810,8 +17050,8 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
     username?: StringNullableFilter<"User"> | string | null
-    email?: StringNullableFilter<"User"> | string | null
-    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    email?: StringFilter<"User"> | string
+    emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
     hashedPassword?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
@@ -16828,8 +17068,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    emailVerified?: SortOrderInput | SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     hashedPassword?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -16850,7 +17090,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
-    emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
     hashedPassword?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
@@ -16867,8 +17107,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     username?: SortOrderInput | SortOrder
-    email?: SortOrderInput | SortOrder
-    emailVerified?: SortOrderInput | SortOrder
+    email?: SortOrder
+    emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     hashedPassword?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -16888,8 +17128,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
-    email?: StringNullableWithAggregatesFilter<"User"> | string | null
-    emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    email?: StringWithAggregatesFilter<"User"> | string
+    emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     hashedPassword?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
@@ -16904,74 +17144,75 @@ export namespace Prisma {
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
     id?: StringFilter<"Account"> | string
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
-    type?: StringFilter<"Account"> | string
-    provider?: StringFilter<"Account"> | string
-    providerAccountId?: StringFilter<"Account"> | string
-    refresh_token?: StringNullableFilter<"Account"> | string | null
-    access_token?: StringNullableFilter<"Account"> | string | null
-    expires_at?: IntNullableFilter<"Account"> | number | null
-    token_type?: StringNullableFilter<"Account"> | string | null
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
-    id_token?: StringNullableFilter<"Account"> | string | null
-    session_state?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
+    createdAt?: DateTimeFilter<"Account"> | Date | string
+    updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type AccountOrderByWithRelationInput = {
     id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
-    provider?: SortOrder
-    providerAccountId?: SortOrder
-    refresh_token?: SortOrderInput | SortOrder
-    access_token?: SortOrderInput | SortOrder
-    expires_at?: SortOrderInput | SortOrder
-    token_type?: SortOrderInput | SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    idToken?: SortOrderInput | SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     scope?: SortOrderInput | SortOrder
-    id_token?: SortOrderInput | SortOrder
-    session_state?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    provider_providerAccountId?: AccountProviderProviderAccountIdCompoundUniqueInput
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
-    type?: StringFilter<"Account"> | string
-    provider?: StringFilter<"Account"> | string
-    providerAccountId?: StringFilter<"Account"> | string
-    refresh_token?: StringNullableFilter<"Account"> | string | null
-    access_token?: StringNullableFilter<"Account"> | string | null
-    expires_at?: IntNullableFilter<"Account"> | number | null
-    token_type?: StringNullableFilter<"Account"> | string | null
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
-    id_token?: StringNullableFilter<"Account"> | string | null
-    session_state?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
+    createdAt?: DateTimeFilter<"Account"> | Date | string
+    updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "provider_providerAccountId">
+  }, "id">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
-    provider?: SortOrder
-    providerAccountId?: SortOrder
-    refresh_token?: SortOrderInput | SortOrder
-    access_token?: SortOrderInput | SortOrder
-    expires_at?: SortOrderInput | SortOrder
-    token_type?: SortOrderInput | SortOrder
+    accessToken?: SortOrderInput | SortOrder
+    refreshToken?: SortOrderInput | SortOrder
+    idToken?: SortOrderInput | SortOrder
+    accessTokenExpiresAt?: SortOrderInput | SortOrder
+    refreshTokenExpiresAt?: SortOrderInput | SortOrder
     scope?: SortOrderInput | SortOrder
-    id_token?: SortOrderInput | SortOrder
-    session_state?: SortOrderInput | SortOrder
+    password?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: AccountCountOrderByAggregateInput
-    _avg?: AccountAvgOrderByAggregateInput
     _max?: AccountMaxOrderByAggregateInput
     _min?: AccountMinOrderByAggregateInput
-    _sum?: AccountSumOrderByAggregateInput
   }
 
   export type AccountScalarWhereWithAggregatesInput = {
@@ -16979,17 +17220,18 @@ export namespace Prisma {
     OR?: AccountScalarWhereWithAggregatesInput[]
     NOT?: AccountScalarWhereWithAggregatesInput | AccountScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Account"> | string
+    accountId?: StringWithAggregatesFilter<"Account"> | string
+    providerId?: StringWithAggregatesFilter<"Account"> | string
     userId?: StringWithAggregatesFilter<"Account"> | string
-    type?: StringWithAggregatesFilter<"Account"> | string
-    provider?: StringWithAggregatesFilter<"Account"> | string
-    providerAccountId?: StringWithAggregatesFilter<"Account"> | string
-    refresh_token?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    access_token?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    expires_at?: IntNullableWithAggregatesFilter<"Account"> | number | null
-    token_type?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    accessToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    refreshToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    idToken?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableWithAggregatesFilter<"Account"> | Date | string | null
     scope?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    id_token?: StringNullableWithAggregatesFilter<"Account"> | string | null
-    session_state?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    password?: StringNullableWithAggregatesFilter<"Account"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Account"> | Date | string
   }
 
   export type SessionWhereInput = {
@@ -16997,36 +17239,52 @@ export namespace Prisma {
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: StringFilter<"Session"> | string
-    sessionToken?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    token?: StringFilter<"Session"> | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    ipAddress?: StringNullableFilter<"Session"> | string | null
+    userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
-    sessionToken?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
     userId?: SortOrder
-    expires?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
   export type SessionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    sessionToken?: string
+    token?: string
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    ipAddress?: StringNullableFilter<"Session"> | string | null
+    userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "sessionToken">
+  }, "id" | "token">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
-    sessionToken?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
     userId?: SortOrder
-    expires?: SortOrder
     _count?: SessionCountOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
     _min?: SessionMinOrderByAggregateInput
@@ -17037,52 +17295,70 @@ export namespace Prisma {
     OR?: SessionScalarWhereWithAggregatesInput[]
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Session"> | string
-    sessionToken?: StringWithAggregatesFilter<"Session"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    token?: StringWithAggregatesFilter<"Session"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
+    ipAddress?: StringNullableWithAggregatesFilter<"Session"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
     userId?: StringWithAggregatesFilter<"Session"> | string
-    expires?: DateTimeWithAggregatesFilter<"Session"> | Date | string
   }
 
-  export type VerificationTokenWhereInput = {
-    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
-    OR?: VerificationTokenWhereInput[]
-    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
-    identifier?: StringFilter<"VerificationToken"> | string
-    token?: StringFilter<"VerificationToken"> | string
-    expires?: DateTimeFilter<"VerificationToken"> | Date | string
+  export type VerificationWhereInput = {
+    AND?: VerificationWhereInput | VerificationWhereInput[]
+    OR?: VerificationWhereInput[]
+    NOT?: VerificationWhereInput | VerificationWhereInput[]
+    id?: StringFilter<"Verification"> | string
+    identifier?: StringFilter<"Verification"> | string
+    value?: StringFilter<"Verification"> | string
+    expiresAt?: DateTimeFilter<"Verification"> | Date | string
+    createdAt?: DateTimeNullableFilter<"Verification"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Verification"> | Date | string | null
   }
 
-  export type VerificationTokenOrderByWithRelationInput = {
+  export type VerificationOrderByWithRelationInput = {
+    id?: SortOrder
     identifier?: SortOrder
-    token?: SortOrder
-    expires?: SortOrder
+    value?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrderInput | SortOrder
   }
 
-  export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
-    token?: string
-    identifier_token?: VerificationTokenIdentifierTokenCompoundUniqueInput
-    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
-    OR?: VerificationTokenWhereInput[]
-    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
-    identifier?: StringFilter<"VerificationToken"> | string
-    expires?: DateTimeFilter<"VerificationToken"> | Date | string
-  }, "token" | "identifier_token">
+  export type VerificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VerificationWhereInput | VerificationWhereInput[]
+    OR?: VerificationWhereInput[]
+    NOT?: VerificationWhereInput | VerificationWhereInput[]
+    identifier?: StringFilter<"Verification"> | string
+    value?: StringFilter<"Verification"> | string
+    expiresAt?: DateTimeFilter<"Verification"> | Date | string
+    createdAt?: DateTimeNullableFilter<"Verification"> | Date | string | null
+    updatedAt?: DateTimeNullableFilter<"Verification"> | Date | string | null
+  }, "id">
 
-  export type VerificationTokenOrderByWithAggregationInput = {
+  export type VerificationOrderByWithAggregationInput = {
+    id?: SortOrder
     identifier?: SortOrder
-    token?: SortOrder
-    expires?: SortOrder
-    _count?: VerificationTokenCountOrderByAggregateInput
-    _max?: VerificationTokenMaxOrderByAggregateInput
-    _min?: VerificationTokenMinOrderByAggregateInput
+    value?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    updatedAt?: SortOrderInput | SortOrder
+    _count?: VerificationCountOrderByAggregateInput
+    _max?: VerificationMaxOrderByAggregateInput
+    _min?: VerificationMinOrderByAggregateInput
   }
 
-  export type VerificationTokenScalarWhereWithAggregatesInput = {
-    AND?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
-    OR?: VerificationTokenScalarWhereWithAggregatesInput[]
-    NOT?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
-    identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
-    token?: StringWithAggregatesFilter<"VerificationToken"> | string
-    expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  export type VerificationScalarWhereWithAggregatesInput = {
+    AND?: VerificationScalarWhereWithAggregatesInput | VerificationScalarWhereWithAggregatesInput[]
+    OR?: VerificationScalarWhereWithAggregatesInput[]
+    NOT?: VerificationScalarWhereWithAggregatesInput | VerificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Verification"> | string
+    identifier?: StringWithAggregatesFilter<"Verification"> | string
+    value?: StringWithAggregatesFilter<"Verification"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Verification"> | Date | string
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Verification"> | Date | string | null
   }
 
   export type ProfileWhereInput = {
@@ -17212,20 +17488,30 @@ export namespace Prisma {
     id?: StringFilter<"Skill"> | string
     profileId?: StringFilter<"Skill"> | string
     name?: StringFilter<"Skill"> | string
+    label?: StringNullableFilter<"Skill"> | string | null
+    icon?: StringNullableFilter<"Skill"> | string | null
     category?: StringFilter<"Skill"> | string
     level?: IntNullableFilter<"Skill"> | number | null
     order?: IntNullableFilter<"Skill"> | number | null
+    experienceYears?: IntNullableFilter<"Skill"> | number | null
+    experienceMonths?: IntNullableFilter<"Skill"> | number | null
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    projects?: ProjectListRelationFilter
   }
 
   export type SkillOrderByWithRelationInput = {
     id?: SortOrder
     profileId?: SortOrder
     name?: SortOrder
+    label?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     category?: SortOrder
     level?: SortOrderInput | SortOrder
     order?: SortOrderInput | SortOrder
+    experienceYears?: SortOrderInput | SortOrder
+    experienceMonths?: SortOrderInput | SortOrder
     profile?: ProfileOrderByWithRelationInput
+    projects?: ProjectOrderByRelationAggregateInput
   }
 
   export type SkillWhereUniqueInput = Prisma.AtLeast<{
@@ -17235,19 +17521,28 @@ export namespace Prisma {
     NOT?: SkillWhereInput | SkillWhereInput[]
     profileId?: StringFilter<"Skill"> | string
     name?: StringFilter<"Skill"> | string
+    label?: StringNullableFilter<"Skill"> | string | null
+    icon?: StringNullableFilter<"Skill"> | string | null
     category?: StringFilter<"Skill"> | string
     level?: IntNullableFilter<"Skill"> | number | null
     order?: IntNullableFilter<"Skill"> | number | null
+    experienceYears?: IntNullableFilter<"Skill"> | number | null
+    experienceMonths?: IntNullableFilter<"Skill"> | number | null
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
+    projects?: ProjectListRelationFilter
   }, "id">
 
   export type SkillOrderByWithAggregationInput = {
     id?: SortOrder
     profileId?: SortOrder
     name?: SortOrder
+    label?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
     category?: SortOrder
     level?: SortOrderInput | SortOrder
     order?: SortOrderInput | SortOrder
+    experienceYears?: SortOrderInput | SortOrder
+    experienceMonths?: SortOrderInput | SortOrder
     _count?: SkillCountOrderByAggregateInput
     _avg?: SkillAvgOrderByAggregateInput
     _max?: SkillMaxOrderByAggregateInput
@@ -17262,9 +17557,13 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Skill"> | string
     profileId?: StringWithAggregatesFilter<"Skill"> | string
     name?: StringWithAggregatesFilter<"Skill"> | string
+    label?: StringNullableWithAggregatesFilter<"Skill"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Skill"> | string | null
     category?: StringWithAggregatesFilter<"Skill"> | string
     level?: IntNullableWithAggregatesFilter<"Skill"> | number | null
     order?: IntNullableWithAggregatesFilter<"Skill"> | number | null
+    experienceYears?: IntNullableWithAggregatesFilter<"Skill"> | number | null
+    experienceMonths?: IntNullableWithAggregatesFilter<"Skill"> | number | null
   }
 
   export type ExperienceWhereInput = {
@@ -17475,6 +17774,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     tags?: TagListRelationFilter
+    skills?: SkillListRelationFilter
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
   }
 
@@ -17490,6 +17790,7 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     tags?: TagOrderByRelationAggregateInput
+    skills?: SkillOrderByRelationAggregateInput
     profile?: ProfileOrderByWithRelationInput
   }
 
@@ -17508,6 +17809,7 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Project"> | Date | string | null
     tags?: TagListRelationFilter
+    skills?: SkillListRelationFilter
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
   }, "id" | "slug">
 
@@ -17706,8 +18008,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -17724,8 +18026,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -17742,8 +18044,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -17760,8 +18062,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -17778,8 +18080,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -17793,8 +18095,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -17808,8 +18110,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -17821,196 +18123,252 @@ export namespace Prisma {
 
   export type AccountCreateInput = {
     id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAccountsInput
   }
 
   export type AccountUncheckedCreateInput = {
     id?: string
+    accountId: string
+    providerId: string
     userId: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAccountsNestedInput
   }
 
   export type AccountUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountCreateManyInput = {
     id?: string
+    accountId: string
+    providerId: string
     userId: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateInput = {
     id?: string
-    sessionToken: string
-    expires: Date | string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     user: UserCreateNestedOneWithoutSessionsInput
   }
 
   export type SessionUncheckedCreateInput = {
     id?: string
-    sessionToken: string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     userId: string
-    expires: Date | string
   }
 
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionCreateManyInput = {
     id?: string
-    sessionToken: string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
     userId: string
-    expires: Date | string
   }
 
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VerificationTokenCreateInput = {
+  export type VerificationCreateInput = {
+    id?: string
     identifier: string
-    token: string
-    expires: Date | string
+    value: string
+    expiresAt: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
-  export type VerificationTokenUncheckedCreateInput = {
+  export type VerificationUncheckedCreateInput = {
+    id?: string
     identifier: string
-    token: string
-    expires: Date | string
+    value: string
+    expiresAt: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
-  export type VerificationTokenUpdateInput = {
+  export type VerificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     identifier?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    value?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type VerificationTokenUncheckedUpdateInput = {
+  export type VerificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     identifier?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    value?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type VerificationTokenCreateManyInput = {
+  export type VerificationCreateManyInput = {
+    id?: string
     identifier: string
-    token: string
-    expires: Date | string
+    value: string
+    expiresAt: Date | string
+    createdAt?: Date | string | null
+    updatedAt?: Date | string | null
   }
 
-  export type VerificationTokenUpdateManyMutationInput = {
+  export type VerificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     identifier?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    value?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type VerificationTokenUncheckedUpdateManyInput = {
+  export type VerificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
     identifier?: StringFieldUpdateOperationsInput | string
-    token?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    value?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProfileCreateInput = {
@@ -18161,63 +18519,95 @@ export namespace Prisma {
   export type SkillCreateInput = {
     id?: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
     profile: ProfileCreateNestedOneWithoutSkillsInput
+    projects?: ProjectCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillUncheckedCreateInput = {
     id?: string
     profileId: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
+    projects?: ProjectUncheckedCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
     profile?: ProfileUpdateOneRequiredWithoutSkillsNestedInput
+    projects?: ProjectUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     profileId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    projects?: ProjectUncheckedUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillCreateManyInput = {
     id?: string
     profileId: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
   }
 
   export type SkillUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SkillUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     profileId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ExperienceCreateInput = {
@@ -18435,6 +18825,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     tags?: TagCreateNestedManyWithoutProjectsInput
+    skills?: SkillCreateNestedManyWithoutProjectsInput
     profile: ProfileCreateNestedOneWithoutProjectsInput
   }
 
@@ -18450,6 +18841,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     tags?: TagUncheckedCreateNestedManyWithoutProjectsInput
+    skills?: SkillUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectUpdateInput = {
@@ -18463,6 +18855,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TagUpdateManyWithoutProjectsNestedInput
+    skills?: SkillUpdateManyWithoutProjectsNestedInput
     profile?: ProfileUpdateOneRequiredWithoutProjectsNestedInput
   }
 
@@ -18478,6 +18871,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TagUncheckedUpdateManyWithoutProjectsNestedInput
+    skills?: SkillUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -18710,15 +19104,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -18726,11 +19114,6 @@ export namespace Prisma {
     in?: $Enums.Role[]
     notIn?: $Enums.Role[]
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -18853,18 +19236,12 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -18875,14 +19252,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -18899,15 +19268,15 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -18915,122 +19284,126 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type AccountProviderProviderAccountIdCompoundUniqueInput = {
-    provider: string
-    providerAccountId: string
-  }
-
   export type AccountCountOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
-    provider?: SortOrder
-    providerAccountId?: SortOrder
-    refresh_token?: SortOrder
-    access_token?: SortOrder
-    expires_at?: SortOrder
-    token_type?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
-    id_token?: SortOrder
-    session_state?: SortOrder
-  }
-
-  export type AccountAvgOrderByAggregateInput = {
-    expires_at?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AccountMaxOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
-    provider?: SortOrder
-    providerAccountId?: SortOrder
-    refresh_token?: SortOrder
-    access_token?: SortOrder
-    expires_at?: SortOrder
-    token_type?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
-    id_token?: SortOrder
-    session_state?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AccountMinOrderByAggregateInput = {
     id?: SortOrder
+    accountId?: SortOrder
+    providerId?: SortOrder
     userId?: SortOrder
-    type?: SortOrder
-    provider?: SortOrder
-    providerAccountId?: SortOrder
-    refresh_token?: SortOrder
-    access_token?: SortOrder
-    expires_at?: SortOrder
-    token_type?: SortOrder
+    accessToken?: SortOrder
+    refreshToken?: SortOrder
+    idToken?: SortOrder
+    accessTokenExpiresAt?: SortOrder
+    refreshTokenExpiresAt?: SortOrder
     scope?: SortOrder
-    id_token?: SortOrder
-    session_state?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type AccountSumOrderByAggregateInput = {
-    expires_at?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
-    sessionToken?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
     userId?: SortOrder
-    expires?: SortOrder
   }
 
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
-    sessionToken?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
     userId?: SortOrder
-    expires?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
-    sessionToken?: SortOrder
+    expiresAt?: SortOrder
+    token?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
     userId?: SortOrder
-    expires?: SortOrder
   }
 
-  export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
-    identifier: string
-    token: string
-  }
-
-  export type VerificationTokenCountOrderByAggregateInput = {
+  export type VerificationCountOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
-    token?: SortOrder
-    expires?: SortOrder
+    value?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type VerificationTokenMaxOrderByAggregateInput = {
+  export type VerificationMaxOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
-    token?: SortOrder
-    expires?: SortOrder
+    value?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type VerificationTokenMinOrderByAggregateInput = {
+  export type VerificationMinOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
-    token?: SortOrder
-    expires?: SortOrder
+    value?: SortOrder
+    expiresAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SkillListRelationFilter = {
@@ -19137,6 +19510,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ProfileScalarRelationFilter = {
     is?: ProfileWhereInput
     isNot?: ProfileWhereInput
@@ -19146,37 +19530,69 @@ export namespace Prisma {
     id?: SortOrder
     profileId?: SortOrder
     name?: SortOrder
+    label?: SortOrder
+    icon?: SortOrder
     category?: SortOrder
     level?: SortOrder
     order?: SortOrder
+    experienceYears?: SortOrder
+    experienceMonths?: SortOrder
   }
 
   export type SkillAvgOrderByAggregateInput = {
     level?: SortOrder
     order?: SortOrder
+    experienceYears?: SortOrder
+    experienceMonths?: SortOrder
   }
 
   export type SkillMaxOrderByAggregateInput = {
     id?: SortOrder
     profileId?: SortOrder
     name?: SortOrder
+    label?: SortOrder
+    icon?: SortOrder
     category?: SortOrder
     level?: SortOrder
     order?: SortOrder
+    experienceYears?: SortOrder
+    experienceMonths?: SortOrder
   }
 
   export type SkillMinOrderByAggregateInput = {
     id?: SortOrder
     profileId?: SortOrder
     name?: SortOrder
+    label?: SortOrder
+    icon?: SortOrder
     category?: SortOrder
     level?: SortOrder
     order?: SortOrder
+    experienceYears?: SortOrder
+    experienceMonths?: SortOrder
   }
 
   export type SkillSumOrderByAggregateInput = {
     level?: SortOrder
     order?: SortOrder
+    experienceYears?: SortOrder
+    experienceMonths?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ExperienceHighlightListRelationFilter = {
@@ -19455,16 +19871,12 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -19553,12 +19965,8 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -19813,12 +20221,58 @@ export namespace Prisma {
     connect?: ProfileWhereUniqueInput
   }
 
+  export type ProjectCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput> | ProjectCreateWithoutSkillsInput[] | ProjectUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutSkillsInput | ProjectCreateOrConnectWithoutSkillsInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput> | ProjectCreateWithoutSkillsInput[] | ProjectUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutSkillsInput | ProjectCreateOrConnectWithoutSkillsInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ProfileUpdateOneRequiredWithoutSkillsNestedInput = {
     create?: XOR<ProfileCreateWithoutSkillsInput, ProfileUncheckedCreateWithoutSkillsInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutSkillsInput
     upsert?: ProfileUpsertWithoutSkillsInput
     connect?: ProfileWhereUniqueInput
     update?: XOR<XOR<ProfileUpdateToOneWithWhereWithoutSkillsInput, ProfileUpdateWithoutSkillsInput>, ProfileUncheckedUpdateWithoutSkillsInput>
+  }
+
+  export type ProjectUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput> | ProjectCreateWithoutSkillsInput[] | ProjectUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutSkillsInput | ProjectCreateOrConnectWithoutSkillsInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutSkillsInput | ProjectUpsertWithWhereUniqueWithoutSkillsInput[]
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutSkillsInput | ProjectUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutSkillsInput | ProjectUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput> | ProjectCreateWithoutSkillsInput[] | ProjectUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutSkillsInput | ProjectCreateOrConnectWithoutSkillsInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutSkillsInput | ProjectUpsertWithWhereUniqueWithoutSkillsInput[]
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutSkillsInput | ProjectUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutSkillsInput | ProjectUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
   export type ExperienceHighlightCreateNestedManyWithoutExperienceInput = {
@@ -19911,6 +20365,12 @@ export namespace Prisma {
     connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
   }
 
+  export type SkillCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput> | SkillCreateWithoutProjectsInput[] | SkillUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: SkillCreateOrConnectWithoutProjectsInput | SkillCreateOrConnectWithoutProjectsInput[]
+    connect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+  }
+
   export type ProfileCreateNestedOneWithoutProjectsInput = {
     create?: XOR<ProfileCreateWithoutProjectsInput, ProfileUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: ProfileCreateOrConnectWithoutProjectsInput
@@ -19921,6 +20381,12 @@ export namespace Prisma {
     create?: XOR<TagCreateWithoutProjectsInput, TagUncheckedCreateWithoutProjectsInput> | TagCreateWithoutProjectsInput[] | TagUncheckedCreateWithoutProjectsInput[]
     connectOrCreate?: TagCreateOrConnectWithoutProjectsInput | TagCreateOrConnectWithoutProjectsInput[]
     connect?: TagWhereUniqueInput | TagWhereUniqueInput[]
+  }
+
+  export type SkillUncheckedCreateNestedManyWithoutProjectsInput = {
+    create?: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput> | SkillCreateWithoutProjectsInput[] | SkillUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: SkillCreateOrConnectWithoutProjectsInput | SkillCreateOrConnectWithoutProjectsInput[]
+    connect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
   }
 
   export type TagUpdateManyWithoutProjectsNestedInput = {
@@ -19934,6 +20400,19 @@ export namespace Prisma {
     update?: TagUpdateWithWhereUniqueWithoutProjectsInput | TagUpdateWithWhereUniqueWithoutProjectsInput[]
     updateMany?: TagUpdateManyWithWhereWithoutProjectsInput | TagUpdateManyWithWhereWithoutProjectsInput[]
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type SkillUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput> | SkillCreateWithoutProjectsInput[] | SkillUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: SkillCreateOrConnectWithoutProjectsInput | SkillCreateOrConnectWithoutProjectsInput[]
+    upsert?: SkillUpsertWithWhereUniqueWithoutProjectsInput | SkillUpsertWithWhereUniqueWithoutProjectsInput[]
+    set?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    disconnect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    delete?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    connect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    update?: SkillUpdateWithWhereUniqueWithoutProjectsInput | SkillUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: SkillUpdateManyWithWhereWithoutProjectsInput | SkillUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: SkillScalarWhereInput | SkillScalarWhereInput[]
   }
 
   export type ProfileUpdateOneRequiredWithoutProjectsNestedInput = {
@@ -19955,6 +20434,19 @@ export namespace Prisma {
     update?: TagUpdateWithWhereUniqueWithoutProjectsInput | TagUpdateWithWhereUniqueWithoutProjectsInput[]
     updateMany?: TagUpdateManyWithWhereWithoutProjectsInput | TagUpdateManyWithWhereWithoutProjectsInput[]
     deleteMany?: TagScalarWhereInput | TagScalarWhereInput[]
+  }
+
+  export type SkillUncheckedUpdateManyWithoutProjectsNestedInput = {
+    create?: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput> | SkillCreateWithoutProjectsInput[] | SkillUncheckedCreateWithoutProjectsInput[]
+    connectOrCreate?: SkillCreateOrConnectWithoutProjectsInput | SkillCreateOrConnectWithoutProjectsInput[]
+    upsert?: SkillUpsertWithWhereUniqueWithoutProjectsInput | SkillUpsertWithWhereUniqueWithoutProjectsInput[]
+    set?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    disconnect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    delete?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    connect?: SkillWhereUniqueInput | SkillWhereUniqueInput[]
+    update?: SkillUpdateWithWhereUniqueWithoutProjectsInput | SkillUpdateWithWhereUniqueWithoutProjectsInput[]
+    updateMany?: SkillUpdateManyWithWhereWithoutProjectsInput | SkillUpdateManyWithWhereWithoutProjectsInput[]
+    deleteMany?: SkillScalarWhereInput | SkillScalarWhereInput[]
   }
 
   export type ProjectCreateNestedManyWithoutTagsInput = {
@@ -20037,15 +20529,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
@@ -20053,11 +20539,6 @@ export namespace Prisma {
     in?: $Enums.Role[]
     notIn?: $Enums.Role[]
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -20127,18 +20608,12 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | null
-    notIn?: Date[] | string[] | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -20149,14 +20624,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumRoleFilter<$PrismaModel>
     _max?: NestedEnumRoleFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -20171,6 +20638,31 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | null
+    notIn?: Date[] | string[] | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -20202,30 +20694,32 @@ export namespace Prisma {
 
   export type AccountCreateWithoutUserInput = {
     id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUncheckedCreateWithoutUserInput = {
     id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountCreateOrConnectWithoutUserInput = {
@@ -20239,14 +20733,22 @@ export namespace Prisma {
 
   export type SessionCreateWithoutUserInput = {
     id?: string
-    sessionToken: string
-    expires: Date | string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
     id?: string
-    sessionToken: string
-    expires: Date | string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -20328,17 +20830,18 @@ export namespace Prisma {
     OR?: AccountScalarWhereInput[]
     NOT?: AccountScalarWhereInput | AccountScalarWhereInput[]
     id?: StringFilter<"Account"> | string
+    accountId?: StringFilter<"Account"> | string
+    providerId?: StringFilter<"Account"> | string
     userId?: StringFilter<"Account"> | string
-    type?: StringFilter<"Account"> | string
-    provider?: StringFilter<"Account"> | string
-    providerAccountId?: StringFilter<"Account"> | string
-    refresh_token?: StringNullableFilter<"Account"> | string | null
-    access_token?: StringNullableFilter<"Account"> | string | null
-    expires_at?: IntNullableFilter<"Account"> | number | null
-    token_type?: StringNullableFilter<"Account"> | string | null
+    accessToken?: StringNullableFilter<"Account"> | string | null
+    refreshToken?: StringNullableFilter<"Account"> | string | null
+    idToken?: StringNullableFilter<"Account"> | string | null
+    accessTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
+    refreshTokenExpiresAt?: DateTimeNullableFilter<"Account"> | Date | string | null
     scope?: StringNullableFilter<"Account"> | string | null
-    id_token?: StringNullableFilter<"Account"> | string | null
-    session_state?: StringNullableFilter<"Account"> | string | null
+    password?: StringNullableFilter<"Account"> | string | null
+    createdAt?: DateTimeFilter<"Account"> | Date | string
+    updatedAt?: DateTimeFilter<"Account"> | Date | string
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -20362,9 +20865,13 @@ export namespace Prisma {
     OR?: SessionScalarWhereInput[]
     NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
     id?: StringFilter<"Session"> | string
-    sessionToken?: StringFilter<"Session"> | string
+    expiresAt?: DateTimeFilter<"Session"> | Date | string
+    token?: StringFilter<"Session"> | string
+    createdAt?: DateTimeFilter<"Session"> | Date | string
+    updatedAt?: DateTimeFilter<"Session"> | Date | string
+    ipAddress?: StringNullableFilter<"Session"> | string | null
+    userAgent?: StringNullableFilter<"Session"> | string | null
     userId?: StringFilter<"Session"> | string
-    expires?: DateTimeFilter<"Session"> | Date | string
   }
 
   export type ProfileUpsertWithoutUserInput = {
@@ -20426,8 +20933,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20443,8 +20950,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20476,8 +20983,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20493,8 +21000,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20510,8 +21017,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20527,8 +21034,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20560,8 +21067,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20577,8 +21084,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20594,8 +21101,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20611,8 +21118,8 @@ export namespace Prisma {
     id?: string
     name?: string | null
     username?: string | null
-    email?: string | null
-    emailVerified?: Date | string | null
+    email: string
+    emailVerified?: boolean
     image?: string | null
     hashedPassword?: string | null
     role?: $Enums.Role
@@ -20632,17 +21139,27 @@ export namespace Prisma {
   export type SkillCreateWithoutProfileInput = {
     id?: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
+    projects?: ProjectCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillUncheckedCreateWithoutProfileInput = {
     id?: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
+    projects?: ProjectUncheckedCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillCreateOrConnectWithoutProfileInput = {
@@ -20727,6 +21244,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     tags?: TagCreateNestedManyWithoutProjectsInput
+    skills?: SkillCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectUncheckedCreateWithoutProfileInput = {
@@ -20740,6 +21258,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     tags?: TagUncheckedCreateNestedManyWithoutProjectsInput
+    skills?: SkillUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectCreateOrConnectWithoutProfileInput = {
@@ -20789,8 +21308,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20806,8 +21325,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     username?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -20842,9 +21361,13 @@ export namespace Prisma {
     id?: StringFilter<"Skill"> | string
     profileId?: StringFilter<"Skill"> | string
     name?: StringFilter<"Skill"> | string
+    label?: StringNullableFilter<"Skill"> | string | null
+    icon?: StringNullableFilter<"Skill"> | string | null
     category?: StringFilter<"Skill"> | string
     level?: IntNullableFilter<"Skill"> | number | null
     order?: IntNullableFilter<"Skill"> | number | null
+    experienceYears?: IntNullableFilter<"Skill"> | number | null
+    experienceMonths?: IntNullableFilter<"Skill"> | number | null
   }
 
   export type ExperienceUpsertWithWhereUniqueWithoutProfileInput = {
@@ -21016,6 +21539,39 @@ export namespace Prisma {
     create: XOR<ProfileCreateWithoutSkillsInput, ProfileUncheckedCreateWithoutSkillsInput>
   }
 
+  export type ProjectCreateWithoutSkillsInput = {
+    id?: string
+    title: string
+    slug: string
+    description?: string | null
+    coverImage?: string | null
+    url?: string | null
+    repoUrl?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    tags?: TagCreateNestedManyWithoutProjectsInput
+    profile: ProfileCreateNestedOneWithoutProjectsInput
+  }
+
+  export type ProjectUncheckedCreateWithoutSkillsInput = {
+    id?: string
+    profileId: string
+    title: string
+    slug: string
+    description?: string | null
+    coverImage?: string | null
+    url?: string | null
+    repoUrl?: string | null
+    startDate?: Date | string | null
+    endDate?: Date | string | null
+    tags?: TagUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectCreateOrConnectWithoutSkillsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput>
+  }
+
   export type ProfileUpsertWithoutSkillsInput = {
     update: XOR<ProfileUpdateWithoutSkillsInput, ProfileUncheckedUpdateWithoutSkillsInput>
     create: XOR<ProfileCreateWithoutSkillsInput, ProfileUncheckedCreateWithoutSkillsInput>
@@ -21069,6 +21625,22 @@ export namespace Prisma {
     educations?: EducationUncheckedUpdateManyWithoutProfileNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutProfileNestedInput
     socialLinks?: SocialLinkUncheckedUpdateManyWithoutProfileNestedInput
+  }
+
+  export type ProjectUpsertWithWhereUniqueWithoutSkillsInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutSkillsInput, ProjectUncheckedUpdateWithoutSkillsInput>
+    create: XOR<ProjectCreateWithoutSkillsInput, ProjectUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutSkillsInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutSkillsInput, ProjectUncheckedUpdateWithoutSkillsInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutSkillsInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutSkillsInput>
   }
 
   export type ExperienceHighlightCreateWithoutExperienceInput = {
@@ -21402,6 +21974,37 @@ export namespace Prisma {
     create: XOR<TagCreateWithoutProjectsInput, TagUncheckedCreateWithoutProjectsInput>
   }
 
+  export type SkillCreateWithoutProjectsInput = {
+    id?: string
+    name: string
+    label?: string | null
+    icon?: string | null
+    category: string
+    level?: number | null
+    order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
+    profile: ProfileCreateNestedOneWithoutSkillsInput
+  }
+
+  export type SkillUncheckedCreateWithoutProjectsInput = {
+    id?: string
+    profileId: string
+    name: string
+    label?: string | null
+    icon?: string | null
+    category: string
+    level?: number | null
+    order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
+  }
+
+  export type SkillCreateOrConnectWithoutProjectsInput = {
+    where: SkillWhereUniqueInput
+    create: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput>
+  }
+
   export type ProfileCreateWithoutProjectsInput = {
     id?: string
     fullName: string
@@ -21475,6 +22078,22 @@ export namespace Prisma {
     name?: StringFilter<"Tag"> | string
   }
 
+  export type SkillUpsertWithWhereUniqueWithoutProjectsInput = {
+    where: SkillWhereUniqueInput
+    update: XOR<SkillUpdateWithoutProjectsInput, SkillUncheckedUpdateWithoutProjectsInput>
+    create: XOR<SkillCreateWithoutProjectsInput, SkillUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type SkillUpdateWithWhereUniqueWithoutProjectsInput = {
+    where: SkillWhereUniqueInput
+    data: XOR<SkillUpdateWithoutProjectsInput, SkillUncheckedUpdateWithoutProjectsInput>
+  }
+
+  export type SkillUpdateManyWithWhereWithoutProjectsInput = {
+    where: SkillScalarWhereInput
+    data: XOR<SkillUpdateManyMutationInput, SkillUncheckedUpdateManyWithoutProjectsInput>
+  }
+
   export type ProfileUpsertWithoutProjectsInput = {
     update: XOR<ProfileUpdateWithoutProjectsInput, ProfileUncheckedUpdateWithoutProjectsInput>
     create: XOR<ProfileCreateWithoutProjectsInput, ProfileUncheckedCreateWithoutProjectsInput>
@@ -21540,6 +22159,7 @@ export namespace Prisma {
     repoUrl?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
+    skills?: SkillCreateNestedManyWithoutProjectsInput
     profile: ProfileCreateNestedOneWithoutProjectsInput
   }
 
@@ -21554,6 +22174,7 @@ export namespace Prisma {
     repoUrl?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
+    skills?: SkillUncheckedCreateNestedManyWithoutProjectsInput
   }
 
   export type ProjectCreateOrConnectWithoutTagsInput = {
@@ -21683,90 +22304,114 @@ export namespace Prisma {
 
   export type AccountCreateManyUserInput = {
     id?: string
-    type: string
-    provider: string
-    providerAccountId: string
-    refresh_token?: string | null
-    access_token?: string | null
-    expires_at?: number | null
-    token_type?: string | null
+    accountId: string
+    providerId: string
+    accessToken?: string | null
+    refreshToken?: string | null
+    idToken?: string | null
+    accessTokenExpiresAt?: Date | string | null
+    refreshTokenExpiresAt?: Date | string | null
     scope?: string | null
-    id_token?: string | null
-    session_state?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SessionCreateManyUserInput = {
     id?: string
-    sessionToken: string
-    expires: Date | string
+    expiresAt: Date | string
+    token: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ipAddress?: string | null
+    userAgent?: string | null
   }
 
   export type AccountUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AccountUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    provider?: StringFieldUpdateOperationsInput | string
-    providerAccountId?: StringFieldUpdateOperationsInput | string
-    refresh_token?: NullableStringFieldUpdateOperationsInput | string | null
-    access_token?: NullableStringFieldUpdateOperationsInput | string | null
-    expires_at?: NullableIntFieldUpdateOperationsInput | number | null
-    token_type?: NullableStringFieldUpdateOperationsInput | string | null
+    accountId?: StringFieldUpdateOperationsInput | string
+    providerId?: StringFieldUpdateOperationsInput | string
+    accessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    idToken?: NullableStringFieldUpdateOperationsInput | string | null
+    accessTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    refreshTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     scope?: NullableStringFieldUpdateOperationsInput | string | null
-    id_token?: NullableStringFieldUpdateOperationsInput | string | null
-    session_state?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    sessionToken?: StringFieldUpdateOperationsInput | string
-    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SkillCreateManyProfileInput = {
     id?: string
     name: string
+    label?: string | null
+    icon?: string | null
     category: string
     level?: number | null
     order?: number | null
+    experienceYears?: number | null
+    experienceMonths?: number | null
   }
 
   export type ExperienceCreateManyProfileInput = {
@@ -21812,25 +22457,39 @@ export namespace Prisma {
   export type SkillUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    projects?: ProjectUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillUncheckedUpdateWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    projects?: ProjectUncheckedUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillUncheckedUpdateManyWithoutProfileInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     level?: NullableIntFieldUpdateOperationsInput | number | null
     order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ExperienceUpdateWithoutProfileInput = {
@@ -21909,6 +22568,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TagUpdateManyWithoutProjectsNestedInput
+    skills?: SkillUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutProfileInput = {
@@ -21922,6 +22582,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TagUncheckedUpdateManyWithoutProjectsNestedInput
+    skills?: SkillUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutProfileInput = {
@@ -21955,6 +22616,47 @@ export namespace Prisma {
     platform?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
     order?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ProjectUpdateWithoutSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tags?: TagUpdateManyWithoutProjectsNestedInput
+    profile?: ProfileUpdateOneRequiredWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tags?: TagUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    coverImage?: NullableStringFieldUpdateOperationsInput | string | null
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ExperienceHighlightCreateManyExperienceInput = {
@@ -21992,6 +22694,45 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
+  export type SkillUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+    profile?: ProfileUpdateOneRequiredWithoutSkillsNestedInput
+  }
+
+  export type SkillUncheckedUpdateWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type SkillUncheckedUpdateManyWithoutProjectsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    profileId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: StringFieldUpdateOperationsInput | string
+    level?: NullableIntFieldUpdateOperationsInput | number | null
+    order?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceYears?: NullableIntFieldUpdateOperationsInput | number | null
+    experienceMonths?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type ProjectUpdateWithoutTagsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -22002,6 +22743,7 @@ export namespace Prisma {
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skills?: SkillUpdateManyWithoutProjectsNestedInput
     profile?: ProfileUpdateOneRequiredWithoutProjectsNestedInput
   }
 
@@ -22016,6 +22758,7 @@ export namespace Prisma {
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    skills?: SkillUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutTagsInput = {
