@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "../../../../../prisma/generated/client";
 import { requireAdmin } from "@/lib/admin";
 
 export async function POST(req: Request) {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
       headline: String(body.headline ?? ""),
       tags: Array.isArray(body.tags)
         ? (body.tags as unknown[]).map((t) => String(t))
-        : null,
+        : Prisma.DbNull,
       bio: body.bio ?? null,
       avatarUrl: body.avatarUrl ?? null,
       location: body.location ?? null,

@@ -14,7 +14,7 @@ const schema = z.object({
   fullName: z.string().min(2, "Required"),
   headline: z.string().min(2, "Required"),
   // Comma-separated tags input; transformed on submit
-  tagsCsv: z.string().default(""),
+  tagsCsv: z.string(),
   bio: z.string().optional().nullable(),
   avatarUrl: z.string().url().optional().nullable(),
   location: z.string().optional().nullable(),

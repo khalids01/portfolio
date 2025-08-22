@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { PrismaClient } from "./generated/client";
@@ -94,7 +96,8 @@ async function upsertUser(user: SeedUser) {
     : user?.username
     ? { username: user.username as string }
     : null;
-  if (!where) throw new Error("data.user requires email or username for upsert");
+  if (!where)
+    throw new Error("data.user requires email or username for upsert");
 
   const data = {
     name: user.name ?? null,
@@ -102,12 +105,12 @@ async function upsertUser(user: SeedUser) {
     email: user.email ?? null,
     image: user.image ?? null,
   };
-
+  // @ts-ignore
   return prisma.user.upsert({ where, update: data, create: data });
 }
 
 async function upsertProfile(userId: string, profile: SeedProfile) {
-  const toSave = {
+  const toSave: any = {
     userId,
     fullName: profile.fullName as string,
     headline: profile.headline as string,
@@ -144,16 +147,27 @@ async function replaceSkills(profileId: string, skills: SeedSkill[] = []) {
   });
 }
 
-async function replaceExperiences(profileId: string, experiences: SeedExperience[] = []) {
-  const existing = await prisma.experience.findMany({ where: { profileId }, select: { id: true } });
+async function replaceExperiences(
+  profileId: string,
+  experiences: SeedExperience[] = []
+) {
+  const existing = await prisma.experience.findMany({
+    where: { profileId },
+    select: { id: true },
+  });
   if (existing.length) {
-    await prisma.experienceHighlight.deleteMany({ where: { experienceId: { in: existing.map(e => e.id) } } });
+    await prisma.experienceHighlight.deleteMany({
+      where: { experienceId: { in: existing.map((e) => e.id) } },
+    });
     await prisma.experience.deleteMany({ where: { profileId } });
   }
 
   for (const exp of experiences) {
     const start = parseDate(exp.startDate);
-    if (!start) throw new Error(`Experience.startDate is required and must be a valid date for company: ${exp.company}`);
+    if (!start)
+      throw new Error(
+        `Experience.startDate is required and must be a valid date for company: ${exp.company}`
+      );
     const experience = await prisma.experience.create({
       data: {
         profileId,
@@ -169,7 +183,7 @@ async function replaceExperiences(profileId: string, experiences: SeedExperience
 
     if (Array.isArray(exp.highlights) && exp.highlights.length) {
       await prisma.experienceHighlight.createMany({
-        data: (exp.highlights as string[]).map(text => ({
+        data: (exp.highlights as string[]).map((text) => ({
           experienceId: experience.id,
           text: String(text),
         })),
@@ -182,16 +196,25 @@ async function ensureTags(tagNames: string[] = []) {
   const names = [...new Set(tagNames.filter(Boolean).map(String))];
   const tags = [] as { id: string; name: string }[];
   for (const name of names) {
-    const tag = await prisma.tag.upsert({ where: { name }, update: {}, create: { name } });
+    const tag = await prisma.tag.upsert({
+      where: { name },
+      update: {},
+      create: { name },
+    });
     tags.push(tag);
   }
   return tags;
 }
 
-async function replaceProjects(profileId: string, projects: SeedProject[] = []) {
-  const slugs = projects.map(p => p.slug).filter(Boolean) as string[];
+async function replaceProjects(
+  profileId: string,
+  projects: SeedProject[] = []
+) {
+  const slugs = projects.map((p) => p.slug).filter(Boolean) as string[];
   if (slugs.length) {
-    await prisma.project.deleteMany({ where: { profileId, slug: { notIn: slugs } } });
+    await prisma.project.deleteMany({
+      where: { profileId, slug: { notIn: slugs } },
+    });
   } else {
     await prisma.project.deleteMany({ where: { profileId } });
   }
@@ -209,7 +232,7 @@ async function replaceProjects(profileId: string, projects: SeedProject[] = []) 
         repoUrl: (proj.repoUrl ?? null) as string | null,
         startDate: parseDate(proj.startDate) as Date | null,
         endDate: parseDate(proj.endDate) as Date | null,
-        tags: { set: [], connect: tagRecords.map(t => ({ id: t.id })) },
+        tags: { set: [], connect: tagRecords.map((t) => ({ id: t.id })) },
       },
       create: {
         profileId,
@@ -221,13 +244,16 @@ async function replaceProjects(profileId: string, projects: SeedProject[] = []) 
         repoUrl: (proj.repoUrl ?? null) as string | null,
         startDate: parseDate(proj.startDate) as Date | null,
         endDate: parseDate(proj.endDate) as Date | null,
-        tags: { connect: tagRecords.map(t => ({ id: t.id })) },
+        tags: { connect: tagRecords.map((t) => ({ id: t.id })) },
       },
     });
   }
 }
 
-async function replaceSocialLinks(profileId: string, socialLinks: SeedSocialLink[] = []) {
+async function replaceSocialLinks(
+  profileId: string,
+  socialLinks: SeedSocialLink[] = []
+) {
   await prisma.socialLink.deleteMany({ where: { profileId } });
   if (!socialLinks.length) return;
   await prisma.socialLink.createMany({
@@ -240,7 +266,10 @@ async function replaceSocialLinks(profileId: string, socialLinks: SeedSocialLink
   });
 }
 
-async function replaceEducations(profileId: string, educations: SeedEducation[] = []) {
+async function replaceEducations(
+  profileId: string,
+  educations: SeedEducation[] = []
+) {
   await prisma.education.deleteMany({ where: { profileId } });
   if (!educations.length) return;
   await prisma.education.createMany({
@@ -261,11 +290,21 @@ async function main() {
   const raw = await readFile(filePath, "utf8");
   const json = JSON.parse(raw) as SeedData;
 
-  const user = await upsertUser(json.user || {} as SeedUser);
-  console.log("Upserted user:", { id: user.id, email: user.email, username: user.username });
+  const user = await upsertUser(json.user || ({} as SeedUser));
+  console.log("Upserted user:", {
+    id: user.id,
+    email: user.email,
+    username: user.username,
+  });
 
-  const profile = await upsertProfile(user.id, json.profile || ({} as SeedProfile));
-  console.log("Upserted profile:", { id: profile.id, fullName: profile.fullName });
+  const profile = await upsertProfile(
+    user.id,
+    json.profile || ({} as SeedProfile)
+  );
+  console.log("Upserted profile:", {
+    id: profile.id,
+    fullName: profile.fullName,
+  });
 
   await replaceSkills(profile.id, json.skills || []);
   console.log("Synced skills:", (json.skills || []).length);
