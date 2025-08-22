@@ -173,6 +173,7 @@ exports.Prisma.ProfileScalarFieldEnum = {
   userId: 'userId',
   fullName: 'fullName',
   headline: 'headline',
+  tags: 'tags',
   bio: 'bio',
   avatarUrl: 'avatarUrl',
   location: 'location',
@@ -276,9 +277,25 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',

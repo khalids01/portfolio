@@ -13,6 +13,9 @@ export async function POST(req: Request) {
       userId,
       fullName: String(body.fullName ?? ""),
       headline: String(body.headline ?? ""),
+      tags: Array.isArray(body.tags)
+        ? (body.tags as unknown[]).map((t) => String(t))
+        : null,
       bio: body.bio ?? null,
       avatarUrl: body.avatarUrl ?? null,
       location: body.location ?? null,
@@ -47,21 +50,27 @@ export async function PATCH(req: Request) {
     const existing = await prisma.profile.findUnique({ where: { userId } });
     if (!existing) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
+    const updateData: Record<string, unknown> = {
+      fullName: body.fullName ?? existing.fullName,
+      headline: body.headline ?? existing.headline,
+      bio: body.bio ?? existing.bio,
+      avatarUrl: body.avatarUrl ?? existing.avatarUrl,
+      location: body.location ?? existing.location,
+      phone: body.phone ?? existing.phone,
+      emailPublic: body.emailPublic ?? existing.emailPublic,
+      resumeUrl: body.resumeUrl ?? existing.resumeUrl,
+      linkedinUrl: body.linkedinUrl ?? existing.linkedinUrl,
+      githubUrl: body.githubUrl ?? existing.githubUrl,
+      websiteUrl: body.websiteUrl ?? existing.websiteUrl,
+    };
+
+    if (Array.isArray(body.tags)) {
+      updateData.tags = (body.tags as unknown[]).map((t) => String(t));
+    }
+
     const profile = await prisma.profile.update({
       where: { userId },
-      data: {
-        fullName: body.fullName ?? existing.fullName,
-        headline: body.headline ?? existing.headline,
-        bio: body.bio ?? existing.bio,
-        avatarUrl: body.avatarUrl ?? existing.avatarUrl,
-        location: body.location ?? existing.location,
-        phone: body.phone ?? existing.phone,
-        emailPublic: body.emailPublic ?? existing.emailPublic,
-        resumeUrl: body.resumeUrl ?? existing.resumeUrl,
-        linkedinUrl: body.linkedinUrl ?? existing.linkedinUrl,
-        githubUrl: body.githubUrl ?? existing.githubUrl,
-        websiteUrl: body.websiteUrl ?? existing.websiteUrl,
-      },
+      data: updateData,
     });
     return NextResponse.json({ data: profile });
   } catch (e) {

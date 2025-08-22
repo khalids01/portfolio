@@ -15,6 +15,7 @@ type SeedUser = {
 type SeedProfile = {
   fullName: string;
   headline: string;
+  tags?: string[];
   bio?: string | null;
   avatarUrl?: string | null;
   location?: string | null;
@@ -110,6 +111,7 @@ async function upsertProfile(userId: string, profile: SeedProfile) {
     userId,
     fullName: profile.fullName as string,
     headline: profile.headline as string,
+    tags: Array.isArray(profile.tags) ? profile.tags.map(String) : null,
     bio: (profile.bio ?? null) as string | null,
     avatarUrl: (profile.avatarUrl ?? null) as string | null,
     location: (profile.location ?? null) as string | null,

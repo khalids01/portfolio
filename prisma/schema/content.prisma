@@ -6,6 +6,7 @@ model Profile {
 
   fullName    String
   headline    String
+  tags        Json?
   bio         String?
   avatarUrl   String?
   location    String?

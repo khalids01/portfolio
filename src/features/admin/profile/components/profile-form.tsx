@@ -8,10 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAdminProfile } from "../../profile/useAdminProfile";
+import type { ProfileDTO } from "../types";
 
 const schema = z.object({
   fullName: z.string().min(2, "Required"),
   headline: z.string().min(2, "Required"),
+  // Comma-separated tags input; transformed on submit
+  tagsCsv: z.string().default(""),
   bio: z.string().optional().nullable(),
   avatarUrl: z.string().url().optional().nullable(),
   location: z.string().optional().nullable(),
@@ -31,6 +34,7 @@ export function AdminProfileForm() {
     defaultValues: {
       fullName: "",
       headline: "",
+      tagsCsv: "",
       bio: "",
       avatarUrl: "",
       location: "",
@@ -49,6 +53,7 @@ export function AdminProfileForm() {
       form.reset({
         fullName: p.fullName ?? "",
         headline: p.headline ?? "",
+        tagsCsv: Array.isArray(p.tags) ? p.tags.join(", ") : "",
         bio: p.bio ?? "",
         avatarUrl: p.avatarUrl ?? "",
         location: p.location ?? "",
@@ -64,7 +69,27 @@ export function AdminProfileForm() {
   }, [profileQuery.data]);
 
   const onSubmit = (values: z.infer<typeof schema>) => {
-    createOrUpdate.mutate(values);
+    const tags = String(values.tagsCsv || "")
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const payload: ProfileDTO = {
+      fullName: values.fullName,
+      headline: values.headline,
+      tags,
+      bio: values.bio ?? null,
+      avatarUrl: values.avatarUrl ?? null,
+      location: values.location ?? null,
+      phone: values.phone ?? null,
+      emailPublic: values.emailPublic ?? null,
+      resumeUrl: values.resumeUrl ?? null,
+      linkedinUrl: values.linkedinUrl ?? null,
+      githubUrl: values.githubUrl ?? null,
+      websiteUrl: values.websiteUrl ?? null,
+    };
+
+    createOrUpdate.mutate(payload);
   };
 
   return (
@@ -84,6 +109,10 @@ export function AdminProfileForm() {
               <label className="text-sm font-medium">Headline</label>
               <Input {...form.register("headline")} placeholder="e.g., Software Engineer" />
               <p className="text-xs text-destructive">{form.formState.errors.headline?.message}</p>
+            </div>
+            <div className="md:col-span-2">
+              <label className="text-sm font-medium">Tags (comma-separated)</label>
+              <Input {...form.register("tagsCsv")} placeholder="e.g., Next.js, TypeScript, Prisma" />
             </div>
           </div>
 

@@ -3,6 +3,7 @@ export type ProfileDTO = {
   userId?: string;
   fullName: string;
   headline: string;
+  tags?: string[];
   bio?: string | null;
   avatarUrl?: string | null;
   location?: string | null;

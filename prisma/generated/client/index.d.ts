@@ -6817,6 +6817,7 @@ export namespace Prisma {
     userId: number
     fullName: number
     headline: number
+    tags: number
     bio: number
     avatarUrl: number
     location: number
@@ -6873,6 +6874,7 @@ export namespace Prisma {
     userId?: true
     fullName?: true
     headline?: true
+    tags?: true
     bio?: true
     avatarUrl?: true
     location?: true
@@ -6964,6 +6966,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags: JsonValue | null
     bio: string | null
     avatarUrl: string | null
     location: string | null
@@ -6999,6 +7002,7 @@ export namespace Prisma {
     userId?: boolean
     fullName?: boolean
     headline?: boolean
+    tags?: boolean
     bio?: boolean
     avatarUrl?: boolean
     location?: boolean
@@ -7024,6 +7028,7 @@ export namespace Prisma {
     userId?: boolean
     fullName?: boolean
     headline?: boolean
+    tags?: boolean
     bio?: boolean
     avatarUrl?: boolean
     location?: boolean
@@ -7043,6 +7048,7 @@ export namespace Prisma {
     userId?: boolean
     fullName?: boolean
     headline?: boolean
+    tags?: boolean
     bio?: boolean
     avatarUrl?: boolean
     location?: boolean
@@ -7062,6 +7068,7 @@ export namespace Prisma {
     userId?: boolean
     fullName?: boolean
     headline?: boolean
+    tags?: boolean
     bio?: boolean
     avatarUrl?: boolean
     location?: boolean
@@ -7075,7 +7082,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "headline" | "bio" | "avatarUrl" | "location" | "phone" | "emailPublic" | "resumeUrl" | "linkedinUrl" | "githubUrl" | "websiteUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
+  export type ProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "headline" | "tags" | "bio" | "avatarUrl" | "location" | "phone" | "emailPublic" | "resumeUrl" | "linkedinUrl" | "githubUrl" | "websiteUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["profile"]>
   export type ProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     skills?: boolean | Profile$skillsArgs<ExtArgs>
@@ -7107,6 +7114,7 @@ export namespace Prisma {
       userId: string
       fullName: string
       headline: string
+      tags: Prisma.JsonValue | null
       bio: string | null
       avatarUrl: string | null
       location: string | null
@@ -7551,6 +7559,7 @@ export namespace Prisma {
     readonly userId: FieldRef<"Profile", 'String'>
     readonly fullName: FieldRef<"Profile", 'String'>
     readonly headline: FieldRef<"Profile", 'String'>
+    readonly tags: FieldRef<"Profile", 'Json'>
     readonly bio: FieldRef<"Profile", 'String'>
     readonly avatarUrl: FieldRef<"Profile", 'String'>
     readonly location: FieldRef<"Profile", 'String'>
@@ -17930,6 +17939,7 @@ export namespace Prisma {
     userId: 'userId',
     fullName: 'fullName',
     headline: 'headline',
+    tags: 'tags',
     bio: 'bio',
     avatarUrl: 'avatarUrl',
     location: 'location',
@@ -18066,12 +18076,37 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const NullsOrder: {
     first: 'first',
     last: 'last'
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
   /**
@@ -18104,6 +18139,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -18450,6 +18499,7 @@ export namespace Prisma {
     userId?: StringFilter<"Profile"> | string
     fullName?: StringFilter<"Profile"> | string
     headline?: StringFilter<"Profile"> | string
+    tags?: JsonNullableFilter<"Profile">
     bio?: StringNullableFilter<"Profile"> | string | null
     avatarUrl?: StringNullableFilter<"Profile"> | string | null
     location?: StringNullableFilter<"Profile"> | string | null
@@ -18474,6 +18524,7 @@ export namespace Prisma {
     userId?: SortOrder
     fullName?: SortOrder
     headline?: SortOrder
+    tags?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -18501,6 +18552,7 @@ export namespace Prisma {
     NOT?: ProfileWhereInput | ProfileWhereInput[]
     fullName?: StringFilter<"Profile"> | string
     headline?: StringFilter<"Profile"> | string
+    tags?: JsonNullableFilter<"Profile">
     bio?: StringNullableFilter<"Profile"> | string | null
     avatarUrl?: StringNullableFilter<"Profile"> | string | null
     location?: StringNullableFilter<"Profile"> | string | null
@@ -18525,6 +18577,7 @@ export namespace Prisma {
     userId?: SortOrder
     fullName?: SortOrder
     headline?: SortOrder
+    tags?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
@@ -18549,6 +18602,7 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Profile"> | string
     fullName?: StringWithAggregatesFilter<"Profile"> | string
     headline?: StringWithAggregatesFilter<"Profile"> | string
+    tags?: JsonNullableWithAggregatesFilter<"Profile">
     bio?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     avatarUrl?: StringNullableWithAggregatesFilter<"Profile"> | string | null
     location?: StringNullableWithAggregatesFilter<"Profile"> | string | null
@@ -19503,6 +19557,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -19527,6 +19582,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -19549,6 +19605,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19573,6 +19630,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19596,6 +19654,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -19613,6 +19672,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -19631,6 +19691,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -20582,6 +20643,24 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type SkillListRelationFilter = {
     every?: SkillWhereInput
@@ -20638,6 +20717,7 @@ export namespace Prisma {
     userId?: SortOrder
     fullName?: SortOrder
     headline?: SortOrder
+    tags?: SortOrder
     bio?: SortOrder
     avatarUrl?: SortOrder
     location?: SortOrder
@@ -20685,6 +20765,27 @@ export namespace Prisma {
     websiteUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -21862,6 +21963,24 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
@@ -21962,6 +22081,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -21984,6 +22104,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -22087,6 +22208,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22109,6 +22231,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22692,6 +22815,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -22715,6 +22839,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -22785,6 +22910,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22808,6 +22934,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22864,6 +22991,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -22887,6 +23015,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -22949,6 +23078,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22972,6 +23102,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23057,6 +23188,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23080,6 +23212,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23117,6 +23250,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23140,6 +23274,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23207,6 +23342,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23230,6 +23366,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23307,6 +23444,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23330,6 +23468,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23400,6 +23539,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23423,6 +23563,7 @@ export namespace Prisma {
     userId: string
     fullName: string
     headline: string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: string | null
     avatarUrl?: string | null
     location?: string | null
@@ -23460,6 +23601,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
@@ -23483,6 +23625,7 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     headline?: StringFieldUpdateOperationsInput | string
+    tags?: NullableJsonNullValueInput | InputJsonValue
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
