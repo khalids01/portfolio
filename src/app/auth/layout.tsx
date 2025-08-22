@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 import { ModeToggle } from "@/components/core/mode-toggle";
+import { RedirectGuard } from "./redirect-guard";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,6 +27,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
       <main className="flex-1 grid place-items-center px-4">
+        {/* Redirect any disallowed /auth routes to magic link sign-in */}
+        <RedirectGuard />
         {children}
       </main>
       <footer className="border-t">
