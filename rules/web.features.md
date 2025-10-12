@@ -17,7 +17,7 @@ This project uses a feature-first structure under `src/`.
 
 ## Conventions
 
-- __Paths__: `@/*` maps to `./src/*`. Prefer `@/` for imports. `@/src/*` is kept temporarily for backward compatibility during migration.
+- __Paths__: `@/*` maps to `./src/*`. Prefer `@/` for imports. `@/*` is kept temporarily for backward compatibility during migration.
 - __Do in route files only__:
   - minimal compositions, page metadata, and feature component mounting
 - __Do in features__:
