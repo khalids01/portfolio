@@ -1,9 +1,7 @@
 "use client";
 import * as React from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Html } from "@react-three/drei";
+import { motion, AnimatePresence } from "motion/react";
 import type { ComponentType } from "react";
-import type { Group } from "three";
 import {
   Code2,
   Boxes,
@@ -34,52 +32,102 @@ function iconForSkill(name: string): ComponentType<{ className?: string }> {
   return Code2;
 }
 
-function SphereIcons({ skills }: { skills: Skill[] }) {
-  const group = React.useRef<Group | null>(null);
-  useFrame((_state, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.25;
-  });
-
-  // Position N icons roughly uniformly using spherical coordinates
-  const N = Math.max(8, Math.min(24, skills.length || 12));
-  const items = Array.from({ length: N }, (_, i) => {
-    const phi = Math.acos(1 - 2 * ((i + 0.5) / N));
-    const theta = Math.PI * (1 + Math.sqrt(5)) * i; // golden angle
-    const r = 1.6;
-    const x = r * Math.cos(theta) * Math.sin(phi);
-    const y = r * Math.cos(phi);
-    const z = r * Math.sin(theta) * Math.sin(phi);
-    const Icon = iconForSkill(skills[i % skills.length]?.name || "");
-    return { x, y, z, Icon, key: i };
-  });
-
-  return (
-    <group ref={group}>
-      {/* base sphere for subtle presence */}
-      <mesh>
-        <sphereGeometry args={[1.65, 32, 32]} />
-        <meshBasicMaterial color="#ffffff" opacity={0} transparent />
-      </mesh>
-      {items.map(({ x, y, z, Icon, key }) => (
-        <Html key={key} position={[x, y, z]} transform distanceFactor={6} occlude>
-          <div className="grid place-items-center rounded-md bg-background/70 p-1.5 shadow-sm ring-1 ring-border backdrop-blur">
-            <Icon className="size-5" />
-          </div>
-        </Html>
-      ))}
-    </group>
-  );
-}
-
 export function SkillSphere({ skills }: { skills: Skill[] }) {
+  const icons: Array<ComponentType<{ className?: string }>> = skills.length
+    ? skills.map((s: Skill) => iconForSkill(s.name))
+    : [Code2, Boxes, Database, Braces, Terminal, Cloud, GitBranch, Globe, Cpu, FileCode2];
+
+  const [index, setIndex] = React.useState(0);
+  React.useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % icons.length), 1600);
+    return () => clearInterval(id);
+  }, [icons.length]);
+
+  const Active = icons[index];
+
   return (
-    <div className="h-64 w-full md:h-80 lg:h-96">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[5, 5, 5]} intensity={0.5} />
-        <SphereIcons skills={skills} />
-        <OrbitControls enablePan={false} enableDamping dampingFactor={0.1} />
-      </Canvas>
+    <div className="relative h-64 w-full md:h-80 lg:h-96 overflow-hidden rounded-2xl">
+      {/* Aurora background */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute -inset-24 blur-3xl"
+          style={{ background: "radial-gradient(60% 60% at 20% 20%, rgba(99,102,241,0.25), transparent 60%)" }}
+          animate={{ x: [0, 40, -20, 0], y: [0, -20, 30, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -inset-24 blur-3xl"
+          style={{ background: "radial-gradient(50% 50% at 80% 30%, rgba(236,72,153,0.2), transparent 60%)" }}
+          animate={{ x: [0, -30, 20, 0], y: [0, 30, -25, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -inset-24 blur-3xl"
+          style={{ background: "radial-gradient(50% 50% at 50% 80%, rgba(168,85,247,0.2), transparent 60%)" }}
+          animate={{ x: [0, 10, -30, 0], y: [0, -15, 20, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      {/* Bokeh orbs */}
+      {Array.from({ length: 10 }).map((_, i) => (
+        <motion.div
+          key={`orb-${i}`}
+          className="absolute rounded-full bg-white/8 blur-xl"
+          style={{ width: 12 + (i % 4) * 6, height: 12 + (i % 4) * 6, left: `${(i * 97) % 100}%`, top: `${(i * 53) % 100}%` }}
+          animate={{ y: [0, -10, 0], x: [0, 10, 0], opacity: [0.15, 0.4, 0.15] }}
+          transition={{ duration: 6 + (i % 5), repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+        />
+      ))}
+
+      {/* Centerpiece tile */}
+      <div className="absolute inset-0 grid place-items-center">
+        <motion.div
+          className="relative w-44 h-44 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-[2rem] bg-gradient-to-br from-slate-900/70 to-slate-800/40 backdrop-blur-xl shadow-2xl border border-white/10"
+          whileHover={{ rotateX: -3, rotateY: 3, scale: 1.02 }}
+          transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          style={{ transformStyle: "preserve-3d", perspective: 900 }}
+        >
+          {/* rotating rings */}
+          <motion.div
+            className="pointer-events-none absolute -inset-3 rounded-[2.4rem] border border-white/10"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.div
+            className="pointer-events-none absolute -inset-6 rounded-[2.8rem] border border-white/10"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* glossy sweep */}
+          <motion.div
+            className="absolute inset-0 overflow-hidden rounded-[2rem]"
+            animate={{ backgroundPositionX: ["0%", "200%"] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            style={{ backgroundImage: "linear-gradient(100deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%)", backgroundSize: "200% 100%" }}
+          />
+
+          {/* icon */}
+          <div className="relative z-10 h-full w-full grid place-items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 1.1, rotate: 10 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+              >
+                <Active className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 text-white/90" />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* vignette */}
+      <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl" style={{ boxShadow: "inset 0 0 120px rgba(0,0,0,0.45)" }} />
     </div>
   );
 }

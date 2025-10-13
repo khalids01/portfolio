@@ -2,11 +2,51 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
+export type SkillData = {
+  id: string;
+  name: string;
+  category: string;
+  level?: number | null;
+  experienceYears?: number | null;
+  experienceMonths?: number | null;
+};
+
+export type ExperienceData = {
+  id: string;
+  company: string;
+  role: string;
+  location?: string | null;
+  startDate: Date;
+  endDate?: Date | null;
+  current: boolean;
+  description?: string | null;
+  highlights: Array<{ text: string }>;
+};
+
+export type ProjectData = {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  coverImage?: string | null;
+  url?: string | null;
+  repoUrl?: string | null;
+  tags: Array<{ name: string }>;
+  skills: Array<{ name: string }>;
+};
+
 export type LandingData = {
   name: string;
   title: string;
   bio: string;
-  skills: Array<{ name: string }>;
+  location?: string | null;
+  emailPublic?: string | null;
+  githubUrl?: string | null;
+  linkedinUrl?: string | null;
+  skills: SkillData[];
+  experiences: ExperienceData[];
+  projects: ProjectData[];
+  socialLinks: Array<{ platform: string; url: string }>;
   session: { userId: string; name?: string | null; role?: "ADMIN" | "USER" } | null;
 };
 
@@ -18,14 +58,69 @@ export async function getLandingData(): Promise<LandingData> {
   // Choose the portfolio owner profile. For now, pick the most recently updated.
   const profile = await prisma.profile.findFirst({
     orderBy: { updatedAt: "desc" },
-    include: { user: true, skills: true },
+    include: {
+      user: true,
+      skills: { orderBy: { order: "asc" } },
+      experiences: {
+        orderBy: { startDate: "desc" },
+        include: { highlights: true },
+      },
+      projects: {
+        orderBy: { startDate: "desc" },
+        include: {
+          tags: true,
+          skills: { select: { name: true } },
+        },
+      },
+      socialLinks: { orderBy: { order: "asc" } },
+    },
   });
 
   const name = profile?.fullName || profile?.user?.name || "Your Name";
-  const title = profile?.headline || "Software Engineer";
+  const title = profile?.headline || "Full Stack Developer";
   const bio = profile?.bio || "I build modern, reliable web applications with an eye for performance and UX.";
-  const skills = (profile?.skills || []).map((s) => ({ name: s.name }))
-    .slice(0, 20);
+  const location = profile?.location;
+  const emailPublic = profile?.emailPublic;
+  const githubUrl = profile?.githubUrl;
+  const linkedinUrl = profile?.linkedinUrl;
+
+  const skills: SkillData[] = (profile?.skills || []).map((s) => ({
+    id: s.id,
+    name: s.name,
+    category: s.category,
+    level: s.level,
+    experienceYears: s.experienceYears,
+    experienceMonths: s.experienceMonths,
+  }));
+
+  const experiences: ExperienceData[] = (profile?.experiences || []).map((e) => ({
+    id: e.id,
+    company: e.company,
+    role: e.role,
+    location: e.location,
+    startDate: e.startDate,
+    endDate: e.endDate,
+    current: e.current,
+    description: e.description,
+    highlights: e.highlights.map((h) => ({ text: h.text })),
+  }));
+
+  const projects: ProjectData[] = (profile?.projects || []).map((p) => ({
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    description: p.description,
+    coverImage: p.coverImage,
+    url: p.url,
+    repoUrl: p.repoUrl,
+    tags: p.tags.map((t) => ({ name: t.name })),
+    skills: p.skills.map((s) => ({ name: s.name })),
+  }));
+
+  const socialLinks = (profile?.socialLinks || []).map((s) => ({
+    platform: s.platform,
+    url: s.url,
+  }));
 
   let sessionData: LandingData["session"] = null;
   if (session) {
@@ -36,5 +131,18 @@ export async function getLandingData(): Promise<LandingData> {
     sessionData = { userId: session.user.id, name: u?.name ?? null, role: u?.role };
   }
 
-  return { name, title, bio, skills, session: sessionData };
+  return {
+    name,
+    title,
+    bio,
+    location,
+    emailPublic,
+    githubUrl,
+    linkedinUrl,
+    skills,
+    experiences,
+    projects,
+    socialLinks,
+    session: sessionData,
+  };
 }
