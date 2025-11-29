@@ -7,8 +7,8 @@
   },
   "profile": {
     "fullName": "Abdullah Khalid",
-    "headline": "Full Stack Engineer",
-    "bio": "Full Stack Engineer with experience in TypeScript-based application development using Next.js, NestJS, and Fastify. Familiar with Elixir, PHP, Docker, MySQL, MongoDB, and managing Linux VPS environments. Worked on AI-powered tools for document summarization and image-to-text processing. Passionate about building scalable, maintainable applications.",
+    "headline": "Full-Stack TypeScript Developer",
+    "bio": "Results-driven Full-Stack TypeScript Developer specializing in building scalable SaaS, HealthTech, and FinTech platforms across web and mobile. Skilled in architecting microservices, designing real-time data pipelines, and developing secure, maintainable, production-grade systems.",
     "avatarUrl": null,
     "location": "Dhaka, Bangladesh",
     "phone": "+88 01604-152737",
@@ -19,91 +19,134 @@
     "websiteUrl": null
   },
   "skills": [
-    { "name": "JavaScript", "category": "Programming Languages" },
-    { "name": "TypeScript", "category": "Programming Languages" },
-    { "name": "PHP", "category": "Programming Languages" },
-    { "name": "Dart", "category": "Programming Languages" },
-    { "name": "Elixir", "category": "Programming Languages" },
+    { "name": "TypeScript", "category": "Languages" },
+    { "name": "JavaScript", "category": "Languages" },
+    { "name": "PHP", "category": "Languages" },
+    { "name": "Elixir", "category": "Languages" },
+    { "name": "Dart", "category": "Languages" },
 
-    { "name": "React", "category": "Frameworks" },
-    { "name": "Next.js", "category": "Frameworks" },
-    { "name": "Express", "category": "Frameworks" },
-    { "name": "Fastify", "category": "Frameworks" },
-    { "name": "NestJS", "category": "Frameworks" },
-    { "name": "React Native", "category": "Frameworks" },
-    { "name": "Phoenix", "category": "Frameworks" },
-    { "name": "Elysia.js", "category": "Frameworks" },
+    { "name": "React", "category": "Frontend" },
+    { "name": "React Native", "category": "Frontend" },
+    { "name": "Next.js", "category": "Frontend" },
+    { "name": "SvelteKit", "category": "Frontend" },
 
-    { "name": "MySQL", "category": "Databases" },
-    { "name": "MongoDB", "category": "Databases" },
-    { "name": "Postgres", "category": "Databases" },
-    { "name": "SQLite", "category": "Databases" },
+    { "name": "Node.js", "category": "Backend" },
+    { "name": "Bun", "category": "Backend" },
+    { "name": "Elysia.js", "category": "Backend" },
+    { "name": "NestJS", "category": "Backend" },
+    { "name": "Express.js", "category": "Backend" },
+    { "name": "Fastify", "category": "Backend" },
+    { "name": "Phoenix", "category": "Backend" },
 
-    { "name": "AI-based document summarization", "category": "AI Tools & Capabilities" },
-    { "name": "image-to-text processing", "category": "AI Tools & Capabilities" },
+    { "name": "Prisma", "category": "Database & ORM" },
+    { "name": "Drizzle", "category": "Database & ORM" },
+    { "name": "TypeORM", "category": "Database & ORM" },
+    { "name": "Mongoose", "category": "Database & ORM" },
+    { "name": "PostgreSQL", "category": "Database & ORM" },
+    { "name": "MySQL", "category": "Database & ORM" },
+    { "name": "MongoDB", "category": "Database & ORM" },
+    { "name": "Redis", "category": "Database & ORM" },
 
-    { "name": "Linux", "category": "Tools & Others" },
-    { "name": "Docker", "category": "Tools & Others" },
-    { "name": "Podman", "category": "Tools & Others" },
-    { "name": "Git", "category": "Tools & Others" },
-    { "name": "Vite", "category": "Tools & Others" },
-    { "name": "Figma", "category": "Tools & Others" },
-    { "name": "Postman", "category": "Tools & Others" },
+    { "name": "AWS", "category": "DevOps & Cloud" },
+    { "name": "Docker", "category": "DevOps & Cloud" },
+    { "name": "Linux", "category": "DevOps & Cloud" },
+    { "name": "Grafana", "category": "DevOps & Cloud" },
+    { "name": "CI/CD", "category": "DevOps & Cloud" },
 
-    { "name": "English (Conversational)", "category": "Languages" },
-    { "name": "Bangla (Native)", "category": "Languages" }
+    { "name": "Web3.js", "category": "FinTech / Blockchain" },
+    { "name": "Solana RPC", "category": "FinTech / Blockchain" },
+    { "name": "DEX Integration", "category": "FinTech / Blockchain" },
+
+    { "name": "System Design", "category": "Other" },
+    { "name": "Clean Architecture", "category": "Other" },
+    { "name": "API Security", "category": "Other" }
   ],
   "experiences": [
     {
-      "company": "QuantumLeap",
-      "role": "Full Stack Engineer",
-      "location": "Frisco, TX, USA (Remote)",
+      "company": "Interspeed",
+      "role": "Full-Stack TypeScript Developer",
+      "location": "Remote",
       "startDate": "2023-01-01",
       "endDate": null,
       "current": true,
-      "description": null,
+      "description": "Contributing to OrangeSphere, a production-grade crypto arbitrage and analytics platform, and Sofilite, a Laboratory Information Management System (LIMS).",
       "highlights": [
-        "Built AI features and integrated AI APIs for image-to-text and content summarization.",
-        "Developed & maintaining Laboratory Management System (LMS) using Next.js, Fastify, MariaDB, RabbitMQ, Docker, and Linux VPS.",
-        "Contributed to EMR using PHP and OpenEMR.",
-        "Handled Linux VPS management, deployments, and server setup.",
-        "Presented product demos to stakeholders with occasional team support."
+        "Engineered a TypeScript-first trading engine using Bun + Elysia.js, processing live market data.",
+        "Built an automated cross-exchange arbitrage engine with Redis pub/sub and WebSocket streaming.",
+        "Integrated Grafana dashboards powered by AWS Athena for monitoring.",
+        "Developed Sofilite’s LIMS with a role-based architecture and dynamic form generation.",
+        "Modernized EMR module (OpenEMR fork) improving usability and workflow."
       ]
     },
     {
-      "company": "Freelance",
-      "role": "Web Developer",
+      "company": "Freelance / Contract",
+      "role": "Full-Stack Web Developer",
       "location": "Remote",
       "startDate": "2020-01-01",
       "endDate": "2023-01-01",
       "current": false,
-      "description": null,
+      "description": "Delivered end-to-end web and e-commerce solutions.",
       "highlights": [
-        "Provided contract-based and freelance web development using TypeScript, Next.js, React etc.",
-        "Worked as a frontend developer on various e-commerce projects.",
-        "Completed 100+ website designs for regular clients through online marketplaces."
+        "Completed 100+ web design client projects with 5-star ratings.",
+        "Built custom CMS dashboards and multi-vendor e-commerce systems using Next.js and NestJS.",
+        "Integrated payment gateways and third-party APIs.",
+        "Deployed scalable applications on AWS and Vercel."
       ]
     }
   ],
   "educations": [
     {
       "institution": "Uttara University",
-      "degree": "BSC in CSE",
-      "field": null,
+      "degree": "B.Sc. in Computer Science & Engineering",
+      "field": "CSE",
       "startDate": "2024-01-01",
       "endDate": null,
       "grade": null
     },
     {
       "institution": "Tangail Polytechnic Institute",
-      "degree": "Diploma in CSE",
-      "field": null,
+      "degree": "Diploma in Computer Science & Engineering",
+      "field": "CSE",
       "startDate": "2019-01-01",
       "endDate": "2023-01-01",
       "grade": null
     }
   ],
-  "projects": [],
+  "projects": [
+    {
+      "title": "Algorithmic Crypto Trading Platform",
+      "slug": "crypto-trading-platform",
+      "description": "A non-custodial trading platform supporting automated and manual swaps on centralized and decentralized exchanges.",
+      "coverImage": null,
+      "url": null,
+      "repoUrl": null,
+      "startDate": null,
+      "endDate": null,
+      "tags": ["TypeScript", "Next.js", "Fastify", "Prisma", "PostgreSQL", "Web3"]
+    },
+    {
+      "title": "Laboratory Information Management System",
+      "slug": "lims",
+      "description": "Full-featured LIMS for hospitals and diagnostic centers managing Anatomical and Clinical orders.",
+      "coverImage": null,
+      "url": null,
+      "repoUrl": null,
+      "startDate": null,
+      "endDate": null,
+      "tags": ["TypeScript", "Next.js", "Fastify", "MariaDB", "Gemini AI"]
+    },
+    {
+      "title": "Electronic Medical Record (EMR)",
+      "slug": "emr-system",
+      "description": "Modernized legacy modules of a 20+ year open-source EMR with new clinician/patient features.",
+      "coverImage": null,
+      "url": null,
+      "repoUrl": null,
+      "startDate": null,
+      "endDate": null,
+      "tags": ["PHP", "TypeScript", "React", "MySQL", "REST"]
+    }
+  ],
   "socialLinks": [
     { "platform": "LinkedIn", "url": "https://linkedin.com/in/khalid87", "order": 0 },
     { "platform": "GitHub", "url": "https://github.com/khalids01", "order": 1 }

@@ -1,81 +1,118 @@
+"use client";
+
 import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
-import { Code2, Boxes, Database, Cloud, Terminal, Braces } from "lucide-react";
+import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
+import { motion } from "framer-motion";
 
 const categoryIcons: Record<string, React.ElementType> = {
-  "Programming Languages": Code2,
-  "Frameworks": Boxes,
-  "Databases": Database,
-  "Cloud": Cloud,
-  "Tools": Terminal,
-  "Frontend": Braces,
+  "Languages": Code2,
+  "Frontend": Monitor,
+  "Backend": Layers,
+  "Database & ORM": Database,
+  "DevOps & Cloud": Cloud,
+  "Tools & Others": Terminal,
+  "Other": Globe,
+  "FinTech / Blockchain": Wallet,
+  "AI Tools & Capabilities": Cpu,
+  "Security": Shield,
 };
 
 export function SkillsSection({ skills }: { skills: SkillData[] }) {
   // Group skills by category
-  const groupedSkills = skills.reduce((acc, skill) => {
-    if (!acc[skill.category]) {
-      acc[skill.category] = [];
+  const groupedSkills = React.useMemo(() => {
+    return skills.reduce((acc, skill) => {
+      const category = skill.category || "Other";
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(skill);
+      return acc;
+    }, {} as Record<string, SkillData[]>);
+  }, [skills]);
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
-    acc[skill.category].push(skill);
-    return acc;
-  }, {} as Record<string, SkillData[]>);
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
 
   return (
-    <section id="skills" className="container mx-auto px-3 py-16 md:py-24">
-      <div className="mx-auto max-w-6xl space-y-12">
+    <section id="skills" className="container mx-auto px-3 py-20 md:py-32">
+      <div className="mx-auto max-w-7xl space-y-16">
         {/* Section header */}
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl font-bold tracking-tight md:text-5xl"
+          >
             Skills & Expertise
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Technologies and tools I work with to build exceptional products
-          </p>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="mx-auto max-w-2xl text-lg text-muted-foreground"
+          >
+            A comprehensive toolkit for building modern, scalable applications
+          </motion.p>
         </div>
 
         {/* Skills grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
           {Object.entries(groupedSkills).map(([category, categorySkills]) => {
             const Icon = categoryIcons[category] || Code2;
             return (
-              <div
+              <motion.div
                 key={category}
-                className="group relative rounded-2xl bg-gradient-to-br from-background to-muted/30 p-6 backdrop-blur-sm border border-border shadow-lg hover:shadow-xl transition-all"
+                variants={item}
+                className="group relative rounded-3xl bg-muted/30 p-8 hover:bg-muted/50 transition-colors duration-500 border border-border/50"
               >
-                {/* Glow effect on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative space-y-4">
+                <div className="relative space-y-6">
                   {/* Category header */}
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg bg-primary/10 p-2">
-                      <Icon className="h-5 w-5 text-primary" />
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-inset ring-primary/20 group-hover:scale-110 transition-transform duration-500">
+                      <Icon className="h-6 w-6" />
                     </div>
-                    <h3 className="font-semibold text-lg">{category}</h3>
+                    <h3 className="font-bold text-xl">{category}</h3>
                   </div>
 
                   {/* Skills list */}
                   <div className="flex flex-wrap gap-2">
                     {categorySkills.map((skill) => (
-                      <div
+                      <span
                         key={skill.id}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-muted/50 px-3 py-1 text-sm backdrop-blur-sm"
+                        className="inline-flex items-center rounded-full bg-background px-3 py-1 text-sm font-medium text-muted-foreground ring-1 ring-inset ring-border transition-all hover:text-foreground hover:ring-foreground/50 hover:scale-105 cursor-default"
                       >
-                        <span>{skill.name}</span>
-                        {skill.level && (
-                          <span className="text-xs text-muted-foreground">
-                            {Array(skill.level).fill("•").join("")}
-                          </span>
-                        )}
-                      </div>
+                        {skill.name}
+                      </span>
                     ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -41,6 +41,7 @@ export type LandingData = {
   bio: string;
   location?: string | null;
   emailPublic?: string | null;
+  resumeUrl?: string | null;
   githubUrl?: string | null;
   linkedinUrl?: string | null;
   skills: SkillData[];
