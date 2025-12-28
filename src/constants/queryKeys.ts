@@ -10,4 +10,11 @@ export const queryKeys = {
   features: {
     admin: ["features", "admin"] as const,
   },
+  projects: {
+    public: ["projects", "public"] as const,
+    admin: ["projects", "admin"] as const,
+  },
+  messages: {
+    admin: ["messages", "admin"] as const,
+  },
 } as const;

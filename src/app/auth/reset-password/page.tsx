@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const params = useSearchParams();
   const router = useRouter();
   const token = params.get("token");
@@ -47,5 +47,13 @@ export default function ResetPasswordPage() {
         <Button type="submit" disabled={loading || !token} className="w-full">{loading ? "Updating..." : "Update password"}</Button>
       </form>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <React.Suspense fallback={<div className="container py-10">Loading...</div>}>
+      <ResetPasswordForm />
+    </React.Suspense>
   );
 }

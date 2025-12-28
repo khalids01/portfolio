@@ -2,6 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
+import { ContactForm } from "./contact-form";
 
 export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic" | "githubUrl" | "linkedinUrl" | "socialLinks"> }) {
   const currentYear = new Date().getFullYear();
@@ -9,7 +10,10 @@ export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic
   return (
     <footer id="contact" className="border-t border-border bg-muted/30 backdrop-blur-sm">
       <div className="container mx-auto px-3 py-12 md:py-16">
-        <div className="mx-auto max-w-6xl space-y-8">
+        <div className="mx-auto max-w-6xl space-y-12">
+          {/* Contact Form */}
+          <ContactForm />
+          
           {/* Main footer content */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* About */}

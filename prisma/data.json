@@ -8,7 +8,7 @@
   "profile": {
     "fullName": "Abdullah Khalid",
     "headline": "Full-Stack TypeScript Developer",
-    "bio": "Results-driven Full-Stack TypeScript Developer specializing in building scalable SaaS, HealthTech, and FinTech platforms across web and mobile. Skilled in architecting microservices, designing real-time data pipelines, and developing secure, maintainable, production-grade systems.",
+    "bio": "Results-driven Full-Stack TypeScript Developer specializing in building scalable SaaS, HealthTech, and FinTech platforms. Experienced in architecting microservices, designing real-time data pipelines, and developing secure, production-grade systems. Strong background in crypto arbitrage engines, WebSocket-based market data ingestion, and cloud-native infrastructure.",
     "avatarUrl": null,
     "location": "Dhaka, Bangladesh",
     "phone": "+88 01604-152737",
@@ -23,7 +23,6 @@
     { "name": "JavaScript", "category": "Languages" },
     { "name": "PHP", "category": "Languages" },
     { "name": "Elixir", "category": "Languages" },
-    { "name": "Dart", "category": "Languages" },
 
     { "name": "React", "category": "Frontend" },
     { "name": "React Native", "category": "Frontend" },
@@ -33,9 +32,9 @@
     { "name": "Node.js", "category": "Backend" },
     { "name": "Bun", "category": "Backend" },
     { "name": "Elysia.js", "category": "Backend" },
+    { "name": "Fastify", "category": "Backend" },
     { "name": "NestJS", "category": "Backend" },
     { "name": "Express.js", "category": "Backend" },
-    { "name": "Fastify", "category": "Backend" },
     { "name": "Phoenix", "category": "Backend" },
 
     { "name": "Prisma", "category": "Database & ORM" },
@@ -44,21 +43,26 @@
     { "name": "Mongoose", "category": "Database & ORM" },
     { "name": "PostgreSQL", "category": "Database & ORM" },
     { "name": "MySQL", "category": "Database & ORM" },
+    { "name": "MariaDB", "category": "Database & ORM" },
     { "name": "MongoDB", "category": "Database & ORM" },
     { "name": "Redis", "category": "Database & ORM" },
 
-    { "name": "AWS", "category": "DevOps & Cloud" },
-    { "name": "Docker", "category": "DevOps & Cloud" },
-    { "name": "Linux", "category": "DevOps & Cloud" },
+    { "name": "AWS (RDS, ElastiCache, S3, EC2)", "category": "DevOps & Cloud" },
+    { "name": "Docker & Docker Compose", "category": "DevOps & Cloud" },
+    { "name": "Linux Server Ops", "category": "DevOps & Cloud" },
     { "name": "Grafana", "category": "DevOps & Cloud" },
     { "name": "CI/CD", "category": "DevOps & Cloud" },
 
     { "name": "Web3.js", "category": "FinTech / Blockchain" },
-    { "name": "Solana RPC", "category": "FinTech / Blockchain" },
-    { "name": "DEX Integration", "category": "FinTech / Blockchain" },
+    { "name": "Solana RPC / Anchor", "category": "FinTech / Blockchain" },
+    { "name": "Jupiter DEX Aggregator", "category": "FinTech / Blockchain" },
+    { "name": "Binance API", "category": "FinTech / Blockchain" },
+    { "name": "KuCoin API", "category": "FinTech / Blockchain" },
+    { "name": "Coinbase API", "category": "FinTech / Blockchain" },
 
     { "name": "System Design", "category": "Other" },
     { "name": "Clean Architecture", "category": "Other" },
+    { "name": "Performance Optimization", "category": "Other" },
     { "name": "API Security", "category": "Other" }
   ],
   "experiences": [
@@ -69,13 +73,14 @@
       "startDate": "2023-01-01",
       "endDate": null,
       "current": true,
-      "description": "Contributing to OrangeSphere, a production-grade crypto arbitrage and analytics platform, and Sofilite, a Laboratory Information Management System (LIMS).",
+      "description": "Contributing to OrangeSphere (21s2mars), a production-grade crypto arbitrage and analytics platform, and Sofilite, a Laboratory Information Management System (LIMS) and EMR platform.",
       "highlights": [
-        "Engineered a TypeScript-first trading engine using Bun + Elysia.js, processing live market data.",
-        "Built an automated cross-exchange arbitrage engine with Redis pub/sub and WebSocket streaming.",
-        "Integrated Grafana dashboards powered by AWS Athena for monitoring.",
-        "Developed Sofilite’s LIMS with a role-based architecture and dynamic form generation.",
-        "Modernized EMR module (OpenEMR fork) improving usability and workflow."
+        "Engineered a TypeScript-first trading engine using Bun and Elysia.js, processing live market data from Binance, KuCoin, Coinbase, and Solana DEXs (Jupiter / Anchor).",
+        "Built an automated cross-exchange arbitrage engine using Redis pub/sub and WebSocket streams, scanning live order books for micro-arbitrage opportunities.",
+        "Implemented execution logic accounting for fees, slippage, and latency, enabling autonomous small-volume trades under strict thresholds.",
+        "Integrated Grafana dashboards powered by AWS Athena for real-time monitoring and historical analytics.",
+        "Developed Sofilite LIMS with a multi-role architecture and dynamic form generation using Next.js, Fastify, and MariaDB.",
+        "Contributed to modernizing a large legacy EMR codebase (OpenEMR fork), improving clinician and patient workflows."
       ]
     },
     {
@@ -85,12 +90,12 @@
       "startDate": "2020-01-01",
       "endDate": "2023-01-01",
       "current": false,
-      "description": "Delivered end-to-end web and e-commerce solutions.",
+      "description": "Delivered end-to-end web, SaaS, and e-commerce solutions for clients in tech and retail.",
       "highlights": [
-        "Completed 100+ web design client projects with 5-star ratings.",
-        "Built custom CMS dashboards and multi-vendor e-commerce systems using Next.js and NestJS.",
+        "Completed 100+ client projects with consistent 5-star ratings.",
+        "Built custom CMS dashboards and multi-vendor e-commerce platforms using Next.js and NestJS.",
         "Integrated payment gateways and third-party APIs.",
-        "Deployed scalable applications on AWS and Vercel."
+        "Deployed and maintained applications on AWS and Vercel."
       ]
     }
   ],
@@ -116,29 +121,29 @@
     {
       "title": "Algorithmic Crypto Trading Platform",
       "slug": "crypto-trading-platform",
-      "description": "A non-custodial trading platform supporting automated and manual swaps on centralized and decentralized exchanges.",
+      "description": "A non-custodial algorithmic trading platform supporting automated and manual swaps across centralized and decentralized exchanges with real-time arbitrage detection.",
       "coverImage": null,
       "url": null,
       "repoUrl": null,
       "startDate": null,
       "endDate": null,
-      "tags": ["TypeScript", "Next.js", "Fastify", "Prisma", "PostgreSQL", "Web3"]
+      "tags": ["TypeScript", "Bun", "Fastify", "PostgreSQL", "Redis", "Web3", "DEX"]
     },
     {
-      "title": "Laboratory Information Management System",
+      "title": "Laboratory Information Management System (LIMS)",
       "slug": "lims",
-      "description": "Full-featured LIMS for hospitals and diagnostic centers managing Anatomical and Clinical orders.",
+      "description": "A full-featured LIMS for hospitals and diagnostic centers, supporting complete Anatomical and Clinical workflows with strict access control and automation.",
       "coverImage": null,
       "url": null,
       "repoUrl": null,
       "startDate": null,
       "endDate": null,
-      "tags": ["TypeScript", "Next.js", "Fastify", "MariaDB", "Gemini AI"]
+      "tags": ["TypeScript", "Next.js", "Fastify", "MariaDB", "AI"]
     },
     {
       "title": "Electronic Medical Record (EMR)",
       "slug": "emr-system",
-      "description": "Modernized legacy modules of a 20+ year open-source EMR with new clinician/patient features.",
+      "description": "Modernized legacy modules of a 20+ year open-source EMR, improving clinician and patient experience with new UI and APIs.",
       "coverImage": null,
       "url": null,
       "repoUrl": null,
@@ -146,6 +151,10 @@
       "endDate": null,
       "tags": ["PHP", "TypeScript", "React", "MySQL", "REST"]
     }
+  ],
+  "languages": [
+    { "name": "English", "level": "Professional Working Proficiency" },
+    { "name": "Bangla", "level": "Native" }
   ],
   "socialLinks": [
     { "platform": "LinkedIn", "url": "https://linkedin.com/in/khalid87", "order": 0 },

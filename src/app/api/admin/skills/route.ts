@@ -92,6 +92,7 @@ export async function PATCH(req: Request) {
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = { ...updates };
 
     if (Object.prototype.hasOwnProperty.call(updates, "projectIds")) {
