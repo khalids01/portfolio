@@ -1,0 +1,36 @@
+services:
+  prisma-migrate:
+    image: node:24-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    command: npx prisma migrate deploy
+    restart: "no"
+
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portfolio:latest
+    container_name: portfolio
+    env_file:
+      - .env
+    ports:
+      - "3003:3003"
+    depends_on:
+      - prisma-migrate
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+
+      # Disable request body buffering
+      - traefik.http.middlewares.no-buffer.buffering.maxRequestBodyBytes=0
+      - traefik.http.middlewares.no-buffer.buffering.memRequestBodyBytes=0
+
+      # HTTP
+      - traefik.http.routers.portfolio-web.middlewares=redirect-to-https@file,no-buffer
+
+      # HTTPS
+      - traefik.http.routers.portfolio-websecure.middlewares=no-buffer
