@@ -159,5 +159,82 @@
   "socialLinks": [
     { "platform": "LinkedIn", "url": "https://linkedin.com/in/khalid87", "order": 0 },
     { "platform": "GitHub", "url": "https://github.com/khalids01", "order": 1 }
-  ]
+  ],
+  "resume": {
+    "basics": {
+      "name": "Abdullah Khalid",
+      "title": "Full-Stack TypeScript Engineer",
+      "email": "khalid.code03@gmail.com",
+      "location": "Dhaka, Bangladesh",
+      "links": [
+        { "name": "GitHub", "url": "https://github.com/khalids01" },
+        { "name": "LinkedIn", "url": "https://linkedin.com/in/khalid87" }
+      ]
+    },
+    "summary": "Backend-focused TypeScript engineer with 4+ years of experience building scalable SaaS, HealthTech, and FinTech platforms. Expert in architecting microservices, real-time data pipelines, and secure production systems.",
+    "skills": [
+      { "group": "Backend", "items": ["Node.js", "Bun", "Elysia.js", "Fastify", "NestJS", "Express.js", "Phoenix", "Elixir"] },
+      { "group": "Frontend", "items": ["React", "React Native", "Next.js", "SvelteKit", "Tailwind CSS"] },
+      { "group": "Database & ORM", "items": ["PostgreSQL", "MySQL", "MariaDB", "MongoDB", "Redis", "Prisma", "Drizzle", "TypeORM"] },
+      { "group": "FinTech / Web3", "items": ["Solana RPC", "Anchor", "Jupiter DEX Aggregator", "Binance API", "Web3.js"] },
+      { "group": "DevOps", "items": ["AWS", "Docker", "CI/CD", "Linux Server Ops", "Grafana"] }
+    ],
+    "experience": [
+      {
+        "company": "Interspeed",
+        "role": "Full-Stack TypeScript Developer",
+        "start": "2023-01",
+        "end": "Present",
+        "bullets": [
+          "Engineered a TypeScript-first trading engine using Bun and Elysia.js, processing live market data from Binance, KuCoin, Coinbase, and Solana DEXs.",
+          "Built an automated cross-exchange arbitrage engine using Redis pub/sub and WebSocket streams.",
+          "Developed Sofilite LIMS with a multi-role architecture and dynamic form generation.",
+          "Modernized legacy EMR codebase, improving clinician and patient workflows."
+        ]
+      },
+      {
+        "company": "Freelance / Contract",
+        "role": "Full-Stack Web Developer",
+        "start": "2020-01",
+        "end": "2023-01",
+        "bullets": [
+          "Completed 100+ client projects with consistent 5-star ratings.",
+          "Built custom CMS dashboards and multi-vendor e-commerce platforms using Next.js and NestJS.",
+          "Integrated payment gateways and third-party APIs."
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "Algorithmic Crypto Trading Platform",
+        "desc": "Non-custodial algorithmic trading platform with real-time arbitrage detection.",
+        "bullets": ["Real-time data ingestion", "Automated execution engine"],
+        "links": []
+      },
+      {
+        "name": "Laboratory Information Management System",
+        "desc": "Full-featured LIMS for hospitals and diagnostic centers.",
+        "bullets": ["Multi-role architecture", "Dynamic report generation"],
+        "links": []
+      }
+    ],
+    "education": [
+      {
+        "institution": "Uttara University",
+        "degree": "B.Sc. in Computer Science & Engineering",
+        "start": "2024",
+        "end": "Present"
+      },
+      {
+        "institution": "Tangail Polytechnic Institute",
+        "degree": "Diploma in Computer Science & Engineering",
+        "start": "2019",
+        "end": "2023"
+      }
+    ],
+    "languages": [
+      { "name": "English", "level": "Professional Working Proficiency" },
+      { "name": "Bangla", "level": "Native" }
+    ]
+  }
 }

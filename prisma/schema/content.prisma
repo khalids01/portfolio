@@ -1,8 +1,8 @@
 // Portfolio domain models you can manage from an admin panel
 
 model Profile {
-  id          String   @id @default(cuid())
-  userId      String   @unique
+  id     String @id @default(cuid())
+  userId String @unique
 
   fullName    String
   headline    String
@@ -17,7 +17,7 @@ model Profile {
   githubUrl   String?
   websiteUrl  String?
 
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   // Relations
   skills      Skill[]
@@ -26,61 +26,61 @@ model Profile {
   projects    Project[]
   socialLinks SocialLink[]
 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Skill {
-  id        String  @id @default(cuid())
+  id        String @id @default(cuid())
   profileId String
 
-  name      String
-  label     String?
-  icon      String?
-  category  String // e.g., Programming Languages, Frameworks, Databases
-  level     Int?    // 1..5 if you want to rank
-  order     Int?    @default(0)
-  experienceYears  Int?   @default(0)
-  experienceMonths Int?   @default(0)
+  name             String
+  label            String?
+  icon             String?
+  category         String // e.g., Programming Languages, Frameworks, Databases
+  level            Int? // 1..5 if you want to rank
+  order            Int?    @default(0)
+  experienceYears  Int?    @default(0)
+  experienceMonths Int?    @default(0)
 
-  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  projects  Project[]
+  profile  Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  projects Project[]
 
   @@index([profileId])
 }
 
 model Experience {
-  id          String  @id @default(cuid())
-  profileId   String
+  id        String @id @default(cuid())
+  profileId String
 
   company     String
   role        String
   location    String?
   startDate   DateTime
   endDate     DateTime?
-  current     Boolean @default(false)
+  current     Boolean   @default(false)
   description String?
 
-  highlights  ExperienceHighlight[]
+  highlights ExperienceHighlight[]
 
-  profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
 }
 
 model ExperienceHighlight {
-  id           String     @id @default(cuid())
+  id           String @id @default(cuid())
   experienceId String
   text         String
 
-  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  experience Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
 
   @@index([experienceId])
 }
 
 model Education {
-  id         String  @id @default(cuid())
-  profileId  String
+  id        String @id @default(cuid())
+  profileId String
 
   institution String
   degree      String
@@ -89,17 +89,17 @@ model Education {
   endDate     DateTime?
   grade       String?
 
-  profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
 }
 
 model Project {
-  id          String  @id @default(cuid())
-  profileId   String
+  id        String @id @default(cuid())
+  profileId String
 
   title       String
-  slug        String  @unique
+  slug        String    @unique
   description String?
   coverImage  String?
   url         String?
@@ -107,10 +107,10 @@ model Project {
   startDate   DateTime?
   endDate     DateTime?
 
-  tags        Tag[]
-  skills      Skill[]
+  tags   Tag[]
+  skills Skill[]
 
-  profile     Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
 }
@@ -122,14 +122,14 @@ model Tag {
 }
 
 model SocialLink {
-  id        String  @id @default(cuid())
+  id        String @id @default(cuid())
   profileId String
 
-  platform  String  // e.g., GitHub, LinkedIn
-  url       String
-  order     Int?    @default(0)
+  platform String // e.g., GitHub, LinkedIn
+  url      String
+  order    Int?   @default(0)
 
-  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
 }
@@ -142,4 +142,12 @@ model ContactMessage {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+}
+
+model Resume {
+  id        String   @id @default(cuid())
+  slug      String   @unique @default("default")
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

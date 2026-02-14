@@ -82,6 +82,7 @@ type SeedData = {
   educations?: SeedEducation[];
   projects?: SeedProject[];
   socialLinks?: SeedSocialLink[];
+  resume?: any;
 };
 
 function parseDate(value?: string | null): Date | null {
@@ -94,8 +95,8 @@ async function upsertUser(user: SeedUser) {
   const where = user?.email
     ? { email: user.email as string }
     : user?.username
-    ? { username: user.username as string }
-    : null;
+      ? { username: user.username as string }
+      : null;
   if (!where)
     throw new Error("data.user requires email or username for upsert");
 
@@ -149,7 +150,7 @@ async function replaceSkills(profileId: string, skills: SeedSkill[] = []) {
 
 async function replaceExperiences(
   profileId: string,
-  experiences: SeedExperience[] = []
+  experiences: SeedExperience[] = [],
 ) {
   const existing = await prisma.experience.findMany({
     where: { profileId },
@@ -166,7 +167,7 @@ async function replaceExperiences(
     const start = parseDate(exp.startDate);
     if (!start)
       throw new Error(
-        `Experience.startDate is required and must be a valid date for company: ${exp.company}`
+        `Experience.startDate is required and must be a valid date for company: ${exp.company}`,
       );
     const experience = await prisma.experience.create({
       data: {
@@ -208,7 +209,7 @@ async function ensureTags(tagNames: string[] = []) {
 
 async function replaceProjects(
   profileId: string,
-  projects: SeedProject[] = []
+  projects: SeedProject[] = [],
 ) {
   const slugs = projects.map((p) => p.slug).filter(Boolean) as string[];
   if (slugs.length) {
@@ -252,7 +253,7 @@ async function replaceProjects(
 
 async function replaceSocialLinks(
   profileId: string,
-  socialLinks: SeedSocialLink[] = []
+  socialLinks: SeedSocialLink[] = [],
 ) {
   await prisma.socialLink.deleteMany({ where: { profileId } });
   if (!socialLinks.length) return;
@@ -268,7 +269,7 @@ async function replaceSocialLinks(
 
 async function replaceEducations(
   profileId: string,
-  educations: SeedEducation[] = []
+  educations: SeedEducation[] = [],
 ) {
   await prisma.education.deleteMany({ where: { profileId } });
   if (!educations.length) return;
@@ -282,6 +283,15 @@ async function replaceEducations(
       endDate: parseDate(e.endDate) as Date | null,
       grade: (e.grade ?? null) as string | null,
     })),
+  });
+}
+
+async function upsertResume(resume: any) {
+  if (!resume) return;
+  return prisma.resume.upsert({
+    where: { slug: "default" },
+    update: { data: resume },
+    create: { slug: "default", data: resume },
   });
 }
 
@@ -299,7 +309,7 @@ async function main() {
 
   const profile = await upsertProfile(
     user.id,
-    json.profile || ({} as SeedProfile)
+    json.profile || ({} as SeedProfile),
   );
   console.log("Upserted profile:", {
     id: profile.id,
@@ -320,6 +330,9 @@ async function main() {
 
   await replaceSocialLinks(profile.id, json.socialLinks || []);
   console.log("Synced socialLinks:", (json.socialLinks || []).length);
+
+  await upsertResume(json.resume);
+  console.log("Synced resume data");
 }
 
 main()

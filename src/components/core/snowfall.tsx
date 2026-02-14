@@ -1,11 +1,13 @@
 "use client";
-import * as React from "react";
+import { useTheme } from "next-themes";
+import { useEffect, useRef } from "react";
 
 export function Snowfall() {
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { theme } = useTheme();
   const prefersReducedMotion = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  React.useEffect(() => {
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -33,7 +35,7 @@ export function Snowfall() {
     const draw = () => {
       if (!rafRunning) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.fillStyle = theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)";
       for (const f of flakes) {
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
@@ -57,7 +59,7 @@ export function Snowfall() {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
     };
-  }, [prefersReducedMotion]);
+  }, [prefersReducedMotion, theme]);
 
   return (
     <canvas

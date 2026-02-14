@@ -269,6 +269,14 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ResumeScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FeatureFlagScalarFieldEnum = {
   key: 'key',
   value: 'value',
@@ -283,6 +291,10 @@ exports.Prisma.SortOrder = {
 
 exports.Prisma.NullableJsonNullValueInput = {
   DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
@@ -320,6 +332,7 @@ exports.Prisma.ModelName = {
   Tag: 'Tag',
   SocialLink: 'SocialLink',
   ContactMessage: 'ContactMessage',
+  Resume: 'Resume',
   FeatureFlag: 'FeatureFlag'
 };
 

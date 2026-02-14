@@ -43,3 +43,6 @@ next-env.d.ts
 
 *.db
 dev.db
+
+PROJECT_DOCUMENTATION.md
+tmp

@@ -3,12 +3,12 @@
 import * as React from "react";
 import type { LandingData } from "@/features/landing/data";
 import { Button } from "@/components/ui/button";
-import { MapPin, Mail, Github, Linkedin, ArrowRight, Download } from "lucide-react";
+import { MapPin, Mail, Github, Linkedin, ArrowRight, } from "lucide-react";
 import Link from "next/link";
 import { motion } from "motion/react";
 
 export function Hero({ data }: { data: LandingData }) {
-  const { title, bio, location, emailPublic, githubUrl, linkedinUrl, resumeUrl } = data;
+  const { title, bio, location, emailPublic, githubUrl, linkedinUrl } = data;
 
   return (
     <section className="relative min-h-[90vh] flex flex-col justify-center px-4 py-20 md:py-32 overflow-hidden">
@@ -85,14 +85,12 @@ export function Hero({ data }: { data: LandingData }) {
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
           </Button>
-          {resumeUrl && (
-            <Button size="lg" variant="outline" className="h-12 px-8 text-base rounded-full" asChild>
-              <a href={resumeUrl} target="_blank" rel="noopener noreferrer">
-                Download Resume
-                <Download className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
-          )}
+          <Button size="lg" variant="outline" className="h-12 px-8 text-base rounded-full" asChild>
+            <Link href="/resume">
+              View Resume
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </motion.div>
 
         {/* Social Links */}
