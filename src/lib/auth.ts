@@ -10,7 +10,7 @@ import { getFeatureFlag } from "./features";
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_APP_URL, // optional but recommended for email links
   telemetry: { enabled: false },
-  database: prismaAdapter(prisma, { provider: "sqlite" }),
+  database: prismaAdapter(prisma, { provider: "postgresql" }),
   plugins: [
     magicLink({
       async sendMagicLink({ email, url }) {

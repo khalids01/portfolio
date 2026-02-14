@@ -98,11 +98,12 @@ export async function GET(request: NextRequest) {
         "X-Generation-Time": `${generationTime}ms`,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Failed to generate PDF";
     console.error("PDF generation failed:", error);
     return NextResponse.json({ 
       error: "Failed to generate PDF", 
-      details: error.message 
+      details: message 
     }, { status: 500 });
   } finally {
     if (browser) {

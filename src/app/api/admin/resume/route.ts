@@ -43,9 +43,10 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ data: resume });
-  } catch (e: any) {
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Failed to update resume";
     console.error("/api/admin/resume POST error", e);
-    return NextResponse.json({ error: e.message || "Failed to update resume" }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
@@ -59,7 +60,7 @@ export async function DELETE() {
       return NextResponse.json({ message: "Cache cleared" });
     }
     return NextResponse.json({ message: "No cache found" });
-  } catch (e: any) {
+  } catch {
     return NextResponse.json({ error: "Failed to clear cache" }, { status: 500 });
   }
 }

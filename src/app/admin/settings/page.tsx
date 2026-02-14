@@ -10,8 +10,10 @@ import { useAdminFeatures } from "@/features/admin/settings/use-admin-features";
 export default function AdminSettingsPage() {
   const { list, update } = useAdminFeatures();
 
-  const flags = list.data?.data ?? [];
-  const disableSignUp = useMemo(() => flags.find((f) => f.key === "disableSignUp")?.value ?? false, [flags]);
+  const disableSignUp = useMemo(() => {
+    const flags = list.data?.data ?? [];
+    return flags.find((f) => f.key === "disableSignUp")?.value ?? false;
+  }, [list.data?.data]);
 
   const toggleDisableSignUp = (checked: boolean) => {
     update.mutate({ key: "disableSignUp", value: checked });
