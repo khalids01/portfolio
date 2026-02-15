@@ -1,15 +1,24 @@
 "use client";
 
-import * as React from "react";
 import type { ResumeData } from "../schema";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Download, Github, Linkedin, Printer } from "lucide-react";
+import { Mail, MapPin, Download, Github, Linkedin, Printer, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export function ResumeView({ data }: { data: ResumeData }) {
   const { basics, summary, skills, experience, projects, education, languages } = data;
 
   return (
     <div className="max-w-4xl mx-auto p-6 md:p-10 bg-white text-slate-900 shadow-sm min-h-screen print:max-w-none print:p-0">
+      <div className="no-print mb-8">
+        <Button variant="ghost" size="sm" asChild className="text-slate-500 hover:text-primary transition-colors">
+          <Link href="/">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+      </div>
+
       {/* Header */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
         <div className="space-y-2">

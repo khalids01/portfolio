@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { env } from "@/env";
-import { sendEmail } from "./email";
+import { sendEmail } from "@/features/email/nodemailer";
+import { magicLinkTemplate } from "@/features/email/templates/magic-link";
 import { magicLink } from "better-auth/plugins/magic-link";
 import { prisma } from "./prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
@@ -27,11 +28,11 @@ export const auth = betterAuth({
         console.log("Sending magic link", { to: email, url });
         await sendEmail({
           to: email,
-          subject: "Sign in to your account",
-          text: `Click to sign in: ${url}`,
-          html: `<p>Click to sign in: <a href="${url}">${url}</a></p>`,
+          subject: "Sign in to your portfolio",
+          html: magicLinkTemplate(url),
+          text: `Click the link to sign in to your dashboard: ${url}`,
         });
-        console.log("Magic link email enqueued");
+        console.log("Magic link email sent");
       },
     }),
   ],
