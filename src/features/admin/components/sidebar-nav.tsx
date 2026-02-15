@@ -15,10 +15,11 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { FolderKanban, Home, Mail, Settings, User2, Wrench } from "lucide-react";
+import { FolderKanban, Home, Mail, Settings, User2, Wrench, Users } from "lucide-react";
 
 const items = [
   { title: "Dashboard", href: "/admin", icon: Home },
+  { title: "Users", href: "/admin/users", icon: Users },
   { title: "Profile", href: "/admin/profile", icon: User2 },
   { title: "Skills", href: "/admin/skills", icon: Wrench },
   { title: "Projects", href: "/admin/projects", icon: FolderKanban },
