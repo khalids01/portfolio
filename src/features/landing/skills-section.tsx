@@ -110,7 +110,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
                           className="group/skill flex items-center gap-2 rounded-xl bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground ring-1 ring-inset ring-border transition-all hover:text-foreground hover:ring-[var(--brand-color)]/50 hover:scale-105 cursor-default hover:shadow-[0_0_15px_-3px_var(--brand-color)]"
                         >
                           {iconPath && (
-                            <div className="relative w-4 h-4 grayscale group-hover/skill:grayscale-0 transition-all duration-300 group-hover/skill:drop-shadow-[0_0_2px_var(--brand-color)]">
+                            <div className="relative w-4 h-4 transition-all duration-300 group-hover/skill:drop-shadow-[0_0_3px_var(--brand-color)]">
                               <Image
                                 src={iconPath}
                                 alt={skill.name}
