@@ -58,12 +58,12 @@ COPY --from=builder --chown=appuser:appuser /app/prisma ./prisma
 
 # ---- Uploads ----
 ENV UPLOAD_DIR=/uploads
-ENV PORT=3003
+ENV PORT=4000
 
 RUN chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 3003
+EXPOSE 4000
 
 # ---- Runtime: DB exists here ----
 CMD ["node", "server.js"]

@@ -3,11 +3,11 @@
 import * as React from "react";
 import type { LandingData } from "@/features/landing/data";
 import { Button } from "@/components/ui/button";
-import { MapPin, Mail, Github, Linkedin, ArrowRight, } from "lucide-react";
+import { MapPin, Mail, Github, Linkedin, ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 import { motion } from "motion/react";
 
-export function Hero({ data }: { data: LandingData }) {
+export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?: number }) {
   const { title, bio, location, emailPublic, githubUrl, linkedinUrl } = data;
 
   return (
@@ -69,6 +69,12 @@ export function Hero({ data }: { data: LandingData }) {
               <Mail className="h-4 w-4" />
               <span>{emailPublic}</span>
             </a>
+          )}
+          {visitorCount !== undefined && (
+             <div className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>{visitorCount.toLocaleString()} visitors</span>
+             </div>
           )}
         </motion.div>
 

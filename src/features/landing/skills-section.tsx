@@ -4,6 +4,8 @@ import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
 import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
+import { getSkillIcon, getSkillColor } from "@/constants/icons";
+import Image from "next/image";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Languages": Code2,
@@ -97,16 +99,34 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
                     <h3 className="font-bold text-xl">{category}</h3>
                   </div>
 
-                  {/* Skills list */}
-                  <div className="flex flex-wrap gap-2">
-                    {categorySkills.map((skill) => (
-                      <span
-                        key={skill.id}
-                        className="inline-flex items-center rounded-full bg-background px-3 py-1 text-sm font-medium text-muted-foreground ring-1 ring-inset ring-border transition-all hover:text-foreground hover:ring-foreground/50 hover:scale-105 cursor-default"
-                      >
-                        {skill.name}
-                      </span>
-                    ))}
+                  <div className="flex flex-wrap gap-3">
+                    {categorySkills.map((skill) => {
+                      const iconPath = getSkillIcon(skill.name);
+                      const brandColor = getSkillColor(skill.name);
+                      return (
+                        <div
+                          key={skill.id}
+                          style={{ "--brand-color": brandColor } as React.CSSProperties}
+                          className="group/skill flex items-center gap-2 rounded-xl bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground ring-1 ring-inset ring-border transition-all hover:text-foreground hover:ring-[var(--brand-color)]/50 hover:scale-105 cursor-default hover:shadow-[0_0_15px_-3px_var(--brand-color)]"
+                        >
+                          {iconPath && (
+                            <div className="relative w-4 h-4 grayscale group-hover/skill:grayscale-0 transition-all duration-300 group-hover/skill:drop-shadow-[0_0_2px_var(--brand-color)]">
+                              <Image
+                                src={iconPath}
+                                alt={skill.name}
+                                fill
+                                className={`object-contain transition-all duration-300 ${
+                                  ["next.js", "express", "fastify", "prisma", "typeorm", "vercel", "rust", "kubernetes"].some(base => 
+                                    skill.name.toLowerCase().includes(base)
+                                  ) ? "dark:invert" : ""
+                                }`}
+                              />
+                            </div>
+                          )}
+                          <span>{skill.name}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </motion.div>

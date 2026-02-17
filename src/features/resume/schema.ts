@@ -30,7 +30,7 @@ export const resumeSchema = z.object({
     links: z.array(z.object({
       name: z.string(),
       url: z.string().url(),
-    })).optional().default([]),
+    })).default([]),
   })),
   education: z.array(z.object({
     institution: z.string(),

@@ -1,10 +1,5 @@
-import { AdminProjectsList } from "@/features/admin/projects/components/admin-projects-list";
+import { redirect } from "next/navigation";
 
-export default function AdminProjectsPage() {
-  return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold tracking-tight">Projects</h2>
-      <AdminProjectsList />
-    </div>
-  );
+export default function ProjectsPage() {
+  redirect("/admin/resume");
 }

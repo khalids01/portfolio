@@ -11,6 +11,19 @@ import { getFeatureFlag } from "./features";
 export const auth = betterAuth({
   baseURL: env.NEXT_PUBLIC_APP_URL, // optional but recommended for email links
   telemetry: { enabled: false },
+  session: {
+    cookieCache: {
+      maxAge: 60 * 60 * 24 * 30, // 30 days
+    }
+  },
+  // user:{
+  //   additionalFields: {
+  //     role: {
+  //       type: "string",
+  //       default: "user",
+  //     },
+  //   }
+  // },
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   plugins: [
     magicLink({

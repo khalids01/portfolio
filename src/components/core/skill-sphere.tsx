@@ -14,6 +14,8 @@ import {
   Globe,
   FileCode2,
 } from "lucide-react";
+import { getSkillIcon } from "@/constants/icons";
+import Image from "next/image";
 
 export type Skill = { name: string };
 
@@ -33,17 +35,26 @@ function iconForSkill(name: string): ComponentType<{ className?: string }> {
 }
 
 export function SkillSphere({ skills }: { skills: Skill[] }) {
-  const icons: Array<ComponentType<{ className?: string }>> = skills.length
-    ? skills.map((s: Skill) => iconForSkill(s.name))
-    : [Code2, Boxes, Database, Braces, Terminal, Cloud, GitBranch, Globe, Cpu, FileCode2];
+  const processedSkills = React.useMemo(() => {
+    if (!skills || !skills.length) {
+      return [Code2, Boxes, Database, Braces, Terminal, Cloud, GitBranch, Globe, Cpu, FileCode2].map(Icon => ({ type: 'icon' as const, value: Icon }));
+    }
+    return skills.map((s: Skill) => {
+      const brandIcon = getSkillIcon(s.name);
+      if (brandIcon) {
+        return { type: 'brand' as const, value: brandIcon, name: s.name };
+      }
+      return { type: 'icon' as const, value: iconForSkill(s.name) };
+    });
+  }, [skills]);
 
   const [index, setIndex] = React.useState(0);
   React.useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % icons.length), 1600);
+    const id = setInterval(() => setIndex((i) => (i + 1) % processedSkills.length), 1600);
     return () => clearInterval(id);
-  }, [icons.length]);
+  }, [processedSkills.length]);
 
-  const Active = icons[index];
+  const active = processedSkills[index];
 
   return (
     <div className="relative h-64 w-full md:h-80 lg:h-96 overflow-hidden rounded-2xl">
@@ -109,7 +120,7 @@ export function SkillSphere({ skills }: { skills: Skill[] }) {
           />
 
           {/* icon */}
-          <div className="relative z-10 h-full w-full grid place-items-center">
+          <div className="relative z-10 h-full w-full grid place-items-center p-12 lg:p-16">
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
@@ -117,8 +128,20 @@ export function SkillSphere({ skills }: { skills: Skill[] }) {
                 animate={{ opacity: 1, scale: 1, rotate: 0 }}
                 exit={{ opacity: 0, scale: 1.1, rotate: 10 }}
                 transition={{ duration: 0.45, ease: "easeOut" }}
+                className="relative w-full h-full flex items-center justify-center"
               >
-                <Active className="h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 text-white/90" />
+                {active.type === 'brand' ? (
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={active.value}
+                      alt={active.name || ""}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <active.value className="h-full w-full text-white/90" />
+                )}
               </motion.div>
             </AnimatePresence>
           </div>

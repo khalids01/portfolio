@@ -1,3 +1,12 @@
+model Visitor {
+  id        String   @id @default(cuid())
+  ip        String?
+  userAgent String?
+  path      String?
+  source    String?
+  createdAt DateTime @default(now())
+}
+
 // Authentication and user management models
 
 enum Role {
@@ -252,5 +261,4 @@ generator client {
 
 datasource db {
   provider = "postgres"
-  url      = env("DATABASE_URL")
 }

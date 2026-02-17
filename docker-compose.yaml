@@ -18,7 +18,7 @@ services:
     env_file:
       - .env
     ports:
-      - "3003:3003"
+      - "4000:4000"
     depends_on:
       - prisma-migrate
     restart: unless-stopped

@@ -1,0 +1,8 @@
+model Visitor {
+    id        String   @id @default(cuid())
+    ip        String?
+    userAgent String?
+    path      String?
+    source    String?
+    createdAt DateTime @default(now())
+}
