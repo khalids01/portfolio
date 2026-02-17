@@ -25,6 +25,7 @@ export function ResumeForm({ initialData }: { initialData: ResumeData }) {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<ResumeData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(resumeSchema) as any,
     defaultValues: initialData,
   });

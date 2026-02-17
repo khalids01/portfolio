@@ -36,7 +36,6 @@ export async function AdminDashboardOverview() {
     where: { read: false }
   });
 
-  const draftProjects = 0; // Assuming no draft logic yet or check boolean if added
 
   return (
     <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, MailOpen, Mail } from "lucide-react";
-import { ContactMessage } from "@prisma/client";
+import { ContactMessage } from "../../../../prisma/generated/client";
 import { deleteMessage, toggleReadStatus } from "../actions";
 import { toast } from "sonner";
 import { useTransition } from "react";
@@ -27,7 +27,7 @@ interface MessagesListProps {
 }
 
 export function MessagesList({ messages }: MessagesListProps) {
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const handleStatusToggle = (message: ContactMessage) => {
     startTransition(async () => {

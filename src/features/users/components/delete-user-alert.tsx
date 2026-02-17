@@ -34,7 +34,7 @@ export function DeleteUserAlert({ userId, userName, open, onOpenChange }: Delete
       } else {
         toast.error(result.error || "Failed to delete user");
       }
-    } catch (error) {
+    } catch {
       toast.error("An unexpected error occurred");
     } finally {
       setIsDeleting(false);

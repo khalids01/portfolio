@@ -14,7 +14,7 @@ export async function deleteMessage(id: string) {
     await prisma.contactMessage.delete({ where: { id } });
     revalidatePath("/admin/messages");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: "Failed to delete message" };
   }
 }
@@ -27,7 +27,7 @@ export async function toggleReadStatus(id: string, currentStatus: boolean) {
     });
     revalidatePath("/admin/messages");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { success: false, error: "Failed to update status" };
   }
 }

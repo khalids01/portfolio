@@ -9,13 +9,8 @@ export default async function UsersPage() {
     redirect("/");
   }
 
+  // const users = await getUsers();
   const users = await getUsers();
-  
-  // Serialize dates
-  const serializedUsers = users.map((user) => ({
-    ...user,
-    createdAt: user.createdAt.toISOString(),
-  }));
 
   return (
     <div className="space-y-6">
