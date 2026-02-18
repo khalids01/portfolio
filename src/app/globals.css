@@ -250,6 +250,10 @@ body {
   .delay-1000 {
     animation-delay: 1000ms;
   }
+
+  .inverted-icon {
+    @apply dark:brightness-0 dark:invert;
+  }
 }
 
 @layer base {

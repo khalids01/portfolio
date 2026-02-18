@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useEffect } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { SkillSelect } from "@/features/skills/components/skill-select";
 
 type ProjectFormData = {
   title: string;
@@ -124,17 +124,6 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
 
   const selectedSkills = watch("skillIds") || [];
 
-  const handleSkillToggle = (skillId: string) => {
-    const current = selectedSkills;
-    if (current.includes(skillId)) {
-      setValue(
-        "skillIds",
-        current.filter((id) => id !== skillId)
-      );
-    } else {
-      setValue("skillIds", [...current, skillId]);
-    }
-  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -192,24 +181,10 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
 
       <div className="space-y-2">
         <Label>Skills</Label>
-        <div className="border rounded-md p-4 max-h-40 overflow-y-auto grid grid-cols-2 gap-2">
-          {skillsList.isLoading && <div>Loading skills...</div>}
-          {skillsList.data?.data.map((skill) => (
-            <div key={skill.id} className="flex items-center space-x-2">
-              <Checkbox
-                id={`skill-${skill.id}`}
-                checked={selectedSkills.includes(skill.id)}
-                onCheckedChange={() => handleSkillToggle(skill.id)}
-              />
-              <label
-                htmlFor={`skill-${skill.id}`}
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {skill.name}
-              </label>
-            </div>
-          ))}
-        </div>
+        <SkillSelect
+          selectedSkillIds={selectedSkills}
+          onChange={(ids: string[]) => setValue("skillIds", ids)}
+        />
       </div>
 
       <div className="flex justify-end pt-4">
