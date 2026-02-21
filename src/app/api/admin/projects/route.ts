@@ -5,11 +5,17 @@ import { requireAdmin } from "@/lib/admin";
 // GET: list projects for the current admin's profile
 export async function GET() {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
-    const profile = await prisma.profile.findUnique({ where: { userId } });
+    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
+    let profile = await prisma.profile.findUnique({ where: { userId } });
+    if (!profile) profile = await prisma.profile.findFirst();
     if (!profile) return NextResponse.json({ data: [] });
     const projects = await prisma.project.findMany({
       where: { profileId: profile.id },
@@ -22,20 +28,30 @@ export async function GET() {
     return NextResponse.json({ data: projects });
   } catch (e) {
     console.error("/api/admin/projects GET error", e);
-    return NextResponse.json({ error: "Failed to fetch projects" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch projects" },
+      { status: 500 },
+    );
   }
 }
 
 // POST: create a project for current profile
 export async function POST(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
     const body = await req.json();
-    const profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
+    let profile = await prisma.profile.findUnique({ where: { userId } });
+    if (!profile) profile = await prisma.profile.findFirst();
+    if (!profile)
+      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
     const {
       title,
@@ -101,14 +117,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: created }, { status: 201 });
   } catch (e) {
     console.error("/api/admin/projects POST error", e);
-    return NextResponse.json({ error: "Failed to create project" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create project" },
+      { status: 500 },
+    );
   }
 }
 
 // PATCH: update a project by id
 export async function PATCH(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
 
   try {
     const body = await req.json();
@@ -140,12 +163,12 @@ export async function PATCH(req: Request) {
         create: { name: tagName },
       }));
       updateData.tags = {
-        set: [], // clear existing connections? Or we might want to just set the new list. 
-                 // Prisma 'set' on relations replaces all connections.
-                 // But connectOrCreate inside set is not supported directly usually?
-                 // Actually for many-to-many, 'set' expects a list of unique identifiers.
-                 // Since we are creating tags on the fly, this is tricky.
-                 // Strategy: disconnect all, then connectOrCreate.
+        set: [], // clear existing connections? Or we might want to just set the new list.
+        // Prisma 'set' on relations replaces all connections.
+        // But connectOrCreate inside set is not supported directly usually?
+        // Actually for many-to-many, 'set' expects a list of unique identifiers.
+        // Since we are creating tags on the fly, this is tricky.
+        // Strategy: disconnect all, then connectOrCreate.
       };
       // Better strategy for tags:
       // 1. Disconnect all tags
@@ -156,11 +179,11 @@ export async function PATCH(req: Request) {
       // Let's try a simpler approach: just use 'set' with IDs if we had them, but we have names.
       // So we will use deleteMany (on join table? no) -> set: [] to disconnect all.
       // Then connectOrCreate.
-      
+
       // Actually, let's just use 'set' to empty, then 'connectOrCreate'.
       // But 'set' and 'connectOrCreate' in same update?
       // Prisma allows: tags: { set: [], connectOrCreate: [...] }
-      
+
       updateData.tags = {
         set: [],
         connectOrCreate: tagsConnect,
@@ -184,14 +207,21 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ data: updated });
   } catch (e) {
     console.error("/api/admin/projects PATCH error", e);
-    return NextResponse.json({ error: "Failed to update project" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update project" },
+      { status: 500 },
+    );
   }
 }
 
 // DELETE: delete a project by id
 export async function DELETE(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
 
   try {
     const { searchParams } = new URL(req.url);
@@ -202,6 +232,9 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("/api/admin/projects DELETE error", e);
-    return NextResponse.json({ error: "Failed to delete project" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete project" },
+      { status: 500 },
+    );
   }
 }

@@ -5,7 +5,11 @@ import { requireAdmin } from "@/lib/admin";
 
 export async function POST(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
@@ -37,19 +41,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: profile }, { status: 201 });
   } catch (e) {
     console.error("/api/admin/profile POST error", e);
-    return NextResponse.json({ error: "Failed to create/update profile" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create/update profile" },
+      { status: 500 },
+    );
   }
 }
 
 export async function PATCH(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
     const body = await req.json();
-    const existing = await prisma.profile.findUnique({ where: { userId } });
-    if (!existing) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
+    let existing = await prisma.profile.findUnique({ where: { userId } });
+    if (!existing) existing = await prisma.profile.findFirst();
+    if (!existing)
+      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
     const updateData: Record<string, unknown> = {
       fullName: body.fullName ?? existing.fullName,
@@ -70,12 +84,15 @@ export async function PATCH(req: Request) {
     }
 
     const profile = await prisma.profile.update({
-      where: { userId },
+      where: { id: existing.id },
       data: updateData,
     });
     return NextResponse.json({ data: profile });
   } catch (e) {
     console.error("/api/admin/profile PATCH error", e);
-    return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update profile" },
+      { status: 500 },
+    );
   }
 }

@@ -2,9 +2,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/client";
 
-const prisma = new PrismaClient();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 // Types describing the JSON structure in prisma/data.json
 type SeedUser = {
@@ -105,6 +109,7 @@ async function upsertUser(user: SeedUser) {
     username: user.username ?? null,
     email: user.email ?? null,
     image: user.image ?? null,
+    role: "ADMIN" as const,
   };
   // @ts-ignore
   return prisma.user.upsert({ where, update: data, create: data });
@@ -343,4 +348,7 @@ main()
     console.error(e);
     process.exitCode = 1;
   })
-  .finally(() => prisma.$disconnect());
+  .finally(async () => {
+    await prisma.$disconnect();
+    await pool.end();
+  });

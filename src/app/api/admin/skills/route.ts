@@ -5,11 +5,17 @@ import { requireAdmin } from "@/lib/admin";
 // GET: list skills for the current admin's profile
 export async function GET() {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
-    const profile = await prisma.profile.findUnique({ where: { userId } });
+    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
+    let profile = await prisma.profile.findUnique({ where: { userId } });
+    if (!profile) profile = await prisma.profile.findFirst();
     if (!profile) return NextResponse.json({ data: [] });
     const skills = await prisma.skill.findMany({
       where: { profileId: profile.id },
@@ -19,22 +25,42 @@ export async function GET() {
     return NextResponse.json({ data: skills });
   } catch (e) {
     console.error("/api/admin/skills GET error", e);
-    return NextResponse.json({ error: "Failed to fetch skills" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch skills" },
+      { status: 500 },
+    );
   }
 }
 
 // POST: create a skill for current profile
 export async function POST(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
   const userId = guard.session.user.id as string;
 
   try {
     const body = await req.json();
-    const profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
+    let profile = await prisma.profile.findUnique({ where: { userId } });
+    if (!profile) profile = await prisma.profile.findFirst();
+    if (!profile)
+      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
-    const { name, label, icon, category, level, order, experienceYears, experienceMonths, projectIds } = body as {
+    const {
+      name,
+      label,
+      icon,
+      category,
+      level,
+      order,
+      experienceYears,
+      experienceMonths,
+      projectIds,
+    } = body as {
       name: string;
       label?: string | null;
       icon?: string | null;
@@ -66,14 +92,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ data: created }, { status: 201 });
   } catch (e) {
     console.error("/api/admin/skills POST error", e);
-    return NextResponse.json({ error: "Failed to create skill" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create skill" },
+      { status: 500 },
+    );
   }
 }
 
 // PATCH: update a skill by id
 export async function PATCH(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
 
   try {
     const body = await req.json();
@@ -111,14 +144,21 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ data: updated });
   } catch (e) {
     console.error("/api/admin/skills PATCH error", e);
-    return NextResponse.json({ error: "Failed to update skill" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update skill" },
+      { status: 500 },
+    );
   }
 }
 
 // DELETE: delete a skill by id (from query ?id=)
 export async function DELETE(req: Request) {
   const guard = await requireAdmin();
-  if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
+  if (!guard.ok)
+    return NextResponse.json(
+      { error: guard.message },
+      { status: guard.status },
+    );
 
   try {
     const { searchParams } = new URL(req.url);
@@ -129,6 +169,9 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("/api/admin/skills DELETE error", e);
-    return NextResponse.json({ error: "Failed to delete skill" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete skill" },
+      { status: 500 },
+    );
   }
 }
