@@ -13,8 +13,9 @@ export const auth = betterAuth({
   telemetry: { enabled: false },
   session: {
     cookieCache: {
+      enabled: true,
       maxAge: 60 * 60 * 24 * 30, // 30 days
-    }
+    },
   },
   // user:{
   //   additionalFields: {
@@ -34,7 +35,10 @@ export const auth = betterAuth({
           prisma.user.findUnique({ where: { email } }),
         ]);
         if (disabled && !existing) {
-          console.warn("Magic link blocked: sign-ups disabled and user does not exist", { email });
+          console.warn(
+            "Magic link blocked: sign-ups disabled and user does not exist",
+            { email },
+          );
           return; // Do not send email
         }
 

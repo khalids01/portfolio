@@ -46,3 +46,4 @@ dev.db
 
 PROJECT_DOCUMENTATION.md
 tmp
+prisma/generated
