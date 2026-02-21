@@ -77,37 +77,32 @@ export async function POST(req: Request) {
       skillIds?: string[];
     };
 
-    // Handle tags: find or create
-    const tagsConnect = [];
-    if (tagNames && tagNames.length > 0) {
-      for (const tagName of tagNames) {
-        // upsert doesn't return the id easily for connect in one go if we want to reuse existing tags by name
-        // simpler approach: find existing, create missing
-        // or use connectOrCreate
-        tagsConnect.push({
-          where: { name: tagName },
-          create: { name: tagName },
-        });
-      }
-    }
+    const tagsConnectOrCreate = (tagNames ?? [])
+      .filter(Boolean)
+      .map((tagName) => ({
+        where: { name: tagName },
+        create: { name: tagName },
+      }));
 
     const created = await prisma.project.create({
       data: {
         profileId: profile.id,
         title,
         slug,
-        description: description ?? null,
-        coverImage: coverImage ?? null,
-        url: url ?? null,
-        repoUrl: repoUrl ?? null,
+        description: description || null,
+        coverImage: coverImage || null,
+        url: url || null,
+        repoUrl: repoUrl || null,
+        // Convert empty strings to null for date fields
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
-        tags: {
-          connectOrCreate: tagsConnect,
-        },
-        skills: skillIds?.length
-          ? { connect: skillIds.map((id) => ({ id })) }
+        tags: tagsConnectOrCreate.length
+          ? { connectOrCreate: tagsConnectOrCreate }
           : undefined,
+        skills:
+          Array.isArray(skillIds) && skillIds.length
+            ? { connect: skillIds.map((id) => ({ id })) }
+            : undefined,
       },
       include: {
         tags: true,
@@ -135,7 +130,19 @@ export async function PATCH(req: Request) {
 
   try {
     const body = await req.json();
-    const { id, tagNames, skillIds, ...updates } = body as {
+    const {
+      id,
+      tagNames,
+      skillIds,
+      title,
+      slug,
+      description,
+      coverImage,
+      url,
+      repoUrl,
+      startDate,
+      endDate,
+    } = body as {
       id: string;
       title?: string;
       slug?: string;
@@ -151,46 +158,37 @@ export async function PATCH(req: Request) {
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
+    // Build update payload only with fields that were explicitly sent
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updateData: any = { ...updates };
+    const updateData: any = {};
 
-    if (updates.startDate) updateData.startDate = new Date(updates.startDate);
-    if (updates.endDate) updateData.endDate = new Date(updates.endDate);
+    if (title !== undefined) updateData.title = title;
+    if (slug !== undefined) updateData.slug = slug;
+    if (description !== undefined) updateData.description = description || null;
+    if (coverImage !== undefined) updateData.coverImage = coverImage || null;
+    if (url !== undefined) updateData.url = url || null;
+    if (repoUrl !== undefined) updateData.repoUrl = repoUrl || null;
 
-    if (tagNames) {
-      const tagsConnect = tagNames.map((tagName) => ({
-        where: { name: tagName },
-        create: { name: tagName },
-      }));
+    // Always convert date strings properly — empty string -> null
+    if (startDate !== undefined)
+      updateData.startDate = startDate ? new Date(startDate) : null;
+    if (endDate !== undefined)
+      updateData.endDate = endDate ? new Date(endDate) : null;
+
+    // Tags: replace entire list
+    if (tagNames !== undefined) {
+      const validTags = tagNames.filter(Boolean);
       updateData.tags = {
-        set: [], // clear existing connections? Or we might want to just set the new list.
-        // Prisma 'set' on relations replaces all connections.
-        // But connectOrCreate inside set is not supported directly usually?
-        // Actually for many-to-many, 'set' expects a list of unique identifiers.
-        // Since we are creating tags on the fly, this is tricky.
-        // Strategy: disconnect all, then connectOrCreate.
-      };
-      // Better strategy for tags:
-      // 1. Disconnect all tags
-      // 2. ConnectOrCreate new list
-      // But we can't do that easily in one update call if we want to use 'set'.
-      // 'set' works with IDs.
-      // So we might need to resolve IDs first or use a transaction.
-      // Let's try a simpler approach: just use 'set' with IDs if we had them, but we have names.
-      // So we will use deleteMany (on join table? no) -> set: [] to disconnect all.
-      // Then connectOrCreate.
-
-      // Actually, let's just use 'set' to empty, then 'connectOrCreate'.
-      // But 'set' and 'connectOrCreate' in same update?
-      // Prisma allows: tags: { set: [], connectOrCreate: [...] }
-
-      updateData.tags = {
-        set: [],
-        connectOrCreate: tagsConnect,
+        set: [], // disconnect all existing tags
+        connectOrCreate: validTags.map((tagName) => ({
+          where: { name: tagName },
+          create: { name: tagName },
+        })),
       };
     }
 
-    if (skillIds) {
+    // Skills: replace entire list (set to exact provided IDs)
+    if (skillIds !== undefined) {
       updateData.skills = {
         set: skillIds.map((sid) => ({ id: sid })),
       };

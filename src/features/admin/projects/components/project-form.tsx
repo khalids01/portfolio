@@ -1,8 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useAdminProjects } from "../useAdminProjects";
-import { useAdminSkills } from "../../skills/useAdminSkills";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -23,6 +22,19 @@ type ProjectFormData = {
   skillIds: string[];
 };
 
+const emptyDefaults: ProjectFormData = {
+  title: "",
+  slug: "",
+  description: "",
+  coverImage: "",
+  url: "",
+  repoUrl: "",
+  startDate: "",
+  endDate: "",
+  tagNames: "",
+  skillIds: [],
+};
+
 interface ProjectFormProps {
   projectId: string | null;
   onSuccess: () => void;
@@ -30,117 +42,86 @@ interface ProjectFormProps {
 
 export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
   const { create, update, list: projectsList } = useAdminProjects();
-  const { list: skillsList } = useAdminSkills();
-  
+
   const project = projectId
     ? projectsList.data?.data.find((p) => p.id === projectId)
     : null;
 
-  const { register, handleSubmit, reset, setValue, watch } = useForm<ProjectFormData>({
-    defaultValues: {
-      title: "",
-      slug: "",
-      description: "",
-      coverImage: "",
-      url: "",
-      repoUrl: "",
-      startDate: "",
-      endDate: "",
-      tagNames: "",
-      skillIds: [],
-    },
-  });
+  const { register, handleSubmit, reset, control, formState: { isSubmitting } } =
+    useForm<ProjectFormData>({ defaultValues: emptyDefaults });
 
+  // Reset form whenever we switch between create / edit
   useEffect(() => {
     if (project) {
-      setValue("title", project.title);
-      setValue("slug", project.slug);
-      setValue("description", project.description || "");
-      setValue("coverImage", project.coverImage || "");
-      setValue("url", project.url || "");
-      setValue("repoUrl", project.repoUrl || "");
-      setValue(
-        "startDate",
-        project.startDate
-          ? new Date(project.startDate).toISOString().split("T")[0]
-          : ""
-      );
-      setValue(
-        "endDate",
-        project.endDate
-          ? new Date(project.endDate).toISOString().split("T")[0]
-          : ""
-      );
-      setValue(
-        "tagNames",
-        project.tags.map((t) => t.name).join(", ")
-      );
-      setValue(
-        "skillIds",
-        project.skills.map((s) => s.id)
-      );
-    } else {
       reset({
-        title: "",
-        slug: "",
-        description: "",
-        coverImage: "",
-        url: "",
-        repoUrl: "",
-        startDate: "",
-        endDate: "",
-        tagNames: "",
-        skillIds: [],
+        title: project.title,
+        slug: project.slug,
+        description: project.description || "",
+        coverImage: project.coverImage || "",
+        url: project.url || "",
+        repoUrl: project.repoUrl || "",
+        startDate: project.startDate
+          ? new Date(project.startDate).toISOString().split("T")[0]
+          : "",
+        endDate: project.endDate
+          ? new Date(project.endDate).toISOString().split("T")[0]
+          : "",
+        tagNames: project.tags.map((t) => t.name).join(", "),
+        skillIds: project.skills.map((s) => s.id),
       });
+    } else {
+      reset(emptyDefaults);
     }
-  }, [project, setValue, reset]);
+  }, [project, projectId, reset]);
 
   const onSubmit = (data: ProjectFormData) => {
+    const tagNames = data.tagNames
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+
     const payload = {
-      ...data,
-      tagNames: data.tagNames
-        .split(",")
-        .map((t) => t.trim())
-        .filter(Boolean),
+      title: data.title,
+      slug: data.slug,
+      description: data.description || null,
+      coverImage: data.coverImage || null,
+      url: data.url || null,
+      repoUrl: data.repoUrl || null,
+      // Send null for empty date strings so the API handles them correctly
+      startDate: data.startDate || null,
+      endDate: data.endDate || null,
+      tagNames,
+      skillIds: data.skillIds,
     };
 
     if (projectId) {
       update.mutate(
         { id: projectId, ...payload },
-        {
-          onSuccess: () => {
-            onSuccess();
-          },
-        }
+        { onSuccess },
       );
     } else {
-      create.mutate(payload, {
-        onSuccess: () => {
-          onSuccess();
-        },
-      });
+      create.mutate(payload, { onSuccess });
     }
   };
 
-  const selectedSkills = watch("skillIds") || [];
-
+  const isPending = create.isPending || update.isPending || isSubmitting;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
+          <Label htmlFor="title">Title *</Label>
           <Input id="title" {...register("title", { required: true })} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="slug">Slug</Label>
+          <Label htmlFor="slug">Slug *</Label>
           <Input id="slug" {...register("slug", { required: true })} />
         </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" {...register("description")} />
+        <Textarea id="description" rows={3} {...register("description")} />
       </div>
 
       <div className="space-y-2">
@@ -181,15 +162,27 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
 
       <div className="space-y-2">
         <Label>Skills</Label>
-        <SkillSelect
-          selectedSkillIds={selectedSkills}
-          onChange={(ids: string[]) => setValue("skillIds", ids)}
+        <Controller
+          name="skillIds"
+          control={control}
+          render={({ field }) => (
+            <SkillSelect
+              selectedSkillIds={field.value}
+              onChange={field.onChange}
+            />
+          )}
         />
       </div>
 
       <div className="flex justify-end pt-4">
-        <Button type="submit" disabled={create.isPending || update.isPending}>
-          {projectId ? "Update Project" : "Create Project"}
+        <Button type="submit" disabled={isPending}>
+          {isPending
+            ? projectId
+              ? "Updating..."
+              : "Creating..."
+            : projectId
+              ? "Update Project"
+              : "Create Project"}
         </Button>
       </div>
     </form>

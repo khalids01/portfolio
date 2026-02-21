@@ -33,8 +33,19 @@ export function AdminSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="px-2 py-3 text-sm font-medium">
-        Admin
+      <SidebarHeader className="px-2 py-3">
+        <Link href="/admin" className="flex items-center gap-2 overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/icon.png"
+            alt="Logo"
+            className="h-8 w-8 shrink-0 rounded-full object-cover"
+          />
+          <div className="flex flex-col leading-tight min-w-0">
+            <span className="text-sm font-semibold truncate">Khalid</span>
+            <span className="text-xs text-muted-foreground truncate">Admin Panel</span>
+          </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
