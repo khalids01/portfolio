@@ -4,5 +4,12 @@ model Visitor {
     userAgent String?
     path      String?
     source    String?
+    city      String?
+    country   String?
+    region    String?
+    timezone  String?
+    os        String?
+    browser   String?
+    device    String?
     createdAt DateTime @default(now())
 }

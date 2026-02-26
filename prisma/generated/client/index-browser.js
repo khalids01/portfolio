@@ -126,6 +126,13 @@ exports.Prisma.VisitorScalarFieldEnum = {
   userAgent: 'userAgent',
   path: 'path',
   source: 'source',
+  city: 'city',
+  country: 'country',
+  region: 'region',
+  timezone: 'timezone',
+  os: 'os',
+  browser: 'browser',
+  device: 'device',
   createdAt: 'createdAt'
 };
 

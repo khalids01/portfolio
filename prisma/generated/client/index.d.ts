@@ -2499,6 +2499,13 @@ export namespace Prisma {
     userAgent: string | null
     path: string | null
     source: string | null
+    city: string | null
+    country: string | null
+    region: string | null
+    timezone: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
     createdAt: Date | null
   }
 
@@ -2508,6 +2515,13 @@ export namespace Prisma {
     userAgent: string | null
     path: string | null
     source: string | null
+    city: string | null
+    country: string | null
+    region: string | null
+    timezone: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
     createdAt: Date | null
   }
 
@@ -2517,6 +2531,13 @@ export namespace Prisma {
     userAgent: number
     path: number
     source: number
+    city: number
+    country: number
+    region: number
+    timezone: number
+    os: number
+    browser: number
+    device: number
     createdAt: number
     _all: number
   }
@@ -2528,6 +2549,13 @@ export namespace Prisma {
     userAgent?: true
     path?: true
     source?: true
+    city?: true
+    country?: true
+    region?: true
+    timezone?: true
+    os?: true
+    browser?: true
+    device?: true
     createdAt?: true
   }
 
@@ -2537,6 +2565,13 @@ export namespace Prisma {
     userAgent?: true
     path?: true
     source?: true
+    city?: true
+    country?: true
+    region?: true
+    timezone?: true
+    os?: true
+    browser?: true
+    device?: true
     createdAt?: true
   }
 
@@ -2546,6 +2581,13 @@ export namespace Prisma {
     userAgent?: true
     path?: true
     source?: true
+    city?: true
+    country?: true
+    region?: true
+    timezone?: true
+    os?: true
+    browser?: true
+    device?: true
     createdAt?: true
     _all?: true
   }
@@ -2628,6 +2670,13 @@ export namespace Prisma {
     userAgent: string | null
     path: string | null
     source: string | null
+    city: string | null
+    country: string | null
+    region: string | null
+    timezone: string | null
+    os: string | null
+    browser: string | null
+    device: string | null
     createdAt: Date
     _count: VisitorCountAggregateOutputType | null
     _min: VisitorMinAggregateOutputType | null
@@ -2654,6 +2703,13 @@ export namespace Prisma {
     userAgent?: boolean
     path?: boolean
     source?: boolean
+    city?: boolean
+    country?: boolean
+    region?: boolean
+    timezone?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["visitor"]>
 
@@ -2663,6 +2719,13 @@ export namespace Prisma {
     userAgent?: boolean
     path?: boolean
     source?: boolean
+    city?: boolean
+    country?: boolean
+    region?: boolean
+    timezone?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["visitor"]>
 
@@ -2672,6 +2735,13 @@ export namespace Prisma {
     userAgent?: boolean
     path?: boolean
     source?: boolean
+    city?: boolean
+    country?: boolean
+    region?: boolean
+    timezone?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["visitor"]>
 
@@ -2681,10 +2751,17 @@ export namespace Prisma {
     userAgent?: boolean
     path?: boolean
     source?: boolean
+    city?: boolean
+    country?: boolean
+    region?: boolean
+    timezone?: boolean
+    os?: boolean
+    browser?: boolean
+    device?: boolean
     createdAt?: boolean
   }
 
-  export type VisitorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ip" | "userAgent" | "path" | "source" | "createdAt", ExtArgs["result"]["visitor"]>
+  export type VisitorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ip" | "userAgent" | "path" | "source" | "city" | "country" | "region" | "timezone" | "os" | "browser" | "device" | "createdAt", ExtArgs["result"]["visitor"]>
 
   export type $VisitorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Visitor"
@@ -2695,6 +2772,13 @@ export namespace Prisma {
       userAgent: string | null
       path: string | null
       source: string | null
+      city: string | null
+      country: string | null
+      region: string | null
+      timezone: string | null
+      os: string | null
+      browser: string | null
+      device: string | null
       createdAt: Date
     }, ExtArgs["result"]["visitor"]>
     composites: {}
@@ -3124,6 +3208,13 @@ export namespace Prisma {
     readonly userAgent: FieldRef<"Visitor", 'String'>
     readonly path: FieldRef<"Visitor", 'String'>
     readonly source: FieldRef<"Visitor", 'String'>
+    readonly city: FieldRef<"Visitor", 'String'>
+    readonly country: FieldRef<"Visitor", 'String'>
+    readonly region: FieldRef<"Visitor", 'String'>
+    readonly timezone: FieldRef<"Visitor", 'String'>
+    readonly os: FieldRef<"Visitor", 'String'>
+    readonly browser: FieldRef<"Visitor", 'String'>
+    readonly device: FieldRef<"Visitor", 'String'>
     readonly createdAt: FieldRef<"Visitor", 'DateTime'>
   }
     
@@ -20095,6 +20186,13 @@ export namespace Prisma {
     userAgent: 'userAgent',
     path: 'path',
     source: 'source',
+    city: 'city',
+    country: 'country',
+    region: 'region',
+    timezone: 'timezone',
+    os: 'os',
+    browser: 'browser',
+    device: 'device',
     createdAt: 'createdAt'
   };
 
@@ -20465,6 +20563,13 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"Visitor"> | string | null
     path?: StringNullableFilter<"Visitor"> | string | null
     source?: StringNullableFilter<"Visitor"> | string | null
+    city?: StringNullableFilter<"Visitor"> | string | null
+    country?: StringNullableFilter<"Visitor"> | string | null
+    region?: StringNullableFilter<"Visitor"> | string | null
+    timezone?: StringNullableFilter<"Visitor"> | string | null
+    os?: StringNullableFilter<"Visitor"> | string | null
+    browser?: StringNullableFilter<"Visitor"> | string | null
+    device?: StringNullableFilter<"Visitor"> | string | null
     createdAt?: DateTimeFilter<"Visitor"> | Date | string
   }
 
@@ -20474,6 +20579,13 @@ export namespace Prisma {
     userAgent?: SortOrderInput | SortOrder
     path?: SortOrderInput | SortOrder
     source?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    region?: SortOrderInput | SortOrder
+    timezone?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    browser?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
     createdAt?: SortOrder
   }
 
@@ -20486,6 +20598,13 @@ export namespace Prisma {
     userAgent?: StringNullableFilter<"Visitor"> | string | null
     path?: StringNullableFilter<"Visitor"> | string | null
     source?: StringNullableFilter<"Visitor"> | string | null
+    city?: StringNullableFilter<"Visitor"> | string | null
+    country?: StringNullableFilter<"Visitor"> | string | null
+    region?: StringNullableFilter<"Visitor"> | string | null
+    timezone?: StringNullableFilter<"Visitor"> | string | null
+    os?: StringNullableFilter<"Visitor"> | string | null
+    browser?: StringNullableFilter<"Visitor"> | string | null
+    device?: StringNullableFilter<"Visitor"> | string | null
     createdAt?: DateTimeFilter<"Visitor"> | Date | string
   }, "id">
 
@@ -20495,6 +20614,13 @@ export namespace Prisma {
     userAgent?: SortOrderInput | SortOrder
     path?: SortOrderInput | SortOrder
     source?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
+    region?: SortOrderInput | SortOrder
+    timezone?: SortOrderInput | SortOrder
+    os?: SortOrderInput | SortOrder
+    browser?: SortOrderInput | SortOrder
+    device?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: VisitorCountOrderByAggregateInput
     _max?: VisitorMaxOrderByAggregateInput
@@ -20510,6 +20636,13 @@ export namespace Prisma {
     userAgent?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
     path?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
     source?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    country?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    region?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    timezone?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    os?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    browser?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
+    device?: StringNullableWithAggregatesFilter<"Visitor"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Visitor"> | Date | string
   }
 
@@ -21584,6 +21717,13 @@ export namespace Prisma {
     userAgent?: string | null
     path?: string | null
     source?: string | null
+    city?: string | null
+    country?: string | null
+    region?: string | null
+    timezone?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
     createdAt?: Date | string
   }
 
@@ -21593,6 +21733,13 @@ export namespace Prisma {
     userAgent?: string | null
     path?: string | null
     source?: string | null
+    city?: string | null
+    country?: string | null
+    region?: string | null
+    timezone?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
     createdAt?: Date | string
   }
 
@@ -21602,6 +21749,13 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     path?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21611,6 +21765,13 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     path?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21620,6 +21781,13 @@ export namespace Prisma {
     userAgent?: string | null
     path?: string | null
     source?: string | null
+    city?: string | null
+    country?: string | null
+    region?: string | null
+    timezone?: string | null
+    os?: string | null
+    browser?: string | null
+    device?: string | null
     createdAt?: Date | string
   }
 
@@ -21629,6 +21797,13 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     path?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -21638,6 +21813,13 @@ export namespace Prisma {
     userAgent?: NullableStringFieldUpdateOperationsInput | string | null
     path?: NullableStringFieldUpdateOperationsInput | string | null
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    timezone?: NullableStringFieldUpdateOperationsInput | string | null
+    os?: NullableStringFieldUpdateOperationsInput | string | null
+    browser?: NullableStringFieldUpdateOperationsInput | string | null
+    device?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22877,6 +23059,13 @@ export namespace Prisma {
     userAgent?: SortOrder
     path?: SortOrder
     source?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    region?: SortOrder
+    timezone?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -22886,6 +23075,13 @@ export namespace Prisma {
     userAgent?: SortOrder
     path?: SortOrder
     source?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    region?: SortOrder
+    timezone?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -22895,6 +23091,13 @@ export namespace Prisma {
     userAgent?: SortOrder
     path?: SortOrder
     source?: SortOrder
+    city?: SortOrder
+    country?: SortOrder
+    region?: SortOrder
+    timezone?: SortOrder
+    os?: SortOrder
+    browser?: SortOrder
+    device?: SortOrder
     createdAt?: SortOrder
   }
 
