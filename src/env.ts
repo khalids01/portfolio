@@ -1,18 +1,52 @@
 import { z } from "zod";
 
+const normalizeEnvString = (value: unknown) => {
+  if (typeof value !== "string") return value;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  // Allow accidental wrapping quotes from env dashboards/copy-paste.
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    const unquoted = trimmed.slice(1, -1).trim();
+    return unquoted || undefined;
+  }
+
+  return trimmed;
+};
+
 const envSchema = z.object({
-  DATABASE_URL: z.string().min(1),
-  EMAIL: z.string().optional(),
-  EMAIL_PASSWORD: z.string().optional(),
+  DATABASE_URL: z.preprocess(normalizeEnvString, z.string().min(1)),
+  EMAIL: z.preprocess(normalizeEnvString, z.string().optional()),
+  EMAIL_PASSWORD: z.preprocess(normalizeEnvString, z.string().optional()),
   EMAIL_FROM: z.string().default("Portfolio"),
-  SMTP_HOST: z.string().optional(),
+  SMTP_HOST: z.preprocess(normalizeEnvString, z.string().optional()),
   SMTP_PORT: z
-    .string()
+    .preprocess(normalizeEnvString, z.string().optional())
     .optional()
     .transform((v) => (v ? Number(v) : undefined))
     .pipe(z.number().optional()),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  NEXT_PUBLIC_APP_URL: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.preprocess(normalizeEnvString, z.string().optional()),
+}).superRefine((env, ctx) => {
+  // If SMTP is enabled, credentials must exist.
+  if (env.SMTP_HOST && !env.EMAIL) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "EMAIL is required when SMTP_HOST is set",
+      path: ["EMAIL"],
+    });
+  }
+
+  if (env.SMTP_HOST && !env.EMAIL_PASSWORD) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "EMAIL_PASSWORD is required when SMTP_HOST is set",
+      path: ["EMAIL_PASSWORD"],
+    });
+  }
 });
 
 const parsed = envSchema.safeParse({
