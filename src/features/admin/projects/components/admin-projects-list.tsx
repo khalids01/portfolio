@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, ExternalLink, Github } from "lucide-react";
 import { ProjectForm } from "./project-form";
+import { CoreImg } from "@/components/core/img";
 import {
   Dialog,
   DialogContent,
@@ -114,6 +115,11 @@ export function AdminProjectsList() {
         {list.isLoading && <div>Loading projects...</div>}
         {list.data?.data.map((project) => (
           <Card key={project.id} className="flex flex-col">
+            {project.coverImage ? (
+              <div className="aspect-video overflow-hidden rounded-t-xl border-b">
+                <CoreImg src={project.coverImage} alt={project.title} />
+              </div>
+            ) : null}
             <CardHeader>
               <CardTitle className="line-clamp-1">{project.title}</CardTitle>
               <CardDescription className="line-clamp-2">

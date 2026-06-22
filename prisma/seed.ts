@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+import "dotenv/config";
 import { readFile } from "fs/promises";
 import { join } from "path";
 import { Pool } from "pg";
@@ -60,6 +61,13 @@ type SeedEducation = {
   grade?: string | null;
 };
 
+type SeedCategory = {
+  name: string;
+  slug: string;
+  categoryType: string;
+  order?: number;
+};
+
 type SeedProject = {
   title: string;
   slug: string;
@@ -70,6 +78,7 @@ type SeedProject = {
   startDate?: string | null;
   endDate?: string | null;
   tags?: string[];
+  categorySlug?: string;
 };
 
 type SeedSocialLink = {
@@ -84,6 +93,7 @@ type SeedData = {
   skills?: SeedSkill[];
   experiences?: SeedExperience[];
   educations?: SeedEducation[];
+  categories?: SeedCategory[];
   projects?: SeedProject[];
   socialLinks?: SeedSocialLink[];
   resume?: any;
@@ -212,9 +222,45 @@ async function ensureTags(tagNames: string[] = []) {
   return tags;
 }
 
+async function replaceCategories(
+  profileId: string,
+  categories: SeedCategory[] = [],
+): Promise<Map<string, string>> {
+  const slugToId = new Map<string, string>();
+
+  for (const cat of categories) {
+    const categoryType = cat.categoryType as string;
+    const slug = cat.slug as string;
+    const record = await prisma.category.upsert({
+      where: {
+        profileId_categoryType_slug: {
+          profileId,
+          categoryType,
+          slug,
+        },
+      },
+      update: {
+        name: cat.name as string,
+        order: (cat.order ?? 0) as number,
+      },
+      create: {
+        profileId,
+        name: cat.name as string,
+        slug,
+        categoryType,
+        order: (cat.order ?? 0) as number,
+      },
+    });
+    slugToId.set(`${categoryType}:${slug}`, record.id);
+  }
+
+  return slugToId;
+}
+
 async function replaceProjects(
   profileId: string,
   projects: SeedProject[] = [],
+  categorySlugToId: Map<string, string> = new Map(),
 ) {
   const slugs = projects.map((p) => p.slug).filter(Boolean) as string[];
   if (slugs.length) {
@@ -227,6 +273,9 @@ async function replaceProjects(
 
   for (const proj of projects) {
     const tagRecords = await ensureTags((proj.tags as string[]) || []);
+    const categorySlug = proj.categorySlug ?? "others";
+    const categoryId =
+      categorySlugToId.get(`project:${categorySlug}`) ?? null;
     await prisma.project.upsert({
       where: { slug: proj.slug as string },
       update: {
@@ -238,6 +287,7 @@ async function replaceProjects(
         repoUrl: (proj.repoUrl ?? null) as string | null,
         startDate: parseDate(proj.startDate) as Date | null,
         endDate: parseDate(proj.endDate) as Date | null,
+        categoryId,
         tags: { set: [], connect: tagRecords.map((t) => ({ id: t.id })) },
       },
       create: {
@@ -250,6 +300,7 @@ async function replaceProjects(
         repoUrl: (proj.repoUrl ?? null) as string | null,
         startDate: parseDate(proj.startDate) as Date | null,
         endDate: parseDate(proj.endDate) as Date | null,
+        categoryId,
         tags: { connect: tagRecords.map((t) => ({ id: t.id })) },
       },
     });
@@ -330,7 +381,13 @@ async function main() {
   await replaceEducations(profile.id, json.educations || []);
   console.log("Synced educations:", (json.educations || []).length);
 
-  await replaceProjects(profile.id, json.projects || []);
+  const categorySlugToId = await replaceCategories(
+    profile.id,
+    json.categories || [],
+  );
+  console.log("Synced categories:", (json.categories || []).length);
+
+  await replaceProjects(profile.id, json.projects || [], categorySlugToId);
   console.log("Synced projects:", (json.projects || []).length);
 
   await replaceSocialLinks(profile.id, json.socialLinks || []);

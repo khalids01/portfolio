@@ -10,9 +10,17 @@ export const queryKeys = {
   features: {
     admin: ["features", "admin"] as const,
   },
+  images: {
+    admin: (params?: unknown) => ["images", "admin", params ?? "all"] as const,
+    detail: (id: string) => ["images", "admin", id] as const,
+  },
   projects: {
     public: ["projects", "public"] as const,
     admin: ["projects", "admin"] as const,
+  },
+  categories: {
+    admin: (categoryType?: string) =>
+      ["categories", "admin", categoryType ?? "all"] as const,
   },
   messages: {
     admin: ["messages", "admin"] as const,

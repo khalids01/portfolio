@@ -23,6 +23,13 @@ export type ExperienceData = {
   highlights: Array<{ text: string }>;
 };
 
+export type ProjectCategoryData = {
+  id: string;
+  name: string;
+  slug: string;
+  order: number;
+};
+
 export type ProjectData = {
   id: string;
   title: string;
@@ -31,6 +38,8 @@ export type ProjectData = {
   coverImage?: string | null;
   url?: string | null;
   repoUrl?: string | null;
+  categoryId: string | null;
+  category: { id: string; name: string; slug: string } | null;
   tags: Array<{ name: string }>;
   skills: Array<{ name: string }>;
 };
@@ -47,6 +56,7 @@ export type LandingData = {
   skills: SkillData[];
   experiences: ExperienceData[];
   projects: ProjectData[];
+  projectCategories: ProjectCategoryData[];
   socialLinks: Array<{ platform: string; url: string }>;
   session: { userId: string; name?: string | null; role?: "ADMIN" | "USER" } | null;
 };
@@ -71,7 +81,12 @@ export async function getLandingData(): Promise<LandingData> {
         include: {
           tags: true,
           skills: { select: { name: true } },
+          category: { select: { id: true, name: true, slug: true } },
         },
+      },
+      categories: {
+        where: { categoryType: "project" },
+        orderBy: { order: "asc" },
       },
       socialLinks: { orderBy: { order: "asc" } },
     },
@@ -106,6 +121,15 @@ export async function getLandingData(): Promise<LandingData> {
     highlights: e.highlights.map((h) => ({ text: h.text })),
   }));
 
+  const projectCategories: ProjectCategoryData[] = (profile?.categories || []).map(
+    (c) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      order: c.order,
+    }),
+  );
+
   const projects: ProjectData[] = (profile?.projects || []).map((p) => ({
     id: p.id,
     title: p.title,
@@ -114,6 +138,8 @@ export async function getLandingData(): Promise<LandingData> {
     coverImage: p.coverImage,
     url: p.url,
     repoUrl: p.repoUrl,
+    categoryId: p.categoryId,
+    category: p.category,
     tags: p.tags.map((t) => ({ name: t.name })),
     skills: p.skills.map((s) => ({ name: s.name })),
   }));
@@ -143,6 +169,7 @@ export async function getLandingData(): Promise<LandingData> {
     skills,
     experiences,
     projects,
+    projectCategories,
     socialLinks,
     session: sessionData,
   };

@@ -21,7 +21,10 @@ export default async function Home() {
         <Hero data={data} visitorCount={visitorCount} />
         {data.skills.length > 0 && <SkillsSection skills={data.skills} />}
         <ExperienceSection experiences={data.experiences} />
-        <ProjectsSection projects={data.projects} />
+        <ProjectsSection
+          projects={data.projects}
+          projectCategories={data.projectCategories}
+        />
         <ServicesSection />
       </main>
       <Footer data={data} />

@@ -30,6 +30,9 @@ const envSchema = z.object({
     .pipe(z.number().optional()),
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   NEXT_PUBLIC_APP_URL: z.preprocess(normalizeEnvString, z.string().optional()),
+  FILE_SERVER_URL: z.preprocess(normalizeEnvString, z.string().optional()),
+  FILE_SERVER_PUBLIC_URL: z.preprocess(normalizeEnvString, z.string().optional()),
+  FILE_SERVER_API_KEY: z.preprocess(normalizeEnvString, z.string().optional()),
 }).superRefine((env, ctx) => {
   // If SMTP is enabled, credentials must exist.
   if (env.SMTP_HOST && !env.EMAIL) {
@@ -58,6 +61,9 @@ const parsed = envSchema.safeParse({
   SMTP_PORT: process.env.SMTP_PORT,
   NODE_ENV: process.env.NODE_ENV,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  FILE_SERVER_URL: process.env.FILE_SERVER_URL,
+  FILE_SERVER_PUBLIC_URL: process.env.FILE_SERVER_PUBLIC_URL,
+  FILE_SERVER_API_KEY: process.env.FILE_SERVER_API_KEY,
 });
 
 if (!parsed.success) {

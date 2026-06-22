@@ -1,6 +1,25 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
+import { getAdminProfile } from "@/lib/admin-profile";
+
+async function resolveProjectCategoryId(
+  profileId: string,
+  categoryId: string | null | undefined,
+): Promise<string | null> {
+  if (!categoryId) return null;
+
+  const category = await prisma.category.findFirst({
+    where: {
+      id: categoryId,
+      profileId,
+      categoryType: "project",
+    },
+    select: { id: true },
+  });
+
+  return category?.id ?? null;
+}
 
 // GET: list projects for the current admin's profile
 export async function GET() {
@@ -10,12 +29,9 @@ export async function GET() {
       { error: guard.message },
       { status: guard.status },
     );
-  const userId = guard.session.user.id as string;
 
   try {
-    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
-    let profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) profile = await prisma.profile.findFirst();
+    const profile = await getAdminProfile(guard.session.user.id as string);
     if (!profile) return NextResponse.json({ data: [] });
     const projects = await prisma.project.findMany({
       where: { profileId: profile.id },
@@ -23,6 +39,7 @@ export async function GET() {
       include: {
         tags: true,
         skills: { select: { id: true, name: true } },
+        category: { select: { id: true, name: true, slug: true } },
       },
     });
     return NextResponse.json({ data: projects });
@@ -43,13 +60,10 @@ export async function POST(req: Request) {
       { error: guard.message },
       { status: guard.status },
     );
-  const userId = guard.session.user.id as string;
 
   try {
     const body = await req.json();
-    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
-    let profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) profile = await prisma.profile.findFirst();
+    const profile = await getAdminProfile(guard.session.user.id as string);
     if (!profile)
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
@@ -64,6 +78,7 @@ export async function POST(req: Request) {
       endDate,
       tagNames,
       skillIds,
+      categoryId,
     } = body as {
       title: string;
       slug: string;
@@ -75,7 +90,13 @@ export async function POST(req: Request) {
       endDate?: string | null;
       tagNames?: string[];
       skillIds?: string[];
+      categoryId?: string | null;
     };
+
+    const resolvedCategoryId = await resolveProjectCategoryId(
+      profile.id,
+      categoryId,
+    );
 
     const tagsConnectOrCreate = (tagNames ?? [])
       .filter(Boolean)
@@ -93,9 +114,9 @@ export async function POST(req: Request) {
         coverImage: coverImage || null,
         url: url || null,
         repoUrl: repoUrl || null,
-        // Convert empty strings to null for date fields
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
+        categoryId: resolvedCategoryId,
         tags: tagsConnectOrCreate.length
           ? { connectOrCreate: tagsConnectOrCreate }
           : undefined,
@@ -107,6 +128,7 @@ export async function POST(req: Request) {
       include: {
         tags: true,
         skills: { select: { id: true, name: true } },
+        category: { select: { id: true, name: true, slug: true } },
       },
     });
     return NextResponse.json({ data: created }, { status: 201 });
@@ -130,6 +152,10 @@ export async function PATCH(req: Request) {
 
   try {
     const body = await req.json();
+    const profile = await getAdminProfile(guard.session.user.id as string);
+    if (!profile)
+      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+
     const {
       id,
       tagNames,
@@ -142,6 +168,7 @@ export async function PATCH(req: Request) {
       repoUrl,
       startDate,
       endDate,
+      categoryId,
     } = body as {
       id: string;
       title?: string;
@@ -154,11 +181,11 @@ export async function PATCH(req: Request) {
       endDate?: string | null;
       tagNames?: string[];
       skillIds?: string[];
+      categoryId?: string | null;
     };
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
-    // Build update payload only with fields that were explicitly sent
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {};
 
@@ -169,17 +196,22 @@ export async function PATCH(req: Request) {
     if (url !== undefined) updateData.url = url || null;
     if (repoUrl !== undefined) updateData.repoUrl = repoUrl || null;
 
-    // Always convert date strings properly — empty string -> null
+    if (categoryId !== undefined) {
+      updateData.categoryId = await resolveProjectCategoryId(
+        profile.id,
+        categoryId,
+      );
+    }
+
     if (startDate !== undefined)
       updateData.startDate = startDate ? new Date(startDate) : null;
     if (endDate !== undefined)
       updateData.endDate = endDate ? new Date(endDate) : null;
 
-    // Tags: replace entire list
     if (tagNames !== undefined) {
       const validTags = tagNames.filter(Boolean);
       updateData.tags = {
-        set: [], // disconnect all existing tags
+        set: [],
         connectOrCreate: validTags.map((tagName) => ({
           where: { name: tagName },
           create: { name: tagName },
@@ -187,7 +219,6 @@ export async function PATCH(req: Request) {
       };
     }
 
-    // Skills: replace entire list (set to exact provided IDs)
     if (skillIds !== undefined) {
       updateData.skills = {
         set: skillIds.map((sid) => ({ id: sid })),
@@ -200,6 +231,7 @@ export async function PATCH(req: Request) {
       include: {
         tags: true,
         skills: { select: { id: true, name: true } },
+        category: { select: { id: true, name: true, slug: true } },
       },
     });
     return NextResponse.json({ data: updated });

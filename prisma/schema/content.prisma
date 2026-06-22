@@ -24,6 +24,7 @@ model Profile {
   experiences Experience[]
   educations  Education[]
   projects    Project[]
+  categories  Category[]
   socialLinks SocialLink[]
 
   createdAt DateTime @default(now())
@@ -94,6 +95,25 @@ model Education {
   @@index([profileId])
 }
 
+model Category {
+  id           String   @id @default(cuid())
+  profileId    String
+  name         String
+  slug         String
+  categoryType String
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  profile  Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  projects Project[]
+
+  @@unique([profileId, categoryType, slug])
+  @@index([profileId])
+  @@index([profileId, categoryType])
+  @@index([profileId, categoryType, order])
+}
+
 model Project {
   id        String @id @default(cuid())
   profileId String
@@ -106,13 +126,16 @@ model Project {
   repoUrl     String?
   startDate   DateTime?
   endDate     DateTime?
+  categoryId  String?
 
-  tags   Tag[]
-  skills Skill[]
+  tags     Tag[]
+  skills   Skill[]
+  category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
+  @@index([categoryId])
 }
 
 model Tag {

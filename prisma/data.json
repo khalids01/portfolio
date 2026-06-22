@@ -117,6 +117,12 @@
       "grade": null
     }
   ],
+  "categories": [
+    { "name": "Opensource", "slug": "opensource", "categoryType": "project", "order": 0 },
+    { "name": "Health tech", "slug": "health-tech", "categoryType": "project", "order": 1 },
+    { "name": "Ecommerce", "slug": "ecommerce", "categoryType": "project", "order": 2 },
+    { "name": "Others", "slug": "others", "categoryType": "project", "order": 3 }
+  ],
   "projects": [
     {
       "title": "Algorithmic Crypto Trading Platform",
@@ -127,7 +133,8 @@
       "repoUrl": null,
       "startDate": null,
       "endDate": null,
-      "tags": ["TypeScript", "Bun", "Fastify", "PostgreSQL", "Redis", "Web3", "DEX"]
+      "tags": ["TypeScript", "Bun", "Fastify", "PostgreSQL", "Redis", "Web3", "DEX"],
+      "categorySlug": "others"
     },
     {
       "title": "Laboratory Information Management System (LIMS)",
@@ -138,7 +145,8 @@
       "repoUrl": null,
       "startDate": null,
       "endDate": null,
-      "tags": ["TypeScript", "Next.js", "Fastify", "MariaDB", "AI"]
+      "tags": ["TypeScript", "Next.js", "Fastify", "MariaDB", "AI"],
+      "categorySlug": "health-tech"
     },
     {
       "title": "Electronic Medical Record (EMR)",
@@ -149,7 +157,8 @@
       "repoUrl": null,
       "startDate": null,
       "endDate": null,
-      "tags": ["PHP", "TypeScript", "React", "MySQL", "REST"]
+      "tags": ["PHP", "TypeScript", "React", "MySQL", "REST"],
+      "categorySlug": "opensource"
     }
   ],
   "languages": [

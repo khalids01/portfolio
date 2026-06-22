@@ -8,6 +8,8 @@ export type Project = {
   repoUrl?: string | null;
   startDate?: string | Date | null;
   endDate?: string | Date | null;
+  categoryId?: string | null;
+  category?: { id: string; name: string; slug: string } | null;
   tags: { id: string; name: string }[];
   skills: { id: string; name: string }[];
 };
