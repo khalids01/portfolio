@@ -36,13 +36,24 @@ export type ProjectData = {
   slug: string;
   description?: string | null;
   coverImage?: string | null;
+  images: string[];
   url?: string | null;
   repoUrl?: string | null;
+  startDate?: Date | null;
+  endDate?: Date | null;
   categoryId: string | null;
   category: { id: string; name: string; slug: string } | null;
   tags: Array<{ name: string }>;
   skills: Array<{ name: string }>;
 };
+
+function normalizeProjectImages(images: unknown): string[] {
+  if (!Array.isArray(images)) return [];
+  return images.filter(
+    (image): image is string =>
+      typeof image === "string" && image.trim().length > 0,
+  );
+}
 
 export type LandingData = {
   name: string;
@@ -136,8 +147,11 @@ export async function getLandingData(): Promise<LandingData> {
     slug: p.slug,
     description: p.description,
     coverImage: p.coverImage,
+    images: normalizeProjectImages(p.images),
     url: p.url,
     repoUrl: p.repoUrl,
+    startDate: p.startDate,
+    endDate: p.endDate,
     categoryId: p.categoryId,
     category: p.category,
     tags: p.tags.map((t) => ({ name: t.name })),

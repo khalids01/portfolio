@@ -4,6 +4,7 @@ export type Project = {
   slug: string;
   description?: string | null;
   coverImage?: string | null;
+  images: string[];
   url?: string | null;
   repoUrl?: string | null;
   startDate?: string | Date | null;

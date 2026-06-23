@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack -p 4000",
-    "build": "next build --turbopack",
-    "start": "next start",
+    "dev": "NODE_OPTIONS=--no-network-family-autoselection next dev --turbopack -p 4000",
+    "build": "NODE_OPTIONS=--no-network-family-autoselection next build --turbopack",
+    "start": "NODE_OPTIONS=--no-network-family-autoselection node .next/standalone/server.js",
     "lint": "eslint",
-    "db:seed": "prisma db seed",
+    "db:seed": "NODE_OPTIONS=--no-network-family-autoselection prisma db seed",
     "postinstall": "prisma generate --schema=./prisma/schema"
   },
   "prisma": {

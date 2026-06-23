@@ -21,6 +21,21 @@ async function resolveProjectCategoryId(
   return category?.id ?? null;
 }
 
+function normalizeProjectImages(images: unknown): string[] {
+  if (!Array.isArray(images)) return [];
+  return images.filter(
+    (image): image is string =>
+      typeof image === "string" && image.trim().length > 0,
+  );
+}
+
+function serializeProject<T extends { images: unknown }>(project: T) {
+  return {
+    ...project,
+    images: normalizeProjectImages(project.images),
+  };
+}
+
 // GET: list projects for the current admin's profile
 export async function GET() {
   const guard = await requireAdmin();
@@ -42,7 +57,7 @@ export async function GET() {
         category: { select: { id: true, name: true, slug: true } },
       },
     });
-    return NextResponse.json({ data: projects });
+    return NextResponse.json({ data: projects.map(serializeProject) });
   } catch (e) {
     console.error("/api/admin/projects GET error", e);
     return NextResponse.json(
@@ -72,6 +87,7 @@ export async function POST(req: Request) {
       slug,
       description,
       coverImage,
+      images,
       url,
       repoUrl,
       startDate,
@@ -84,6 +100,7 @@ export async function POST(req: Request) {
       slug: string;
       description?: string | null;
       coverImage?: string | null;
+      images?: unknown;
       url?: string | null;
       repoUrl?: string | null;
       startDate?: string | null;
@@ -112,6 +129,7 @@ export async function POST(req: Request) {
         slug,
         description: description || null,
         coverImage: coverImage || null,
+        images: normalizeProjectImages(images),
         url: url || null,
         repoUrl: repoUrl || null,
         startDate: startDate ? new Date(startDate) : null,
@@ -131,7 +149,7 @@ export async function POST(req: Request) {
         category: { select: { id: true, name: true, slug: true } },
       },
     });
-    return NextResponse.json({ data: created }, { status: 201 });
+    return NextResponse.json({ data: serializeProject(created) }, { status: 201 });
   } catch (e) {
     console.error("/api/admin/projects POST error", e);
     return NextResponse.json(
@@ -164,6 +182,7 @@ export async function PATCH(req: Request) {
       slug,
       description,
       coverImage,
+      images,
       url,
       repoUrl,
       startDate,
@@ -175,6 +194,7 @@ export async function PATCH(req: Request) {
       slug?: string;
       description?: string | null;
       coverImage?: string | null;
+      images?: unknown;
       url?: string | null;
       repoUrl?: string | null;
       startDate?: string | null;
@@ -193,6 +213,7 @@ export async function PATCH(req: Request) {
     if (slug !== undefined) updateData.slug = slug;
     if (description !== undefined) updateData.description = description || null;
     if (coverImage !== undefined) updateData.coverImage = coverImage || null;
+    if (images !== undefined) updateData.images = normalizeProjectImages(images);
     if (url !== undefined) updateData.url = url || null;
     if (repoUrl !== undefined) updateData.repoUrl = repoUrl || null;
 
@@ -234,7 +255,7 @@ export async function PATCH(req: Request) {
         category: { select: { id: true, name: true, slug: true } },
       },
     });
-    return NextResponse.json({ data: updated });
+    return NextResponse.json({ data: serializeProject(updated) });
   } catch (e) {
     console.error("/api/admin/projects PATCH error", e);
     return NextResponse.json(

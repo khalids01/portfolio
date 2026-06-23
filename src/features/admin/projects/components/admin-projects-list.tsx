@@ -71,7 +71,7 @@ export function AdminProjectsList() {
 
       {/* Create / Edit dialog */}
       <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingId ? "Edit Project" : "Add Project"}

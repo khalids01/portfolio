@@ -59,6 +59,7 @@ COPY --from=builder --chown=appuser:appuser /app/prisma ./prisma
 # ---- Uploads ----
 ENV UPLOAD_DIR=/uploads
 ENV PORT=4000
+ENV NODE_OPTIONS=--no-network-family-autoselection
 
 RUN chown -R appuser:appuser /app
 USER appuser

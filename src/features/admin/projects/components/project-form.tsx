@@ -25,6 +25,7 @@ type ProjectFormData = {
   slug: string;
   description: string;
   coverImage: string;
+  images: string[];
   url: string;
   repoUrl: string;
   startDate: string;
@@ -39,6 +40,7 @@ const emptyDefaults: ProjectFormData = {
   slug: "",
   description: "",
   coverImage: "",
+  images: [],
   url: "",
   repoUrl: "",
   startDate: "",
@@ -64,11 +66,13 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
   const firstCategoryId = categoriesList.data?.data[0]?.id ?? "";
 
   const [imagePickerOpen, setImagePickerOpen] = useState(false);
+  const [galleryPickerOpen, setGalleryPickerOpen] = useState(false);
 
   const { register, handleSubmit, reset, control, watch, setValue, formState: { isSubmitting } } =
     useForm<ProjectFormData>({ defaultValues: emptyDefaults });
 
   const coverImage = watch("coverImage");
+  const galleryImages = watch("images") ?? [];
 
   useEffect(() => {
     if (project) {
@@ -77,6 +81,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         slug: project.slug,
         description: project.description || "",
         coverImage: project.coverImage || "",
+        images: project.images || [],
         url: project.url || "",
         repoUrl: project.repoUrl || "",
         startDate: project.startDate
@@ -110,6 +115,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
       slug: data.slug,
       description: data.description || null,
       coverImage: data.coverImage || null,
+      images: data.images,
       url: data.url || null,
       repoUrl: data.repoUrl || null,
       startDate: data.startDate || null,
@@ -196,6 +202,79 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
           onSelect={(value) => {
             if (typeof value === "string") {
               setValue("coverImage", value, { shouldDirty: true });
+            }
+          }}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Gallery Images</Label>
+        <div className="rounded-lg border p-3">
+          {galleryImages.length > 0 ? (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {galleryImages.map((image, index) => (
+                <div
+                  key={`${image}-${index}`}
+                  className="group relative overflow-hidden rounded-md border bg-muted"
+                >
+                  <div className="aspect-video">
+                    <CoreImg src={image} alt={`Project gallery image ${index + 1}`} />
+                  </div>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="destructive"
+                    className="absolute right-2 top-2 h-7 w-7 opacity-100 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100"
+                    onClick={() =>
+                      setValue(
+                        "images",
+                        galleryImages.filter((_, imageIndex) => imageIndex !== index),
+                        { shouldDirty: true },
+                      )
+                    }
+                    aria-label={`Remove gallery image ${index + 1}`}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex min-h-28 items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+              No gallery images selected.
+            </div>
+          )}
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setGalleryPickerOpen(true)}
+            >
+              Select images
+            </Button>
+            {galleryImages.length > 0 ? (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setValue("images", [], { shouldDirty: true })}
+              >
+                <X className="mr-2 h-4 w-4" />
+                Clear all
+              </Button>
+            ) : null}
+          </div>
+        </div>
+        <ImagePickerDialog
+          open={galleryPickerOpen}
+          mode="multiple"
+          value={galleryImages}
+          title="Select project gallery images"
+          description="Choose one or more images for this project's detail gallery."
+          onOpenChange={setGalleryPickerOpen}
+          onSelect={(value) => {
+            if (Array.isArray(value)) {
+              setValue("images", value, { shouldDirty: true });
             }
           }}
         />
