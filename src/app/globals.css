@@ -258,20 +258,39 @@ body {
 
 @layer base {
   @media print {
+    * {
+      print-color-adjust: exact !important;
+      -webkit-print-color-adjust: exact !important;
+    }
+
     .no-print {
       display: none !important;
     }
+
+    html,
     body {
+      width: 210mm;
+      min-height: 297mm;
       background: white !important;
       color: black !important;
+      margin: 0 !important;
     }
+
     main {
       padding: 0 !important;
       background: white !important;
     }
+
+    .resume-sheet {
+      width: 210mm !important;
+      min-height: 297mm !important;
+      margin: 0 auto !important;
+      box-shadow: none !important;
+    }
+
     @page {
-      margin: 1.2cm;
       size: A4;
+      margin: 0;
     }
   }
 }

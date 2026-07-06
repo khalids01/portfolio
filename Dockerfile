@@ -41,10 +41,12 @@ FROM node:24-bookworm-slim
 WORKDIR /app
 
 # ---- Runtime system deps ----
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
   openssl \
   libssl3 \
   ca-certificates \
+  chromium \
+  fonts-liberation \
   && rm -rf /var/lib/apt/lists/*
 
 # ---- Non-root user ----
@@ -60,6 +62,7 @@ COPY --from=builder --chown=appuser:appuser /app/prisma ./prisma
 ENV UPLOAD_DIR=/uploads
 ENV PORT=4000
 ENV NODE_OPTIONS=--no-network-family-autoselection
+ENV CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 
 RUN chown -R appuser:appuser /app
 USER appuser

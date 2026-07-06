@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/admin";
 import { prisma } from "@/lib/prisma";
 import { resumeSchema, type ResumeData } from "../schema";
 import { revalidatePath } from "next/cache";
+import { clearResumePdfCache } from "../pdf-cache";
 
 export async function updateResume(data: ResumeData) {
   const admin = await requireAdmin();
@@ -28,7 +29,8 @@ export async function updateResume(data: ResumeData) {
         data: parsed.data,
       },
     });
-    
+
+    clearResumePdfCache();
     revalidatePath("/resume");
     revalidatePath("/admin/resume");
     return { success: true };

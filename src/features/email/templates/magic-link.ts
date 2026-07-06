@@ -77,13 +77,6 @@ export const magicLinkTemplate = (url: string) => {
           <div class="button-container">
             <a href="${url}" class="button">Sign in to Dashboard</a>
           </div>
-          <div class="footer">
-            <p>If you didn't request this email, you can safely ignore it.</p>
-          </div>
-          <div class="link-fallback">
-            <p>Wait, button doesn't work? Copy and paste this URL into your browser:</p>
-            <p>${url}</p>
-          </div>
         </div>
       </body>
     </html>

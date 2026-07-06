@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { resumeSchema } from "@/features/resume/schema";
-import { existsSync, unlinkSync } from "fs";
-import { join } from "path";
-
-const CACHE_FILE = join(process.cwd(), "tmp", "resume-cache", "resume.pdf");
+import { clearResumePdfCache } from "@/features/resume/pdf-cache";
 
 export async function GET() {
   const guard = await requireAdmin();
@@ -36,9 +33,8 @@ export async function POST(req: Request) {
       create: { slug: "default", data: body.data || {} },
     });
 
-    // Invalidate cache
-    if (existsSync(CACHE_FILE)) {
-      unlinkSync(CACHE_FILE);
+    const cleared = clearResumePdfCache();
+    if (cleared > 0) {
       console.log("Resume PDF cache invalidated due to data update");
     }
 
@@ -55,8 +51,8 @@ export async function DELETE() {
   if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
 
   try {
-    if (existsSync(CACHE_FILE)) {
-      unlinkSync(CACHE_FILE);
+    const cleared = clearResumePdfCache();
+    if (cleared > 0) {
       return NextResponse.json({ message: "Cache cleared" });
     }
     return NextResponse.json({ message: "No cache found" });

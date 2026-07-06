@@ -1,14 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { chromium } from "playwright";
+import type { Browser } from "playwright";
+import nodeChromium from "chromium";
 import { env } from "@/env";
 import { prisma } from "@/lib/prisma";
-import { existsSync, mkdirSync, readFileSync, writeFileSync, statSync } from "fs";
-import { join } from "path";
+import {
+  ensureResumePdfCacheDir,
+  isResumePdfCacheFresh,
+  RESUME_PDF_CACHE_FILE,
+} from "@/features/resume/pdf-cache";
+import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
 export const dynamic = "force-dynamic";
 
-const CACHE_DIR = join(process.cwd(), "tmp", "resume-cache");
-const CACHE_FILE = join(CACHE_DIR, "resume.pdf");
+function isExecutable(path: string) {
+  try {
+    accessSync(path, constants.X_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function getChromiumExecutablePath() {
+  if (env.CHROMIUM_EXECUTABLE_PATH && isExecutable(env.CHROMIUM_EXECUTABLE_PATH)) {
+    return env.CHROMIUM_EXECUTABLE_PATH;
+  }
+
+  if (nodeChromium.path && isExecutable(nodeChromium.path)) {
+    return nodeChromium.path;
+  }
+
+  return undefined;
+}
+
+function getPdfErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : "Failed to generate PDF";
+
+  if (message.includes("Executable doesn't exist")) {
+    return `${message}\n\nNo usable Chromium executable was found. Set CHROMIUM_EXECUTABLE_PATH to an installed Chromium binary, or run npx playwright install chromium for local Playwright browsers.`;
+  }
+
+  return message;
+}
 
 export async function GET(request: NextRequest) {
   // 1. Check DB for last update
@@ -22,23 +56,18 @@ export async function GET(request: NextRequest) {
   }
 
   // 2. Check cache
-  if (!existsSync(CACHE_DIR)) {
-    mkdirSync(CACHE_DIR, { recursive: true });
-  }
+  ensureResumePdfCacheDir();
 
-  if (existsSync(CACHE_FILE)) {
-    const stats = statSync(CACHE_FILE);
-    if (stats.mtime >= resume.updatedAt) {
-      console.log("Serving cached PDF");
-      const cachedPdf = readFileSync(CACHE_FILE);
-      return new Response(new Uint8Array(cachedPdf), {
-        headers: {
-          "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="Abdullah_Khalid_Resume.pdf"`,
-          "X-Cache": "HIT",
-        },
-      });
-    }
+  if (isResumePdfCacheFresh(resume.updatedAt)) {
+    console.log("Serving cached PDF");
+    const cachedPdf = readFileSync(RESUME_PDF_CACHE_FILE);
+    return new Response(new Uint8Array(cachedPdf), {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="Abdullah_Khalid_Resume.pdf"`,
+        "X-Cache": "HIT",
+      },
+    });
   }
 
   const host = request.headers.get("host");
@@ -49,28 +78,31 @@ export async function GET(request: NextRequest) {
   const startTime = Date.now();
   console.log("Generating fresh PDF from:", resumeUrl);
 
-  let browser;
+  let browser: Browser | undefined;
   try {
-    browser = await chromium.launch({ 
+    const executablePath = getChromiumExecutablePath();
+
+    browser = await chromium.launch({
+      ...(executablePath ? { executablePath } : {}),
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-    
+
     const context = await browser.newContext({
-      viewport: { width: 1200, height: 1600 }
+      viewport: { width: 1200, height: 1600 },
     });
-    
+
     const page = await context.newPage();
-    
+
     // Explicitly emulate print media
-    await page.emulateMedia({ media: 'print' });
-    
-    await page.goto(resumeUrl, { 
+    await page.emulateMedia({ media: "print" });
+
+    await page.goto(resumeUrl, {
       waitUntil: "networkidle",
-      timeout: 30000 
+      timeout: 30000,
     });
-    
-    await new Promise(resolve => setTimeout(resolve, 500));
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const pdfBuffer = await page.pdf({
       format: "A4",
@@ -85,7 +117,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 3. Save to cache
-    writeFileSync(CACHE_FILE, pdfBuffer);
+    writeFileSync(RESUME_PDF_CACHE_FILE, pdfBuffer);
 
     const generationTime = Date.now() - startTime;
     console.log(`PDF generated in ${generationTime}ms`);
@@ -99,11 +131,11 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Failed to generate PDF";
+    const message = getPdfErrorMessage(error);
     console.error("PDF generation failed:", error);
-    return NextResponse.json({ 
-      error: "Failed to generate PDF", 
-      details: message 
+    return NextResponse.json({
+      error: "Failed to generate PDF",
+      details: message,
     }, { status: 500 });
   } finally {
     if (browser) {
