@@ -355,7 +355,7 @@ function ProjectDetailModal({
 
   return (
     <Dialog open={!!project} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] w-[calc(100vw-12px)] max-w-[992px] overflow-y-auto rounded-md p-0">
+      <DialogContent className="max-h-[92vh] w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-y-auto rounded-md p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[1280px]">
         <DialogHeader className="sr-only">
           <DialogTitle>{project.title}</DialogTitle>
           <DialogDescription>

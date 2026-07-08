@@ -52,7 +52,10 @@ export function useAdminCategories(categoryType: CategoryType) {
       api(`${endpoints.admin.categories}?id=${id}`, { method: "DELETE" }),
     onSuccess: () => {
       toast.success("Category deleted");
-      qc.invalidateQueries({ queryKey: queryKeys.categories.admin(categoryType) });
+      qc.invalidateQueries({ queryKey: ["categories", "admin"] });
+      qc.invalidateQueries({ queryKey: queryKeys.projects.admin });
+      qc.invalidateQueries({ queryKey: queryKeys.experiences.admin });
+      qc.invalidateQueries({ queryKey: queryKeys.skills.admin });
     },
     onError: (err: unknown) => {
       const message =

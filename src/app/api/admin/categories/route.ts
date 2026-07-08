@@ -3,9 +3,47 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { getAdminProfile } from "@/lib/admin-profile";
 import {
+  type CategoryType,
   isCategoryType,
   slugifyCategoryName,
 } from "@/features/categories/types";
+
+type CategoryWithUsage = Awaited<
+  ReturnType<typeof prisma.category.findMany>
+>[number] & {
+  categoryType: CategoryType;
+};
+
+async function addUsageCounts(
+  profileId: string,
+  categories: CategoryWithUsage[],
+) {
+  return Promise.all(
+    categories.map(async (category) => {
+      const [projects, experiences, skills] = await Promise.all([
+        prisma.project.count({ where: { categoryId: category.id } }),
+        prisma.experience.count({ where: { categoryId: category.id } }),
+        category.categoryType === "skills"
+          ? prisma.skill.count({
+              where: { profileId, category: category.name },
+            })
+          : Promise.resolve(0),
+      ]);
+      const educations = 0;
+
+      return {
+        ...category,
+        usageCounts: {
+          projects,
+          experiences,
+          educations,
+          skills,
+          total: projects + experiences + educations + skills,
+        },
+      };
+    }),
+  );
+}
 
 export async function GET(req: Request) {
   const guard = await requireAdmin();
@@ -22,18 +60,26 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const categoryType = searchParams.get("categoryType");
+    const resolvedCategoryType = categoryType && isCategoryType(categoryType)
+      ? categoryType
+      : undefined;
 
     const categories = await prisma.category.findMany({
       where: {
         profileId: profile.id,
-        ...(categoryType && isCategoryType(categoryType)
-          ? { categoryType }
+        ...(resolvedCategoryType
+          ? { categoryType: resolvedCategoryType }
           : {}),
       },
       orderBy: [{ order: "asc" }, { name: "asc" }],
     });
 
-    return NextResponse.json({ data: categories });
+    return NextResponse.json({
+      data: await addUsageCounts(
+        profile.id,
+        categories as CategoryWithUsage[],
+      ),
+    });
   } catch (e) {
     console.error("/api/admin/categories GET error", e);
     return NextResponse.json(
@@ -190,19 +236,25 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Category not found" }, { status: 404 });
     }
 
-    const projectCount = await prisma.project.count({
-      where: { categoryId: id },
-    });
-    if (projectCount > 0) {
-      return NextResponse.json(
-        {
-          error: `Cannot delete: ${projectCount} project(s) still use this category`,
-        },
-        { status: 409 },
-      );
-    }
-
-    await prisma.category.delete({ where: { id } });
+    await prisma.$transaction([
+      prisma.project.updateMany({
+        where: { profileId: profile.id, categoryId: id },
+        data: { categoryId: null },
+      }),
+      prisma.experience.updateMany({
+        where: { profileId: profile.id, categoryId: id },
+        data: { categoryId: null },
+      }),
+      ...(existing.categoryType === "skills"
+        ? [
+            prisma.skill.updateMany({
+              where: { profileId: profile.id, category: existing.name },
+              data: { category: "" },
+            }),
+          ]
+        : []),
+      prisma.category.delete({ where: { id } }),
+    ]);
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("/api/admin/categories DELETE error", e);

@@ -4,6 +4,16 @@ import { useState } from "react";
 import { useAdminCategories } from "../useAdminCategories";
 import { Button } from "@/components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -11,7 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Pencil, Trash2, ChevronUp, ChevronDown } from "lucide-react";
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown, Loader2 } from "lucide-react";
 import { CategoryForm } from "./category-form";
 import {
   Dialog,
@@ -22,14 +32,23 @@ import {
 import { Badge } from "@/components/ui/badge";
 import {
   CATEGORY_TYPES,
+  type Category,
   type CategoryType,
 } from "@/features/categories/types";
+
+const countLabels = [
+  ["projects", "Projects"],
+  ["experiences", "Experience"],
+  ["educations", "Education"],
+  ["skills", "Skills"],
+] as const;
 
 export function AdminCategoriesList() {
   const [activeType, setActiveType] = useState<CategoryType>("project");
   const { list, remove, reorder } = useAdminCategories(activeType);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [deleteCategory, setDeleteCategory] = useState<Category | null>(null);
 
   const categories = list.data?.data ?? [];
 
@@ -52,6 +71,14 @@ export function AdminCategoriesList() {
       orderedIds[index],
     ];
     reorder.mutate(orderedIds);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteCategory || remove.isPending) return;
+
+    remove.mutate(deleteCategory.id, {
+      onSuccess: () => setDeleteCategory(null),
+    });
   };
 
   return (
@@ -148,7 +175,9 @@ export function AdminCategoriesList() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => remove.mutate(category.id)}
+                    onClick={() => setDeleteCategory(category)}
+                    disabled={remove.isPending}
+                    aria-label={`Delete ${category.name}`}
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
                   </Button>
@@ -158,6 +187,67 @@ export function AdminCategoriesList() {
           </Card>
         ))}
       </div>
+
+      <AlertDialog
+        open={Boolean(deleteCategory)}
+        onOpenChange={(open) => {
+          if (!open && !remove.isPending) setDeleteCategory(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete category?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will delete{" "}
+              <strong className="text-foreground">
+                {deleteCategory?.name ?? "this category"}
+              </strong>
+              . Linked items will stay in the admin panel without this category.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <div className="rounded-md border bg-muted/20 p-3">
+            <div className="mb-2 text-sm font-medium">Connected items</div>
+            <div className="space-y-2 text-sm">
+              {countLabels.map(([key, label]) => (
+                <div key={key} className="flex items-center justify-between gap-4">
+                  <span className="text-muted-foreground">{label}</span>
+                  <Badge variant="outline" className="rounded-md">
+                    {deleteCategory?.usageCounts[key] ?? 0}
+                  </Badge>
+                </div>
+              ))}
+              <div className="flex items-center justify-between gap-4 border-t pt-2 font-medium">
+                <span>Total</span>
+                <Badge variant="secondary" className="rounded-md">
+                  {deleteCategory?.usageCounts.total ?? 0}
+                </Badge>
+              </div>
+            </div>
+          </div>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={remove.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(event) => {
+                event.preventDefault();
+                confirmDelete();
+              }}
+              disabled={remove.isPending}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {remove.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete"
+              )}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

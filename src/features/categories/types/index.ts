@@ -13,6 +13,13 @@ export type Category = {
   slug: string;
   categoryType: CategoryType;
   order: number;
+  usageCounts: {
+    projects: number;
+    experiences: number;
+    educations: number;
+    skills: number;
+    total: number;
+  };
   createdAt?: string | Date;
   updatedAt?: string | Date;
 };
