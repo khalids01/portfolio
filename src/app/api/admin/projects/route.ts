@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "../../../../../prisma/generated/client";
 import { requireAdmin } from "@/lib/admin";
 import { getAdminProfile } from "@/lib/admin-profile";
 
@@ -29,10 +30,23 @@ function normalizeProjectImages(images: unknown): string[] {
   );
 }
 
-function serializeProject<T extends { images: unknown }>(project: T) {
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is string => typeof item === "string" && item.trim().length > 0,
+  );
+}
+
+function normalizeCaseStudy(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return Prisma.JsonNull;
+  return value;
+}
+
+function serializeProject<T extends { images: unknown; statusBadges?: unknown }>(project: T) {
   return {
     ...project,
     images: normalizeProjectImages(project.images),
+    statusBadges: normalizeStringArray(project.statusBadges),
   };
 }
 
@@ -50,7 +64,7 @@ export async function GET() {
     if (!profile) return NextResponse.json({ data: [] });
     const projects = await prisma.project.findMany({
       where: { profileId: profile.id },
-      orderBy: { startDate: "desc" },
+      orderBy: [{ featuredRank: "asc" }, { startDate: "desc" }],
       include: {
         tags: true,
         skills: { select: { id: true, name: true } },
@@ -95,6 +109,11 @@ export async function POST(req: Request) {
       tagNames,
       skillIds,
       categoryId,
+      statusBadges,
+      featuredRank,
+      role,
+      impact,
+      caseStudy,
     } = body as {
       title: string;
       slug: string;
@@ -108,6 +127,11 @@ export async function POST(req: Request) {
       tagNames?: string[];
       skillIds?: string[];
       categoryId?: string | null;
+      statusBadges?: unknown;
+      featuredRank?: number | null;
+      role?: string | null;
+      impact?: string | null;
+      caseStudy?: unknown;
     };
 
     const resolvedCategoryId = await resolveProjectCategoryId(
@@ -135,6 +159,11 @@ export async function POST(req: Request) {
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
         categoryId: resolvedCategoryId,
+        statusBadges: normalizeStringArray(statusBadges),
+        featuredRank: featuredRank ?? null,
+        role: role || null,
+        impact: impact || null,
+        caseStudy: normalizeCaseStudy(caseStudy),
         tags: tagsConnectOrCreate.length
           ? { connectOrCreate: tagsConnectOrCreate }
           : undefined,
@@ -188,6 +217,11 @@ export async function PATCH(req: Request) {
       startDate,
       endDate,
       categoryId,
+      statusBadges,
+      featuredRank,
+      role,
+      impact,
+      caseStudy,
     } = body as {
       id: string;
       title?: string;
@@ -202,6 +236,11 @@ export async function PATCH(req: Request) {
       tagNames?: string[];
       skillIds?: string[];
       categoryId?: string | null;
+      statusBadges?: unknown;
+      featuredRank?: number | null;
+      role?: string | null;
+      impact?: string | null;
+      caseStudy?: unknown;
     };
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
@@ -216,6 +255,12 @@ export async function PATCH(req: Request) {
     if (images !== undefined) updateData.images = normalizeProjectImages(images);
     if (url !== undefined) updateData.url = url || null;
     if (repoUrl !== undefined) updateData.repoUrl = repoUrl || null;
+    if (statusBadges !== undefined)
+      updateData.statusBadges = normalizeStringArray(statusBadges);
+    if (featuredRank !== undefined) updateData.featuredRank = featuredRank ?? null;
+    if (role !== undefined) updateData.role = role || null;
+    if (impact !== undefined) updateData.impact = impact || null;
+    if (caseStudy !== undefined) updateData.caseStudy = normalizeCaseStudy(caseStudy);
 
     if (categoryId !== undefined) {
       updateData.categoryId = await resolveProjectCategoryId(

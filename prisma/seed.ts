@@ -42,6 +42,7 @@ type SeedSkill = {
 };
 
 type SeedExperience = {
+  slug?: string;
   company: string;
   role: string;
   location?: string | null;
@@ -103,6 +104,14 @@ function parseDate(value?: string | null): Date | null {
   if (!value) return null;
   const d = new Date(value);
   return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 async function upsertUser(user: SeedUser) {
@@ -187,6 +196,9 @@ async function replaceExperiences(
     const experience = await prisma.experience.create({
       data: {
         profileId,
+        slug:
+          exp.slug ??
+          slugify(`${exp.company}-${exp.role}-${exp.startDate}`),
         company: exp.company as string,
         role: exp.role as string,
         location: (exp.location ?? null) as string | null,

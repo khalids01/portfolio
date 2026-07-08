@@ -45,6 +45,18 @@ export type ProjectData = {
   category: { id: string; name: string; slug: string } | null;
   tags: Array<{ name: string }>;
   skills: Array<{ name: string }>;
+  statusBadges: string[];
+  featuredRank?: number | null;
+  role?: string | null;
+  impact?: string | null;
+  caseStudy?: {
+    problem?: string;
+    role?: string;
+    architecture?: string[];
+    features?: string[];
+    challenges?: string[];
+    result?: string;
+  } | null;
 };
 
 function normalizeProjectImages(images: unknown): string[] {
@@ -53,6 +65,18 @@ function normalizeProjectImages(images: unknown): string[] {
     (image): image is string =>
       typeof image === "string" && image.trim().length > 0,
   );
+}
+
+function normalizeStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is string => typeof item === "string" && item.trim().length > 0,
+  );
+}
+
+function normalizeCaseStudy(value: unknown): ProjectData["caseStudy"] {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  return value as ProjectData["caseStudy"];
 }
 
 export type LandingData = {
@@ -88,7 +112,7 @@ export async function getLandingData(): Promise<LandingData> {
         include: { highlights: true },
       },
       projects: {
-        orderBy: { startDate: "desc" },
+        orderBy: [{ featuredRank: "asc" }, { startDate: "desc" }],
         include: {
           tags: true,
           skills: { select: { name: true } },
@@ -156,6 +180,11 @@ export async function getLandingData(): Promise<LandingData> {
     category: p.category,
     tags: p.tags.map((t) => ({ name: t.name })),
     skills: p.skills.map((s) => ({ name: s.name })),
+    statusBadges: normalizeStringArray(p.statusBadges),
+    featuredRank: p.featuredRank,
+    role: p.role,
+    impact: p.impact,
+    caseStudy: normalizeCaseStudy(p.caseStudy),
   }));
 
   const socialLinks = (profile?.socialLinks || []).map((s) => ({

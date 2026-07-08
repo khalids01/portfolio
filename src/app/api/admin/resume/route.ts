@@ -8,11 +8,11 @@ export async function GET() {
   const guard = await requireAdmin();
   if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
 
-  const resume = await prisma.resume.findUnique({
-    where: { slug: "default" },
+  const resumes = await prisma.resume.findMany({
+    orderBy: [{ isDefault: "desc" }, { updatedAt: "desc" }],
   });
 
-  return NextResponse.json({ data: resume });
+  return NextResponse.json({ data: resumes });
 }
 
 export async function POST(req: Request) {
@@ -20,17 +20,43 @@ export async function POST(req: Request) {
   if (!guard.ok) return NextResponse.json({ error: guard.message }, { status: guard.status });
 
   try {
-    const body = await req.json();
+    const body = await req.json() as {
+      slug?: string;
+      title?: string;
+      targetRole?: string | null;
+      isDefault?: boolean;
+      data?: unknown;
+    };
+    const slug = body.slug?.trim() || "default";
+    const title = body.title?.trim() || "Untitled Resume";
     
     // Validate data if it's a full update
     if (body.data) {
       resumeSchema.parse(body.data);
     }
 
+    if (body.isDefault) {
+      await prisma.resume.updateMany({
+        where: { slug: { not: slug } },
+        data: { isDefault: false },
+      });
+    }
+
     const resume = await prisma.resume.upsert({
-      where: { slug: "default" },
-      update: { data: body.data || {} },
-      create: { slug: "default", data: body.data || {} },
+      where: { slug },
+      update: {
+        title,
+        targetRole: body.targetRole ?? null,
+        isDefault: Boolean(body.isDefault),
+        data: body.data || {},
+      },
+      create: {
+        slug,
+        title,
+        targetRole: body.targetRole ?? null,
+        isDefault: Boolean(body.isDefault),
+        data: body.data || {},
+      },
     });
 
     const cleared = clearResumePdfCache();

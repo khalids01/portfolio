@@ -54,6 +54,7 @@ model Experience {
   id        String @id @default(cuid())
   profileId String
 
+  slug        String
   company     String
   role        String
   location    String?
@@ -61,12 +62,16 @@ model Experience {
   endDate     DateTime?
   current     Boolean   @default(false)
   description String?
+  categoryId  String?
 
   highlights ExperienceHighlight[]
+  category   Category?              @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
+  @@unique([profileId, slug])
   @@index([profileId])
+  @@index([categoryId])
 }
 
 model ExperienceHighlight {
@@ -107,6 +112,7 @@ model Category {
 
   profile  Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
   projects Project[]
+  experiences Experience[]
 
   @@unique([profileId, categoryType, slug])
   @@index([profileId])
@@ -128,6 +134,11 @@ model Project {
   startDate   DateTime?
   endDate     DateTime?
   categoryId  String?
+  statusBadges Json      @default("[]")
+  featuredRank Int?
+  role         String?
+  impact       String?
+  caseStudy    Json?
 
   tags     Tag[]
   skills   Skill[]
@@ -169,9 +180,14 @@ model ContactMessage {
 }
 
 model Resume {
-  id        String   @id @default(cuid())
-  slug      String   @unique @default("default")
-  data      Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  slug       String   @unique @default("default")
+  title      String   @default("Default Resume")
+  targetRole String?
+  isDefault  Boolean  @default(false)
+  data       Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([isDefault])
 }

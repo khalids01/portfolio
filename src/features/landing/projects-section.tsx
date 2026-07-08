@@ -152,7 +152,16 @@ function ProjectCard({
                 {project.category.name}
               </Badge>
             )}
-            {project.tags.slice(0, 4).map((tag) => (
+            {project.statusBadges.slice(0, 3).map((badge) => (
+              <Badge
+                key={badge}
+                variant="outline"
+                className="rounded-md border-border/70 bg-background/40 text-muted-foreground"
+              >
+                {badge}
+              </Badge>
+            ))}
+            {project.tags.slice(0, Math.max(0, 4 - project.statusBadges.length)).map((tag) => (
               <Badge
                 key={tag.name}
                 variant="outline"
@@ -186,6 +195,11 @@ function ProjectCard({
                 {project.description}
               </p>
             )}
+            {project.impact ? (
+              <p className="line-clamp-2 text-xs leading-5 text-foreground/80">
+                {project.impact}
+              </p>
+            ) : null}
           </div>
 
           {project.skills.length > 0 && (
@@ -392,6 +406,11 @@ function ProjectDetailModal({
                     {dateRange}
                   </Badge>
                 ) : null}
+                {project.statusBadges.map((badge) => (
+                  <Badge key={badge} variant="outline" className="rounded-md text-muted-foreground">
+                    {badge}
+                  </Badge>
+                ))}
               </div>
 
               <div className="space-y-3">
@@ -403,8 +422,63 @@ function ProjectDetailModal({
                     {project.description}
                   </p>
                 ) : null}
+                {project.role ? (
+                  <p className="text-sm leading-6 text-foreground">
+                    <span className="font-medium">My role:</span> {project.role}
+                  </p>
+                ) : null}
+                {project.impact ? (
+                  <p className="text-sm leading-6 text-foreground">
+                    <span className="font-medium">Impact:</span> {project.impact}
+                  </p>
+                ) : null}
               </div>
             </div>
+
+            {project.caseStudy ? (
+              <div className="space-y-4 rounded-md border bg-muted/20 p-4">
+                {project.caseStudy.problem ? (
+                  <div className="space-y-1">
+                    <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Problem
+                    </div>
+                    <p className="text-sm leading-6">{project.caseStudy.problem}</p>
+                  </div>
+                ) : null}
+                {project.caseStudy.features?.length ? (
+                  <div className="space-y-2">
+                    <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Key Features
+                    </div>
+                    <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
+                      {project.caseStudy.features.map((feature) => (
+                        <li key={feature}>{feature}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {project.caseStudy.challenges?.length ? (
+                  <div className="space-y-2">
+                    <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Challenges
+                    </div>
+                    <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
+                      {project.caseStudy.challenges.map((challenge) => (
+                        <li key={challenge}>{challenge}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {project.caseStudy.result ? (
+                  <div className="space-y-1">
+                    <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      Result
+                    </div>
+                    <p className="text-sm leading-6">{project.caseStudy.result}</p>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
 
             {project.tags.length > 0 ? (
               <div className="space-y-2">

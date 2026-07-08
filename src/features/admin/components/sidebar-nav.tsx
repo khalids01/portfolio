@@ -15,7 +15,7 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { FolderKanban, Home, Mail, Settings, User2, Wrench, Users, FileText, Activity, Tags, Images } from "lucide-react";
+import { BriefcaseBusiness, FolderKanban, Home, Mail, Settings, User2, Wrench, Users, FileText, Activity, Tags, Images } from "lucide-react";
 
 const items = [
   { title: "Dashboard", href: "/admin", icon: Home },
@@ -24,6 +24,7 @@ const items = [
   { title: "Resume", href: "/admin/resume", icon: FileText },
   { title: "Profile", href: "/admin/profile", icon: User2 },
   { title: "Skills", href: "/admin/skills", icon: Wrench },
+  { title: "Experience", href: "/admin/experience", icon: BriefcaseBusiness },
   { title: "Categories", href: "/admin/categories", icon: Tags },
   { title: "Projects", href: "/admin/projects", icon: FolderKanban },
   { title: "Images", href: "/admin/images", icon: Images },

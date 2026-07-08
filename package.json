@@ -7,11 +7,13 @@
     "build": "NODE_OPTIONS=--no-network-family-autoselection next build --turbopack",
     "start": "NODE_OPTIONS=--no-network-family-autoselection node .next/standalone/server.js",
     "lint": "eslint",
+    "data-seed": "NODE_OPTIONS=--no-network-family-autoselection tsx data-scripts/index.ts",
+    "data-seed:all": "NODE_OPTIONS=--no-network-family-autoselection tsx data-scripts/index.ts --all",
     "db:seed": "NODE_OPTIONS=--no-network-family-autoselection prisma db seed",
     "postinstall": "prisma generate --schema=./prisma/schema"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "tsx data-scripts/index.ts --all"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

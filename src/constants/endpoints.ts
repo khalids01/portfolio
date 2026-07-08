@@ -9,6 +9,7 @@ export const endpoints = {
     images: "/api/admin/images",
     imagesUpload: "/api/admin/images/upload",
     projects: "/api/admin/projects",
+    experiences: "/api/admin/experiences",
     categories: "/api/admin/categories",
     categoriesReorder: "/api/admin/categories/reorder",
     messages: "/api/admin/messages",

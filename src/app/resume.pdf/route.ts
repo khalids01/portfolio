@@ -6,8 +6,8 @@ import { env } from "@/env";
 import { prisma } from "@/lib/prisma";
 import {
   ensureResumePdfCacheDir,
+  getResumePdfCacheFile,
   isResumePdfCacheFresh,
-  RESUME_PDF_CACHE_FILE,
 } from "@/features/resume/pdf-cache";
 import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
@@ -45,9 +45,10 @@ function getPdfErrorMessage(error: unknown) {
 }
 
 export async function GET(request: NextRequest) {
+  const variant = request.nextUrl.searchParams.get("variant") || "default";
   // 1. Check DB for last update
   const resume = await prisma.resume.findUnique({
-    where: { slug: "default" },
+    where: { slug: variant },
     select: { updatedAt: true },
   });
 
@@ -58,9 +59,11 @@ export async function GET(request: NextRequest) {
   // 2. Check cache
   ensureResumePdfCacheDir();
 
-  if (isResumePdfCacheFresh(resume.updatedAt)) {
+  const cacheFile = getResumePdfCacheFile(variant);
+
+  if (isResumePdfCacheFresh(resume.updatedAt, variant)) {
     console.log("Serving cached PDF");
-    const cachedPdf = readFileSync(RESUME_PDF_CACHE_FILE);
+    const cachedPdf = readFileSync(cacheFile);
     return new Response(new Uint8Array(cachedPdf), {
       headers: {
         "Content-Type": "application/pdf",
@@ -73,7 +76,8 @@ export async function GET(request: NextRequest) {
   const host = request.headers.get("host");
   const protocol = request.nextUrl.protocol === "https:" ? "https" : "http";
   const baseUrl = env.NEXT_PUBLIC_APP_URL || `${protocol}://${host}`;
-  const resumeUrl = `${baseUrl}/resume`;
+  const resumeUrl =
+    variant === "default" ? `${baseUrl}/resume` : `${baseUrl}/resume/${variant}`;
 
   const startTime = Date.now();
   console.log("Generating fresh PDF from:", resumeUrl);
@@ -117,7 +121,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 3. Save to cache
-    writeFileSync(RESUME_PDF_CACHE_FILE, pdfBuffer);
+    writeFileSync(cacheFile, pdfBuffer);
 
     const generationTime = Date.now() - startTime;
     console.log(`PDF generated in ${generationTime}ms`);

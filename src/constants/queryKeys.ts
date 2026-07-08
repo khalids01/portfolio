@@ -18,6 +18,9 @@ export const queryKeys = {
     public: ["projects", "public"] as const,
     admin: ["projects", "admin"] as const,
   },
+  experiences: {
+    admin: ["experiences", "admin"] as const,
+  },
   categories: {
     admin: (categoryType?: string) =>
       ["categories", "admin", categoryType ?? "all"] as const,

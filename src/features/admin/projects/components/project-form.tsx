@@ -33,6 +33,15 @@ type ProjectFormData = {
   tagNames: string;
   skillIds: string[];
   categoryId: string;
+  statusBadges: string;
+  featuredRank: string;
+  role: string;
+  impact: string;
+  caseStudyProblem: string;
+  caseStudyRole: string;
+  caseStudyFeatures: string;
+  caseStudyChallenges: string;
+  caseStudyResult: string;
 };
 
 const emptyDefaults: ProjectFormData = {
@@ -48,6 +57,15 @@ const emptyDefaults: ProjectFormData = {
   tagNames: "",
   skillIds: [],
   categoryId: "",
+  statusBadges: "",
+  featuredRank: "",
+  role: "",
+  impact: "",
+  caseStudyProblem: "",
+  caseStudyRole: "",
+  caseStudyFeatures: "",
+  caseStudyChallenges: "",
+  caseStudyResult: "",
 };
 
 interface ProjectFormProps {
@@ -74,6 +92,17 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
   const coverImage = watch("coverImage");
   const galleryImages = watch("images") ?? [];
 
+  const fromCommaList = (value: string) =>
+    value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  const fromLines = (value: string) =>
+    value
+      .split("\n")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
   useEffect(() => {
     if (project) {
       reset({
@@ -93,6 +122,15 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         tagNames: project.tags.map((t) => t.name).join(", "),
         skillIds: project.skills.map((s) => s.id),
         categoryId: project.categoryId ?? project.category?.id ?? "",
+        statusBadges: project.statusBadges?.join(", ") ?? "",
+        featuredRank: project.featuredRank == null ? "" : String(project.featuredRank),
+        role: project.role ?? "",
+        impact: project.impact ?? "",
+        caseStudyProblem: project.caseStudy?.problem ?? "",
+        caseStudyRole: project.caseStudy?.role ?? "",
+        caseStudyFeatures: project.caseStudy?.features?.join("\n") ?? "",
+        caseStudyChallenges: project.caseStudy?.challenges?.join("\n") ?? "",
+        caseStudyResult: project.caseStudy?.result ?? "",
       });
     } else {
       reset({
@@ -105,10 +143,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
   const categories = categoriesList.data?.data ?? [];
 
   const onSubmit = (data: ProjectFormData) => {
-    const tagNames = data.tagNames
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
+    const tagNames = fromCommaList(data.tagNames);
 
     const payload = {
       title: data.title,
@@ -123,6 +158,17 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
       tagNames,
       skillIds: data.skillIds,
       categoryId: data.categoryId || null,
+      statusBadges: fromCommaList(data.statusBadges),
+      featuredRank: data.featuredRank === "" ? null : Number(data.featuredRank),
+      role: data.role || null,
+      impact: data.impact || null,
+      caseStudy: {
+        problem: data.caseStudyProblem || undefined,
+        role: data.caseStudyRole || undefined,
+        features: fromLines(data.caseStudyFeatures),
+        challenges: fromLines(data.caseStudyChallenges),
+        result: data.caseStudyResult || undefined,
+      },
     };
 
     if (projectId) {
@@ -150,6 +196,36 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
       <div className="space-y-2">
         <Label htmlFor="description">Description</Label>
         <Textarea id="description" rows={3} {...register("description")} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="statusBadges">Status Badges</Label>
+          <Input
+            id="statusBadges"
+            placeholder="Private Project, Paused, Case Study"
+            {...register("statusBadges")}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="featuredRank">Featured Rank</Label>
+          <Input
+            id="featuredRank"
+            type="number"
+            placeholder="1"
+            {...register("featuredRank")}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="role">My Role</Label>
+        <Textarea id="role" rows={2} {...register("role")} />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="impact">Impact</Label>
+        <Textarea id="impact" rows={2} {...register("impact")} />
       </div>
 
       <div className="space-y-2">
@@ -345,6 +421,45 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
             />
           )}
         />
+      </div>
+
+      <div className="space-y-4 rounded-lg border p-4">
+        <div>
+          <h3 className="text-sm font-medium">Case Study</h3>
+          <p className="text-xs text-muted-foreground">
+            Optional details shown in the public project modal.
+          </p>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="caseStudyProblem">Problem</Label>
+          <Textarea id="caseStudyProblem" rows={3} {...register("caseStudyProblem")} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="caseStudyRole">Case Study Role</Label>
+          <Textarea id="caseStudyRole" rows={2} {...register("caseStudyRole")} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="caseStudyFeatures">Features (one per line)</Label>
+          <Textarea
+            id="caseStudyFeatures"
+            rows={4}
+            className="font-mono text-sm"
+            {...register("caseStudyFeatures")}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="caseStudyChallenges">Challenges (one per line)</Label>
+          <Textarea
+            id="caseStudyChallenges"
+            rows={4}
+            className="font-mono text-sm"
+            {...register("caseStudyChallenges")}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="caseStudyResult">Result</Label>
+          <Textarea id="caseStudyResult" rows={3} {...register("caseStudyResult")} />
+        </div>
       </div>
 
       <div className="flex justify-end pt-4">

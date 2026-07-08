@@ -3,6 +3,7 @@
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resumeSchema, type ResumeData } from "@/features/resume/schema";
+import type { ResumeMeta } from "@/features/resume/data";
 import { updateResume } from "@/features/resume/actions/update-resume";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,25 +17,68 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Trash2, Plus, ArrowUpRight } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Trash2, Plus, ArrowUpRight, CopyPlus } from "lucide-react";
 import { toast } from "sonner";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-export function ResumeForm({ initialData }: { initialData: ResumeData }) {
+type ResumeRecordInput = {
+  slug: string;
+  title: string;
+  targetRole?: string | null;
+  isDefault: boolean;
+  data: ResumeData;
+};
+
+export function ResumeForm({
+  initialRecord,
+  variants,
+}: {
+  initialRecord: ResumeRecordInput;
+  variants: ResumeMeta[];
+}) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const [slug, setSlug] = useState(initialRecord.slug);
+  const [title, setTitle] = useState(initialRecord.title);
+  const [targetRole, setTargetRole] = useState(initialRecord.targetRole ?? "");
+  const [isDefault, setIsDefault] = useState(initialRecord.isDefault);
 
   const form = useForm<ResumeData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(resumeSchema) as any,
-    defaultValues: initialData,
+    defaultValues: initialRecord.data,
   });
+
+  useEffect(() => {
+    setSlug(initialRecord.slug);
+    setTitle(initialRecord.title);
+    setTargetRole(initialRecord.targetRole ?? "");
+    setIsDefault(initialRecord.isDefault);
+    form.reset(initialRecord.data);
+  }, [form, initialRecord]);
 
   function onSubmit(values: ResumeData) {
     startTransition(async () => {
-      const result = await updateResume(values);
+      const result = await updateResume({
+        slug,
+        title,
+        targetRole: targetRole || null,
+        isDefault,
+        data: values,
+      });
       if (result.success) {
         toast.success("Resume updated successfully");
+        router.refresh();
       } else {
         toast.error("Failed to update resume");
       }
@@ -54,11 +98,81 @@ export function ResumeForm({ initialData }: { initialData: ResumeData }) {
         <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold tracking-tight">Resume Editor</h1>
             <Button asChild variant="ghost">
-                <Link href="/resume" target="_blank">
+                <Link href={slug === "default" ? "/resume" : `/resume/${slug}`} target="_blank">
                     View Resume <ArrowUpRight className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
         </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Resume Variant</CardTitle>
+            <CardDescription>
+              Manage multiple targeted resumes while keeping the dashboard editable.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div className="grid gap-4 md:grid-cols-[1fr_auto]">
+              <div className="space-y-2">
+                <FormLabel>Existing Variants</FormLabel>
+                <Select
+                  value={initialRecord.slug}
+                  onValueChange={(value) => router.push(`/admin/resume?slug=${value}`)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select resume variant" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {variants.map((variant) => (
+                      <SelectItem key={variant.id} value={variant.slug}>
+                        {variant.title}{variant.isDefault ? " (default)" : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex items-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const nextSlug = `${slug}-copy`;
+                    setSlug(nextSlug);
+                    setTitle(`${title} Copy`);
+                    setIsDefault(false);
+                    toast.info("Edit the slug/title, then save to create the variant.");
+                  }}
+                >
+                  <CopyPlus className="mr-2 h-4 w-4" />
+                  New Variant
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="space-y-2">
+                <FormLabel>Slug</FormLabel>
+                <Input value={slug} onChange={(event) => setSlug(event.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <FormLabel>Variant Title</FormLabel>
+                <Input value={title} onChange={(event) => setTitle(event.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <FormLabel>Target Role</FormLabel>
+                <Input value={targetRole} onChange={(event) => setTargetRole(event.target.value)} />
+              </div>
+            </div>
+
+            <label className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={isDefault}
+                onCheckedChange={(checked) => setIsDefault(checked === true)}
+              />
+              Use this variant for /resume
+            </label>
+          </CardContent>
+        </Card>
 
         {/* Basics Section */}
         <Card>

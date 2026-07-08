@@ -9,10 +9,17 @@ import { join } from "path";
 
 export const RESUME_PDF_CACHE_VERSION = "v2";
 export const RESUME_PDF_CACHE_DIR = join(process.cwd(), "tmp", "resume-cache");
-export const RESUME_PDF_CACHE_FILE = join(
-  RESUME_PDF_CACHE_DIR,
-  `resume-${RESUME_PDF_CACHE_VERSION}.pdf`,
-);
+
+function normalizeVariant(variant = "default") {
+  return variant.replace(/[^a-z0-9-]/gi, "-").toLowerCase() || "default";
+}
+
+export function getResumePdfCacheFile(variant = "default") {
+  return join(
+    RESUME_PDF_CACHE_DIR,
+    `resume-${normalizeVariant(variant)}-${RESUME_PDF_CACHE_VERSION}.pdf`,
+  );
+}
 
 export function ensureResumePdfCacheDir() {
   if (!existsSync(RESUME_PDF_CACHE_DIR)) {
@@ -20,10 +27,11 @@ export function ensureResumePdfCacheDir() {
   }
 }
 
-export function isResumePdfCacheFresh(updatedAt: Date) {
-  if (!existsSync(RESUME_PDF_CACHE_FILE)) return false;
+export function isResumePdfCacheFresh(updatedAt: Date, variant = "default") {
+  const file = getResumePdfCacheFile(variant);
+  if (!existsSync(file)) return false;
 
-  const stats = statSync(RESUME_PDF_CACHE_FILE);
+  const stats = statSync(file);
   return stats.mtime >= updatedAt;
 }
 
