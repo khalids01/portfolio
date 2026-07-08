@@ -156,6 +156,8 @@ export async function upsertExperience(
     description?: string | null;
     highlights?: string[];
     categorySlug?: string | null;
+    coverImage?: string | null;
+    images?: string[];
   },
 ) {
   const profile = await getOwnerProfile(prisma);
@@ -179,6 +181,8 @@ export async function upsertExperience(
       current: Boolean(input.current),
       description: input.description ?? null,
       categoryId,
+      coverImage: input.coverImage ?? null,
+      images: input.images ?? [],
     },
     create: {
       profileId: profile.id,
@@ -191,6 +195,8 @@ export async function upsertExperience(
       current: Boolean(input.current),
       description: input.description ?? null,
       categoryId,
+      coverImage: input.coverImage ?? null,
+      images: input.images ?? [],
     },
   });
 

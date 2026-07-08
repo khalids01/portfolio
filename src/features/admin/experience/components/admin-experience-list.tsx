@@ -20,7 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { CoreImg } from "@/components/core/img";
+import { ImagePickerDialog } from "@/features/admin/images/components/image-picker-dialog";
+import { ImageIcon, Plus, Pencil, Trash2, X } from "lucide-react";
 import { useAdminCategories } from "@/features/admin/categories/useAdminCategories";
 import type { Experience } from "@/features/experience/types";
 import { useAdminExperiences } from "../useAdminExperiences";
@@ -34,6 +36,8 @@ type ExperienceFormState = {
   endDate: string;
   current: boolean;
   description: string;
+  coverImage: string;
+  images: string[];
   categoryId: string;
   highlights: string;
 };
@@ -47,6 +51,8 @@ const emptyForm: ExperienceFormState = {
   endDate: "",
   current: false,
   description: "",
+  coverImage: "",
+  images: [],
   categoryId: "none",
   highlights: "",
 };
@@ -66,6 +72,8 @@ function toForm(experience: Experience): ExperienceFormState {
     endDate: toDateInput(experience.endDate),
     current: experience.current,
     description: experience.description ?? "",
+    coverImage: experience.coverImage ?? "",
+    images: experience.images ?? [],
     categoryId: experience.categoryId ?? "none",
     highlights: experience.highlights.map((highlight) => highlight.text).join("\n"),
   };
@@ -84,6 +92,8 @@ export function AdminExperienceList() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Experience | null>(null);
   const [form, setForm] = useState<ExperienceFormState>(emptyForm);
+  const [coverPickerOpen, setCoverPickerOpen] = useState(false);
+  const [galleryPickerOpen, setGalleryPickerOpen] = useState(false);
 
   const categories = categoriesList.data?.data ?? [];
   const experiences = list.data?.data ?? [];
@@ -111,6 +121,8 @@ export function AdminExperienceList() {
       endDate: form.current ? null : form.endDate || null,
       current: form.current,
       description: form.description || null,
+      coverImage: form.coverImage || null,
+      images: form.images,
       categoryId: form.categoryId === "none" ? null : form.categoryId,
       highlights: fromLines(form.highlights),
     };
@@ -149,6 +161,11 @@ export function AdminExperienceList() {
       <div className="grid gap-4">
         {experiences.map((experience) => (
           <Card key={experience.id}>
+            {experience.coverImage ? (
+              <div className="aspect-video overflow-hidden rounded-t-xl border-b">
+                <CoreImg src={experience.coverImage} alt={experience.company} />
+              </div>
+            ) : null}
             <CardHeader className="flex flex-row items-start justify-between gap-4">
               <div>
                 <CardTitle>{experience.role}</CardTitle>
@@ -264,6 +281,125 @@ export function AdminExperienceList() {
                 rows={3}
                 value={form.description}
                 onChange={(e) => setField("description", e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Cover Image</Label>
+              <div className="rounded-lg border p-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <div className="h-28 w-full overflow-hidden rounded-md border bg-muted sm:w-44">
+                    {form.coverImage ? (
+                      <CoreImg src={form.coverImage} alt="Experience cover preview" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-muted-foreground">
+                        <ImageIcon className="h-7 w-7" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-3">
+                    <Input
+                      value={form.coverImage}
+                      placeholder="Select from media library or paste a URL"
+                      onChange={(e) => setField("coverImage", e.target.value)}
+                    />
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setCoverPickerOpen(true)}
+                      >
+                        Select image
+                      </Button>
+                      {form.coverImage ? (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={() => setField("coverImage", "")}
+                        >
+                          <X className="mr-2 h-4 w-4" />
+                          Clear
+                        </Button>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ImagePickerDialog
+                open={coverPickerOpen}
+                value={form.coverImage}
+                title="Select experience cover"
+                description="Choose a Serve image for this work history item."
+                onOpenChange={setCoverPickerOpen}
+                onSelect={(value) => {
+                  if (typeof value === "string") setField("coverImage", value);
+                }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Gallery Images</Label>
+              <div className="rounded-lg border p-3">
+                {form.images.length > 0 ? (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    {form.images.map((image, index) => (
+                      <div key={`${image}-${index}`} className="relative overflow-hidden rounded-md border bg-muted">
+                        <div className="aspect-video">
+                          <CoreImg src={image} alt={`Experience gallery image ${index + 1}`} />
+                        </div>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="destructive"
+                          className="absolute right-2 top-2 h-7 w-7"
+                          onClick={() =>
+                            setField(
+                              "images",
+                              form.images.filter((_, imageIndex) => imageIndex !== index),
+                            )
+                          }
+                          aria-label={`Remove gallery image ${index + 1}`}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex min-h-24 items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
+                    No gallery images selected.
+                  </div>
+                )}
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setGalleryPickerOpen(true)}
+                  >
+                    Select images
+                  </Button>
+                  {form.images.length > 0 ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => setField("images", [])}
+                    >
+                      <X className="mr-2 h-4 w-4" />
+                      Clear all
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
+              <ImagePickerDialog
+                open={galleryPickerOpen}
+                mode="multiple"
+                value={form.images}
+                title="Select experience gallery images"
+                description="Choose one or more images for this work history item."
+                onOpenChange={setGalleryPickerOpen}
+                onSelect={(value) => {
+                  if (Array.isArray(value)) setField("images", value);
+                }}
               />
             </div>
 

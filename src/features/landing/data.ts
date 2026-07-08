@@ -20,6 +20,9 @@ export type ExperienceData = {
   endDate?: Date | null;
   current: boolean;
   description?: string | null;
+  coverImage?: string | null;
+  images: string[];
+  category: { id: string; name: string; slug: string } | null;
   highlights: Array<{ text: string }>;
 };
 
@@ -109,7 +112,10 @@ export async function getLandingData(): Promise<LandingData> {
       skills: { orderBy: { order: "asc" } },
       experiences: {
         orderBy: { startDate: "desc" },
-        include: { highlights: true },
+        include: {
+          highlights: true,
+          category: { select: { id: true, name: true, slug: true } },
+        },
       },
       projects: {
         orderBy: [{ featuredRank: "asc" }, { startDate: "desc" }],
@@ -153,6 +159,9 @@ export async function getLandingData(): Promise<LandingData> {
     endDate: e.endDate,
     current: e.current,
     description: e.description,
+    coverImage: e.coverImage,
+    images: normalizeProjectImages(e.images),
+    category: e.category,
     highlights: e.highlights.map((h) => ({ text: h.text })),
   }));
 

@@ -34,6 +34,13 @@ function normalizeHighlights(value: unknown) {
   );
 }
 
+function normalizeImages(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is string => typeof item === "string" && item.trim().length > 0,
+  );
+}
+
 const include = {
   highlights: true,
   category: { select: { id: true, name: true, slug: true } },
@@ -83,6 +90,8 @@ export async function POST(req: Request) {
       endDate?: string | null;
       current?: boolean;
       description?: string | null;
+      coverImage?: string | null;
+      images?: unknown;
       categoryId?: string | null;
       highlights?: unknown;
     };
@@ -107,6 +116,8 @@ export async function POST(req: Request) {
         endDate: parseDate(body.endDate),
         current: Boolean(body.current),
         description: body.description || null,
+        coverImage: body.coverImage || null,
+        images: normalizeImages(body.images),
         categoryId,
         highlights: {
           create: normalizeHighlights(body.highlights).map((text) => ({ text })),
@@ -144,6 +155,8 @@ export async function PATCH(req: Request) {
       endDate?: string | null;
       current?: boolean;
       description?: string | null;
+      coverImage?: string | null;
+      images?: unknown;
       categoryId?: string | null;
       highlights?: unknown;
     };
@@ -161,6 +174,8 @@ export async function PATCH(req: Request) {
     if (body.endDate !== undefined) data.endDate = parseDate(body.endDate);
     if (body.current !== undefined) data.current = Boolean(body.current);
     if (body.description !== undefined) data.description = body.description || null;
+    if (body.coverImage !== undefined) data.coverImage = body.coverImage || null;
+    if (body.images !== undefined) data.images = normalizeImages(body.images);
     if (body.categoryId !== undefined) {
       data.categoryId = await resolveExperienceCategoryId(profile.id, body.categoryId);
     }

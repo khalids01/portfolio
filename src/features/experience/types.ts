@@ -8,6 +8,8 @@ export type Experience = {
   endDate?: string | Date | null;
   current: boolean;
   description?: string | null;
+  coverImage?: string | null;
+  images: string[];
   categoryId?: string | null;
   category?: { id: string; name: string; slug: string } | null;
   highlights: { id: string; text: string }[];

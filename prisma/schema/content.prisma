@@ -63,6 +63,8 @@ model Experience {
   current     Boolean   @default(false)
   description String?
   categoryId  String?
+  coverImage  String?
+  images      Json      @default("[]")
 
   highlights ExperienceHighlight[]
   category   Category?              @relation(fields: [categoryId], references: [id], onDelete: SetNull)

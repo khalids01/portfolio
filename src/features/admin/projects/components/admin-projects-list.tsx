@@ -128,6 +128,7 @@ export function AdminProjectsList() {
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4">
               <div className="text-sm text-muted-foreground">
+                {project.category ? `${project.category.name} · ` : ""}
                 {project.startDate &&
                   format(new Date(project.startDate), "MMM yyyy")}
                 {" – "}
