@@ -27,6 +27,17 @@ function getChromiumExecutablePath() {
     return env.CHROMIUM_EXECUTABLE_PATH;
   }
 
+  const systemChromiumPaths = [
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+  ];
+
+  for (const path of systemChromiumPaths) {
+    if (isExecutable(path)) return path;
+  }
+
   if (nodeChromium.path && isExecutable(nodeChromium.path)) {
     return nodeChromium.path;
   }

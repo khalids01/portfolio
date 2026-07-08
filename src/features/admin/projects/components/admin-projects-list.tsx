@@ -11,14 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Plus, Pencil, Trash2, ExternalLink, Github } from "lucide-react";
-import { ProjectForm } from "./project-form";
 import { CoreImg } from "@/components/core/img";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,24 +27,7 @@ import Link from "next/link";
 
 export function AdminProjectsList() {
   const { list, remove } = useAdminProjects();
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-
-  const handleEdit = (id: string) => {
-    setEditingId(id);
-    setIsDialogOpen(true);
-  };
-
-  const handleCreate = () => {
-    setEditingId(null);
-    setIsDialogOpen(true);
-  };
-
-  const handleDialogClose = (open: boolean) => {
-    setIsDialogOpen(open);
-    if (!open) setEditingId(null);
-  };
 
   const handleConfirmDelete = () => {
     if (deletingId) {
@@ -64,27 +40,12 @@ export function AdminProjectsList() {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <Button onClick={handleCreate}>
-          <Plus className="mr-2 h-4 w-4" /> Add Project
+        <Button asChild>
+          <Link href="/admin/projects/new">
+            <Plus className="mr-2 h-4 w-4" /> Add Project
+          </Link>
         </Button>
       </div>
-
-      {/* Create / Edit dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={handleDialogClose}>
-        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {editingId ? "Edit Project" : "Add Project"}
-            </DialogTitle>
-          </DialogHeader>
-          {/* key forces form to fully remount when switching between create/edit */}
-          <ProjectForm
-            key={editingId ?? "new"}
-            projectId={editingId}
-            onSuccess={() => setIsDialogOpen(false)}
-          />
-        </DialogContent>
-      </Dialog>
 
       {/* Delete confirmation dialog */}
       <AlertDialog
@@ -190,9 +151,14 @@ export function AdminProjectsList() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => handleEdit(project.id)}
+                    asChild
                   >
-                    <Pencil className="h-4 w-4" />
+                    <Link
+                      href={`/admin/projects/${project.id}/edit`}
+                      aria-label={`Edit ${project.title}`}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Link>
                   </Button>
                   <Button
                     variant="ghost"

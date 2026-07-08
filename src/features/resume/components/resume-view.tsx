@@ -2,7 +2,7 @@
 
 import type { ResumeData } from "../schema";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Download, Github, Linkedin, Printer, ArrowLeft } from "lucide-react";
+import { Mail, MapPin, Download, Github, Linkedin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export function ResumeView({ data }: { data: ResumeData }) {
@@ -20,26 +20,19 @@ export function ResumeView({ data }: { data: ResumeData }) {
 
         <div className="flex flex-wrap gap-3">
           <Button
-            variant="outline"
             size="lg"
-            className="rounded-full shadow-sm hover:shadow-md transition-all"
+            className="rounded-full text-white! bg-slate-900! shadow-lg hover:shadow-xl transition-all"
             onClick={() => window.print()}
           >
-            <Printer className="mr-2 h-4 w-4" />
-            Print
-          </Button>
-          <Button size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-all" asChild>
-            <a href="/resume.pdf">
-              <Download className="mr-2 h-4 w-4" />
-              Download PDF
-            </a>
+            <Download className="mr-2 h-4 w-4" />
+            Download PDF
           </Button>
         </div>
       </div>
 
       <div className="w-full overflow-x-auto print:overflow-visible">
         <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[12mm] text-slate-900 shadow-sm print:shadow-none">
-          <header className="mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+          <header className="resume-block mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="space-y-2">
               <h1 className="text-4xl font-bold tracking-tight">{basics.name}</h1>
               <p className="text-xl font-medium text-slate-600">{basics.title}</p>
@@ -75,18 +68,18 @@ export function ResumeView({ data }: { data: ResumeData }) {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-10">
             <div className="space-y-10 md:col-span-2">
-              <section className="space-y-3">
+              <section className="resume-block space-y-3">
                 <h2 className="border-b pb-2 text-xl font-bold">Professional Summary</h2>
                 <p className="leading-relaxed text-slate-600">
                   {summary}
                 </p>
               </section>
 
-              <section className="space-y-4">
+              <section className="resume-section space-y-4">
                 <h2 className="border-b pb-2 text-xl font-bold">Experience</h2>
                 <div className="space-y-8">
                   {experience.map((exp, idx) => (
-                    <div key={idx} className="space-y-2">
+                    <div key={idx} className="resume-block space-y-2">
                       <div className="flex items-baseline justify-between gap-4">
                         <h3 className="text-lg font-bold">{exp.company}</h3>
                         <span className="shrink-0 text-sm text-slate-500">{exp.start} — {exp.end}</span>
@@ -102,11 +95,11 @@ export function ResumeView({ data }: { data: ResumeData }) {
                 </div>
               </section>
 
-              <section className="space-y-6">
+              <section className="resume-section space-y-6">
                 <h2 className="border-b pb-2 text-xl font-bold">Selected Projects</h2>
                 <div className="space-y-6">
                   {projects.map((proj, idx) => (
-                    <div key={idx} className="space-y-2">
+                    <div key={idx} className="resume-block space-y-2">
                       <h3 className="text-lg font-bold">{proj.name}</h3>
                       <p className="text-sm leading-relaxed text-slate-600">{proj.desc}</p>
                       <ul className="ml-4 list-outside list-disc space-y-1 text-sm text-slate-600">
@@ -121,10 +114,10 @@ export function ResumeView({ data }: { data: ResumeData }) {
             </div>
 
             <div className="space-y-10">
-              <section className="space-y-6">
+              <section className="resume-section space-y-6">
                 <h2 className="border-b pb-2 text-xl font-bold">Skills</h2>
                 {skills.map((skillGroup, idx) => (
-                  <div key={idx} className="space-y-2">
+                  <div key={idx} className="resume-block space-y-2">
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">{skillGroup.group}</h3>
                     <div className="flex flex-wrap gap-2">
                       {skillGroup.items.map((skill, sIdx) => (
@@ -137,11 +130,11 @@ export function ResumeView({ data }: { data: ResumeData }) {
                 ))}
               </section>
 
-              <section className="space-y-6">
+              <section className="resume-section space-y-6">
                 <h2 className="border-b pb-2 text-xl font-bold">Education</h2>
                 <div className="space-y-4">
                   {education.map((edu, idx) => (
-                    <div key={idx} className="space-y-1">
+                    <div key={idx} className="resume-block space-y-1">
                       <h3 className="text-sm font-bold">{edu.institution}</h3>
                       <p className="text-sm text-slate-600">{edu.degree}</p>
                       <p className="text-xs text-slate-400">{edu.start} — {edu.end}</p>
@@ -150,7 +143,7 @@ export function ResumeView({ data }: { data: ResumeData }) {
                 </div>
               </section>
 
-              <section className="space-y-4">
+              <section className="resume-section space-y-4">
                 <h2 className="border-b pb-2 text-xl font-bold">Languages</h2>
                 <div className="space-y-2">
                   {languages.map((lang, idx) => (

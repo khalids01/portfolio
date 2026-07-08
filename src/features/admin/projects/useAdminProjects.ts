@@ -6,6 +6,41 @@ import { queryKeys } from "@/constants/queryKeys";
 import type { Project } from "@/features/projects/types";
 import { toast } from "sonner";
 
+export type ProjectMutationPayload = {
+  title: string;
+  slug: string;
+  description: string | null;
+  coverImage: string | null;
+  images: string[];
+  url: string | null;
+  repoUrl: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  tagNames: string[];
+  skillIds: string[];
+  categoryId: string | null;
+  statusBadges: string[];
+  featuredRank: number | null;
+  role: string | null;
+  impact: string | null;
+  caseStudy: {
+    problem?: string;
+    role?: string;
+    features: string[];
+    challenges: string[];
+    result?: string;
+  };
+};
+
+export function useAdminProject(id: string) {
+  return useQuery<{ data: Project }>({
+    queryKey: queryKeys.projects.detail(id),
+    queryFn: () => api(`${endpoints.admin.projects}?id=${encodeURIComponent(id)}`),
+    enabled: Boolean(id),
+    retry: false,
+  });
+}
+
 export function useAdminProjects() {
   const qc = useQueryClient();
 
@@ -15,8 +50,7 @@ export function useAdminProjects() {
   });
 
   const create = useMutation({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mutationFn: async (payload: any) =>
+    mutationFn: async (payload: ProjectMutationPayload) =>
       api(endpoints.admin.projects, { method: "POST", data: payload }),
     onSuccess: () => {
       toast.success("Project created");
@@ -27,12 +61,12 @@ export function useAdminProjects() {
   });
 
   const update = useMutation({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    mutationFn: async (payload: any) =>
+    mutationFn: async (payload: ProjectMutationPayload & { id: string }) =>
       api(endpoints.admin.projects, { method: "PATCH", data: payload }),
-    onSuccess: () => {
+    onSuccess: (_data, payload) => {
       toast.success("Project updated");
       qc.invalidateQueries({ queryKey: queryKeys.projects.admin });
+      qc.invalidateQueries({ queryKey: queryKeys.projects.detail(payload.id) });
       qc.invalidateQueries({ queryKey: queryKeys.projects.public });
     },
     onError: () => toast.error("Failed to update project"),

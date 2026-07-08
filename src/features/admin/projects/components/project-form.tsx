@@ -1,17 +1,12 @@
 "use client";
 
-import { useForm, Controller } from "react-hook-form";
-import { useAdminProjects } from "../useAdminProjects";
-import { useAdminCategories } from "@/features/admin/categories/useAdminCategories";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SkillSelect } from "@/features/skills/components/skill-select";
-import { ImagePickerDialog } from "@/features/admin/images/components/image-picker-dialog";
-import { CoreImg } from "@/components/core/img";
-import { ImageIcon, X } from "lucide-react";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -19,6 +14,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { CoreImg } from "@/components/core/img";
+import { ImagePickerDialog } from "@/features/admin/images/components/image-picker-dialog";
+import { useAdminCategories } from "@/features/admin/categories/useAdminCategories";
+import { SkillSelect } from "@/features/skills/components/skill-select";
+import type { Project } from "@/features/projects/types";
+import { ImageIcon, X } from "lucide-react";
+import {
+  type ProjectMutationPayload,
+  useAdminProjects,
+} from "../useAdminProjects";
 
 type ProjectFormData = {
   title: string;
@@ -44,6 +50,20 @@ type ProjectFormData = {
   caseStudyResult: string;
 };
 
+type ProjectFormProps =
+  | {
+      mode: "create";
+      onSuccess?: () => void;
+      project?: never;
+      projectId?: never;
+    }
+  | {
+      mode: "edit";
+      project: Project;
+      projectId: string;
+      onSuccess?: () => void;
+    };
+
 const emptyDefaults: ProjectFormData = {
   title: "",
   slug: "",
@@ -68,84 +88,117 @@ const emptyDefaults: ProjectFormData = {
   caseStudyResult: "",
 };
 
-interface ProjectFormProps {
-  projectId: string | null;
-  onSuccess: () => void;
+function fromCommaList(value: string) {
+  return value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
-export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
-  const { create, update, list: projectsList } = useAdminProjects();
+function fromLines(value: string) {
+  return value
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function toDateInputValue(value: Project["startDate"]) {
+  if (!value) return "";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toISOString().split("T")[0];
+}
+
+function getProjectDefaults(project: Project): ProjectFormData {
+  return {
+    title: project.title,
+    slug: project.slug,
+    description: project.description || "",
+    coverImage: project.coverImage || "",
+    images: project.images || [],
+    url: project.url || "",
+    repoUrl: project.repoUrl || "",
+    startDate: toDateInputValue(project.startDate),
+    endDate: toDateInputValue(project.endDate),
+    tagNames: project.tags.map((tag) => tag.name).join(", "),
+    skillIds: project.skills.map((skill) => skill.id),
+    categoryId: project.categoryId ?? project.category?.id ?? "",
+    statusBadges: project.statusBadges?.join(", ") ?? "",
+    featuredRank:
+      project.featuredRank == null ? "" : String(project.featuredRank),
+    role: project.role ?? "",
+    impact: project.impact ?? "",
+    caseStudyProblem: project.caseStudy?.problem ?? "",
+    caseStudyRole: project.caseStudy?.role ?? "",
+    caseStudyFeatures: project.caseStudy?.features?.join("\n") ?? "",
+    caseStudyChallenges: project.caseStudy?.challenges?.join("\n") ?? "",
+    caseStudyResult: project.caseStudy?.result ?? "",
+  };
+}
+
+function getCreateDefaults(categoryId: string): ProjectFormData {
+  return {
+    ...emptyDefaults,
+    categoryId,
+  };
+}
+
+export function ProjectForm(props: ProjectFormProps) {
+  const router = useRouter();
+  const { create, update } = useAdminProjects();
   const { list: categoriesList } = useAdminCategories("project");
-
-  const project = projectId
-    ? projectsList.data?.data.find((p) => p.id === projectId)
-    : null;
-
   const firstCategoryId = categoriesList.data?.data[0]?.id ?? "";
+  const categories = categoriesList.data?.data ?? [];
+  const isEdit = props.mode === "edit";
+  const onSuccess = props.onSuccess;
+  const project = isEdit ? props.project : undefined;
+  const projectId = isEdit ? props.projectId : undefined;
 
   const [imagePickerOpen, setImagePickerOpen] = useState(false);
   const [galleryPickerOpen, setGalleryPickerOpen] = useState(false);
 
-  const { register, handleSubmit, reset, control, watch, setValue, formState: { isSubmitting } } =
-    useForm<ProjectFormData>({ defaultValues: emptyDefaults });
+  const {
+    control,
+    formState: { isSubmitting },
+    getValues,
+    handleSubmit,
+    register,
+    reset,
+    setValue,
+    watch,
+  } = useForm<ProjectFormData>({
+    defaultValues: project
+      ? getProjectDefaults(project)
+      : getCreateDefaults(firstCategoryId),
+  });
 
   const coverImage = watch("coverImage");
   const galleryImages = watch("images") ?? [];
 
-  const fromCommaList = (value: string) =>
-    value
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
-  const fromLines = (value: string) =>
-    value
-      .split("\n")
-      .map((item) => item.trim())
-      .filter(Boolean);
-
   useEffect(() => {
     if (project) {
-      reset({
-        title: project.title,
-        slug: project.slug,
-        description: project.description || "",
-        coverImage: project.coverImage || "",
-        images: project.images || [],
-        url: project.url || "",
-        repoUrl: project.repoUrl || "",
-        startDate: project.startDate
-          ? new Date(project.startDate).toISOString().split("T")[0]
-          : "",
-        endDate: project.endDate
-          ? new Date(project.endDate).toISOString().split("T")[0]
-          : "",
-        tagNames: project.tags.map((t) => t.name).join(", "),
-        skillIds: project.skills.map((s) => s.id),
-        categoryId: project.categoryId ?? project.category?.id ?? "",
-        statusBadges: project.statusBadges?.join(", ") ?? "",
-        featuredRank: project.featuredRank == null ? "" : String(project.featuredRank),
-        role: project.role ?? "",
-        impact: project.impact ?? "",
-        caseStudyProblem: project.caseStudy?.problem ?? "",
-        caseStudyRole: project.caseStudy?.role ?? "",
-        caseStudyFeatures: project.caseStudy?.features?.join("\n") ?? "",
-        caseStudyChallenges: project.caseStudy?.challenges?.join("\n") ?? "",
-        caseStudyResult: project.caseStudy?.result ?? "",
-      });
-    } else {
-      reset({
-        ...emptyDefaults,
-        categoryId: firstCategoryId,
-      });
+      reset(getProjectDefaults(project));
+      return;
     }
-  }, [project, projectId, reset, firstCategoryId]);
 
-  const categories = categoriesList.data?.data ?? [];
+    if (firstCategoryId && !getValues("categoryId")) {
+      setValue("categoryId", firstCategoryId);
+    }
+  }, [firstCategoryId, getValues, project, reset, setValue]);
+
+  const handleSuccess = () => {
+    if (onSuccess) {
+      onSuccess();
+      return;
+    }
+
+    router.push("/admin/projects");
+  };
 
   const onSubmit = (data: ProjectFormData) => {
-    const tagNames = fromCommaList(data.tagNames);
-
-    const payload = {
+    const payload: ProjectMutationPayload = {
       title: data.title,
       slug: data.slug,
       description: data.description || null,
@@ -155,11 +208,12 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
       repoUrl: data.repoUrl || null,
       startDate: data.startDate || null,
       endDate: data.endDate || null,
-      tagNames,
+      tagNames: fromCommaList(data.tagNames),
       skillIds: data.skillIds,
       categoryId: data.categoryId || null,
       statusBadges: fromCommaList(data.statusBadges),
-      featuredRank: data.featuredRank === "" ? null : Number(data.featuredRank),
+      featuredRank:
+        data.featuredRank === "" ? null : Number(data.featuredRank),
       role: data.role || null,
       impact: data.impact || null,
       caseStudy: {
@@ -171,18 +225,22 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
       },
     };
 
-    if (projectId) {
-      update.mutate({ id: projectId, ...payload }, { onSuccess });
-    } else {
-      create.mutate(payload, { onSuccess });
+    if (isEdit && projectId) {
+      update.mutate(
+        { id: projectId, ...payload },
+        { onSuccess: handleSuccess },
+      );
+      return;
     }
+
+    create.mutate(payload, { onSuccess: handleSuccess });
   };
 
   const isPending = create.isPending || update.isPending || isSubmitting;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="title">Title *</Label>
           <Input id="title" {...register("title", { required: true })} />
@@ -198,7 +256,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         <Textarea id="description" rows={3} {...register("description")} />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="statusBadges">Status Badges</Label>
           <Input
@@ -294,7 +352,10 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
                   className="group relative overflow-hidden rounded-md border bg-muted"
                 >
                   <div className="aspect-video">
-                    <CoreImg src={image} alt={`Project gallery image ${index + 1}`} />
+                    <CoreImg
+                      src={image}
+                      alt={`Project gallery image ${index + 1}`}
+                    />
                   </div>
                   <Button
                     type="button"
@@ -304,7 +365,9 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
                     onClick={() =>
                       setValue(
                         "images",
-                        galleryImages.filter((_, imageIndex) => imageIndex !== index),
+                        galleryImages.filter(
+                          (_, imageIndex) => imageIndex !== index,
+                        ),
                         { shouldDirty: true },
                       )
                     }
@@ -356,7 +419,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="url">Live URL</Label>
           <Input id="url" {...register("url")} />
@@ -367,7 +430,7 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="startDate">Start Date</Label>
           <Input type="date" id="startDate" {...register("startDate")} />
@@ -389,9 +452,9 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
-                    {cat.name}
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -432,11 +495,19 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="caseStudyProblem">Problem</Label>
-          <Textarea id="caseStudyProblem" rows={3} {...register("caseStudyProblem")} />
+          <Textarea
+            id="caseStudyProblem"
+            rows={3}
+            {...register("caseStudyProblem")}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="caseStudyRole">Case Study Role</Label>
-          <Textarea id="caseStudyRole" rows={2} {...register("caseStudyRole")} />
+          <Textarea
+            id="caseStudyRole"
+            rows={2}
+            {...register("caseStudyRole")}
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="caseStudyFeatures">Features (one per line)</Label>
@@ -458,17 +529,24 @@ export function ProjectForm({ projectId, onSuccess }: ProjectFormProps) {
         </div>
         <div className="space-y-2">
           <Label htmlFor="caseStudyResult">Result</Label>
-          <Textarea id="caseStudyResult" rows={3} {...register("caseStudyResult")} />
+          <Textarea
+            id="caseStudyResult"
+            rows={3}
+            {...register("caseStudyResult")}
+          />
         </div>
       </div>
 
-      <div className="flex justify-end pt-4">
+      <div className="flex flex-col-reverse gap-2 border-t pt-6 sm:flex-row sm:justify-end">
+        <Button type="button" variant="outline" asChild>
+          <Link href="/admin/projects">Cancel</Link>
+        </Button>
         <Button type="submit" disabled={isPending}>
           {isPending
-            ? projectId
+            ? isEdit
               ? "Updating..."
               : "Creating..."
-            : projectId
+            : isEdit
               ? "Update Project"
               : "Create Project"}
         </Button>

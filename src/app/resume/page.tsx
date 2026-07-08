@@ -13,7 +13,7 @@ export default async function ResumePage() {
   const data = await getResume();
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-6 md:py-10 print:bg-white print:p-0">
+    <main className="min-h-screen bg-slate-950 px-4 py-6 md:py-10 print:bg-white print:p-0">
       <ResumeView data={data} />
     </main>
   );

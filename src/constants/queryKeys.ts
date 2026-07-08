@@ -17,6 +17,7 @@ export const queryKeys = {
   projects: {
     public: ["projects", "public"] as const,
     admin: ["projects", "admin"] as const,
+    detail: (id: string) => ["projects", "admin", id] as const,
   },
   experiences: {
     admin: ["experiences", "admin"] as const,

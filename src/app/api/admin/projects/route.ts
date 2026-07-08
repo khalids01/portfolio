@@ -50,8 +50,14 @@ function serializeProject<T extends { images: unknown; statusBadges?: unknown }>
   };
 }
 
-// GET: list projects for the current admin's profile
-export async function GET() {
+const projectInclude = {
+  tags: true,
+  skills: { select: { id: true, name: true } },
+  category: { select: { id: true, name: true, slug: true } },
+};
+
+// GET: list projects, or fetch one project by id, for the current admin's profile
+export async function GET(req: Request) {
   const guard = await requireAdmin();
   if (!guard.ok)
     return NextResponse.json(
@@ -61,15 +67,35 @@ export async function GET() {
 
   try {
     const profile = await getAdminProfile(guard.session.user.id as string);
-    if (!profile) return NextResponse.json({ data: [] });
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!profile) {
+      return id
+        ? NextResponse.json({ error: "Project not found" }, { status: 404 })
+        : NextResponse.json({ data: [] });
+    }
+
+    if (id) {
+      const project = await prisma.project.findFirst({
+        where: { id, profileId: profile.id },
+        include: projectInclude,
+      });
+
+      if (!project) {
+        return NextResponse.json(
+          { error: "Project not found" },
+          { status: 404 },
+        );
+      }
+
+      return NextResponse.json({ data: serializeProject(project) });
+    }
+
     const projects = await prisma.project.findMany({
       where: { profileId: profile.id },
       orderBy: [{ featuredRank: "asc" }, { startDate: "desc" }],
-      include: {
-        tags: true,
-        skills: { select: { id: true, name: true } },
-        category: { select: { id: true, name: true, slug: true } },
-      },
+      include: projectInclude,
     });
     return NextResponse.json({ data: projects.map(serializeProject) });
   } catch (e) {
@@ -172,11 +198,7 @@ export async function POST(req: Request) {
             ? { connect: skillIds.map((id) => ({ id })) }
             : undefined,
       },
-      include: {
-        tags: true,
-        skills: { select: { id: true, name: true } },
-        category: { select: { id: true, name: true, slug: true } },
-      },
+      include: projectInclude,
     });
     return NextResponse.json({ data: serializeProject(created) }, { status: 201 });
   } catch (e) {
@@ -294,11 +316,7 @@ export async function PATCH(req: Request) {
     const updated = await prisma.project.update({
       where: { id },
       data: updateData,
-      include: {
-        tags: true,
-        skills: { select: { id: true, name: true } },
-        category: { select: { id: true, name: true, slug: true } },
-      },
+      include: projectInclude,
     });
     return NextResponse.json({ data: serializeProject(updated) });
   } catch (e) {

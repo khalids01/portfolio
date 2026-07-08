@@ -144,7 +144,7 @@ export function ImagePickerDialog({
           if (nextOpen) setDraftSelection(initialSelected);
         }}
       >
-        <DialogContent className="max-h-[90vh] max-w-5xl overflow-y-auto">
+        <DialogContent className=" max-h-[98vh] !w-[calc(100vw-1rem)] !max-w-[calc(100vw-1rem)] overflow-y-auto sm:!w-[calc(100vw-2rem)] sm:!max-w-[min(1280px,calc(100vw-2rem))]">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>
