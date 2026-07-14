@@ -8,6 +8,7 @@ export type ResumeMeta = {
   title: string;
   targetRole?: string | null;
   isDefault: boolean;
+  defaultLayout: string;
 };
 
 export async function getResume(slug?: string): Promise<ResumeData> {
@@ -62,6 +63,7 @@ export async function listResumeMeta(): Promise<ResumeMeta[]> {
       title: true,
       targetRole: true,
       isDefault: true,
+      defaultLayout: true,
     },
   });
 }

@@ -1,5 +1,6 @@
-import { getResume } from "@/features/resume/data";
+import { getResumeRecord } from "@/features/resume/data";
 import { ResumeView } from "@/features/resume/components/resume-view";
+import { normalizeResumeLayoutId } from "@/features/resume/layouts";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,12 +10,24 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default async function ResumePage() {
-  const data = await getResume();
+export default async function ResumePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ layout?: string }>;
+}) {
+  const [{ layout }, record] = await Promise.all([
+    searchParams,
+    getResumeRecord(),
+  ]);
+  const activeLayout = normalizeResumeLayoutId(layout, normalizeResumeLayoutId(record.defaultLayout));
 
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-6 md:py-10 print:bg-white print:p-0">
-      <ResumeView data={data} />
+      <ResumeView
+        data={record.data}
+        resumeSlug={record.slug}
+        activeLayout={activeLayout}
+      />
     </main>
   );
 }

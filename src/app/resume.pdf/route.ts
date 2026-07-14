@@ -9,6 +9,7 @@ import {
   getResumePdfCacheFile,
   isResumePdfCacheFresh,
 } from "@/features/resume/pdf-cache";
+import { normalizeResumeLayoutId } from "@/features/resume/layouts";
 import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
 export const dynamic = "force-dynamic";
@@ -57,10 +58,11 @@ function getPdfErrorMessage(error: unknown) {
 
 export async function GET(request: NextRequest) {
   const variant = request.nextUrl.searchParams.get("variant") || "default";
+  const requestedLayout = request.nextUrl.searchParams.get("layout");
   // 1. Check DB for last update
   const resume = await prisma.resume.findUnique({
     where: { slug: variant },
-    select: { updatedAt: true },
+    select: { updatedAt: true, defaultLayout: true },
   });
 
   if (!resume) {
@@ -69,10 +71,11 @@ export async function GET(request: NextRequest) {
 
   // 2. Check cache
   ensureResumePdfCacheDir();
+  const layout = normalizeResumeLayoutId(requestedLayout, normalizeResumeLayoutId(resume.defaultLayout));
 
-  const cacheFile = getResumePdfCacheFile(variant);
+  const cacheFile = getResumePdfCacheFile(variant, layout);
 
-  if (isResumePdfCacheFresh(resume.updatedAt, variant)) {
+  if (isResumePdfCacheFresh(resume.updatedAt, variant, layout)) {
     console.log("Serving cached PDF");
     const cachedPdf = readFileSync(cacheFile);
     return new Response(new Uint8Array(cachedPdf), {
@@ -88,7 +91,9 @@ export async function GET(request: NextRequest) {
   const protocol = request.nextUrl.protocol === "https:" ? "https" : "http";
   const baseUrl = env.NEXT_PUBLIC_APP_URL || `${protocol}://${host}`;
   const resumeUrl =
-    variant === "default" ? `${baseUrl}/resume` : `${baseUrl}/resume/${variant}`;
+    variant === "default"
+      ? `${baseUrl}/resume?layout=${layout}`
+      : `${baseUrl}/resume/${variant}?layout=${layout}`;
 
   const startTime = Date.now();
   console.log("Generating fresh PDF from:", resumeUrl);

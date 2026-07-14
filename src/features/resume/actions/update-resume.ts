@@ -11,6 +11,7 @@ export async function updateResume(input: {
   title: string;
   targetRole?: string | null;
   isDefault?: boolean;
+  defaultLayout?: string;
   data: ResumeData;
 }) {
   const admin = await requireAdmin();
@@ -39,12 +40,14 @@ export async function updateResume(input: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
+        defaultLayout: input.defaultLayout ?? "classic",
         data: parsed.data,
       },
       update: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
+        defaultLayout: input.defaultLayout ?? "classic",
         data: parsed.data,
       },
     });

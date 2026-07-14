@@ -294,6 +294,7 @@ export async function upsertResume(
     title: string;
     targetRole?: string | null;
     isDefault?: boolean;
+    defaultLayout?: string;
     data: unknown;
   },
 ) {
@@ -310,6 +311,7 @@ export async function upsertResume(
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
+      defaultLayout: input.defaultLayout ?? "classic",
       data: input.data as Prisma.InputJsonValue,
     },
     create: {
@@ -317,6 +319,7 @@ export async function upsertResume(
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
+      defaultLayout: input.defaultLayout ?? "classic",
       data: input.data as Prisma.InputJsonValue,
     },
   });

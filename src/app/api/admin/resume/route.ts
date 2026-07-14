@@ -25,6 +25,7 @@ export async function POST(req: Request) {
       title?: string;
       targetRole?: string | null;
       isDefault?: boolean;
+      defaultLayout?: string;
       data?: unknown;
     };
     const slug = body.slug?.trim() || "default";
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
+        defaultLayout: body.defaultLayout ?? "classic",
         data: body.data || {},
       },
       create: {
@@ -55,6 +57,7 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
+        defaultLayout: body.defaultLayout ?? "classic",
         data: body.data || {},
       },
     });
