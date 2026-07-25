@@ -476,7 +476,7 @@ function AtsPlainResumeLayout({ data }: ResumeLayoutProps) {
 
   return (
     <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[14mm] font-serif text-slate-950 shadow-sm print:shadow-none">
+      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[14mm] text-slate-950 shadow-sm print:shadow-none">
         <header className="resume-block border-b border-slate-400 pb-3 text-center">
           <h1 className="text-[26px] font-bold leading-tight">{basics.name}</h1>
           <p className="mt-1 text-[14px]">{basics.title}</p>
@@ -520,7 +520,7 @@ function AtsPlainResumeLayout({ data }: ResumeLayoutProps) {
             </div>
           </section>
 
-          <section className="resume-section space-y-3">
+          <section className="resume-section space-y-3 print:break-before-page">
             <h2 className="border-b border-slate-300 text-[14px] font-bold uppercase">Projects</h2>
             {projects.map((project, index) => (
               <div key={index} className="resume-block">

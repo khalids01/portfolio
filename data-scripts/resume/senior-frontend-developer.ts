@@ -1,6 +1,13 @@
 import type { SeedScript } from "../types";
 import { upsertResume } from "../utils";
-import { createResume, frontendSkills } from "./resume-data";
+import {
+  createResume,
+  emrProject,
+  frontendExperience,
+  frontendSkills,
+  jobPlatformsProject,
+  limsProject,
+} from "./resume-data";
 
 export const seniorFrontendDeveloperResumeSeed: SeedScript = {
   id: "resume/senior-frontend-developer",
@@ -13,11 +20,14 @@ export const seniorFrontendDeveloperResumeSeed: SeedScript = {
       slug: "senior-frontend-developer",
       title: "Senior Frontend Developer Resume",
       targetRole: "Senior Frontend Developer",
+      defaultLayout: "ats-plain",
       data: createResume({
         title: "Senior Frontend Developer",
         summary:
-          "Frontend-leaning TypeScript developer experienced in building polished React/Next.js dashboards, complex forms, production business workflows, and full-stack features with strong backend collaboration.",
+          "Frontend-focused TypeScript developer with 6+ years of experience building React and Next.js applications for complex business workflows. Experienced in responsive dashboards, dynamic forms, role-aware interfaces, real-time data views, API integration, performance-focused implementation, and delivering production features with backend and product stakeholders.",
         skills: frontendSkills,
+        experience: frontendExperience,
+        projects: [limsProject, jobPlatformsProject, emrProject],
       }),
     });
   },

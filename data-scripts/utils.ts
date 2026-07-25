@@ -1,4 +1,5 @@
 import { Prisma, type PrismaClient } from "../prisma/generated/client";
+import { resumeSchema } from "../src/features/resume/schema";
 import type { ProjectCaseStudy } from "./types";
 
 export const owner = {
@@ -298,6 +299,8 @@ export async function upsertResume(
     data: unknown;
   },
 ) {
+  const data = resumeSchema.parse(input.data);
+
   if (input.isDefault) {
     await prisma.resume.updateMany({
       where: { slug: { not: input.slug } },
@@ -312,7 +315,7 @@ export async function upsertResume(
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
       defaultLayout: input.defaultLayout ?? "classic",
-      data: input.data as Prisma.InputJsonValue,
+      data: data as Prisma.InputJsonValue,
     },
     create: {
       slug: input.slug,
@@ -320,7 +323,7 @@ export async function upsertResume(
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
       defaultLayout: input.defaultLayout ?? "classic",
-      data: input.data as Prisma.InputJsonValue,
+      data: data as Prisma.InputJsonValue,
     },
   });
 

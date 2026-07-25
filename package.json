@@ -9,6 +9,7 @@
     "lint": "eslint",
     "data-seed": "NODE_OPTIONS=--no-network-family-autoselection tsx data-scripts/index.ts",
     "data-seed:all": "NODE_OPTIONS=--no-network-family-autoselection tsx data-scripts/index.ts --all",
+    "update-resume": "NODE_OPTIONS=--no-network-family-autoselection tsx data-scripts/index.ts --group resume",
     "db:seed": "NODE_OPTIONS=--no-network-family-autoselection prisma db seed",
     "postinstall": "prisma generate --schema=./prisma/schema"
   },
