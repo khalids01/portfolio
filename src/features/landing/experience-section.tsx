@@ -4,9 +4,7 @@ import * as React from "react";
 import type { ExperienceData } from "@/features/landing/data";
 import { Briefcase, MapPin, Calendar, ArrowUpRight } from "lucide-react";
 import { format } from "date-fns";
-import { motion, useScroll, useTransform } from "framer-motion";
-
-const TEAL_COLOR = "#2dd4bf";
+import { motion } from "framer-motion";
 
 function HighlightedText({ text }: { text: string }) {
   const keywords = [
@@ -176,4 +174,3 @@ export function ExperienceSection({ experiences }: { experiences: ExperienceData
     </section>
   );
 }
-

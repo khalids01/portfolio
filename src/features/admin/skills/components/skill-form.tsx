@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { useAdminSkills } from "../useAdminSkills";
-import { useAdminProjects } from "../../projects/useAdminProjects";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -39,8 +38,6 @@ const CATEGORIES = [
 
 export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
   const { create, update, list: skillsList } = useAdminSkills();
-  const { list: projectsList } = useAdminProjects();
-  
   const skill = skillId
     ? skillsList.data?.data.find((s) => s.id === skillId)
     : null;

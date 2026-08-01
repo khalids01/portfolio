@@ -1,12 +1,12 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/core/mode-toggle";
 import { UserMenu } from "@/components/core/user-menu";
 import { AnimatedName } from "@/components/core/animated-name";
 import type { LandingData } from "@/features/landing/data";
+import { SsoLoginButton } from "./SSO-login-btn";
 
 export function SiteHeader({
   name,
@@ -42,9 +42,7 @@ export function SiteHeader({
               isAdmin={isAdmin}
             />
           ) : (
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/auth/sign-in">Sign in</Link>
-            </Button>
+           <SsoLoginButton/> 
           )}
         </div>
       </div>
