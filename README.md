@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+Personal portfolio and admin dashboard built with Next.js, React, Prisma, Better Auth, and SkyCanvas SSO.
 
-First, run the development server:
+## Requirements
+
+- Node.js 20 or newer
+- Bun
+- PostgreSQL
+- A SkyCanvas SSO application and client ID
+
+## Local setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
+cp .env.example .env
+bunx prisma migrate dev
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application runs at [http://localhost:4000](http://localhost:4000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Start from `.env.example`. Authentication requires:
 
-## Learn More
+```env
+NEXT_PUBLIC_APP_URL=http://localhost:4000
+BETTER_AUTH_URL=http://localhost:4000
+BETTER_AUTH_SECRET=replace_with_at_least_32_random_characters
+SSO_CLIENT_ID=your_skycanvas_client_id
+SSO_URL=https://api-sso.skycanvasstudio.com
+```
 
-To learn more about Next.js, take a look at the following resources:
+`SSO_URL` points to the SkyCanvas SSO service. Keep the production value shown above unless using a real staging or self-hosted service.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application also requires `DATABASE_URL`. File-server and SMTP variables are documented in `.env.example`; SMTP and Chromium configuration are optional.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## SkyCanvas SSO
 
-## Deploy on Vercel
+This portfolio uses [`@skycanvasstudio/sso`](https://www.npmjs.com/package/@skycanvasstudio/sso) with Better Auth:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+import { createSsoBetterAuthProvider } from "@skycanvasstudio/sso/better-auth";
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+const skycanvas = createSsoBetterAuthProvider({
+  clientId: env.SSO_CLIENT_ID,
+  baseUrl: env.SSO_URL,
+});
+```
+
+Better Auth owns the OAuth callback, account, cookie, and local session. No `SSO_CALLBACK_URL` environment variable is needed.
+
+Register this exact callback in the SkyCanvas dashboard:
+
+```text
+http://localhost:4000/api/auth/oauth2/callback/skycanvas
+https://your-domain.example/api/auth/oauth2/callback/skycanvas
+```
+
+Production must use the public origin for both `NEXT_PUBLIC_APP_URL` and `BETTER_AUTH_URL`.
+
+## Commands
+
+```bash
+bun run dev        # Development server on port 4000
+bun run typecheck  # TypeScript validation
+bun run lint       # ESLint
+bun run build      # Production build
+bun run start      # Start the standalone production build
+```

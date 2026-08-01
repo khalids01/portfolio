@@ -1,6 +1,8 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,34 +11,63 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Settings, User, LayoutDashboard } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
+import { LoaderCircle, LogOut, Settings, User, LayoutDashboard } from "lucide-react";
+import { authClient, useSession } from "@/lib/auth-client";
 
 type Props = {
   name?: string;
+  image?: string;
   isAuthenticated?: boolean;
   isAdmin?: boolean;
 };
 
-export function UserMenu({ name, isAuthenticated = true, isAdmin = false }: Props) {
-  const initial = (name?.[0] || "U").toUpperCase();
+export function UserMenu({
+  name,
+  image: initialImage,
+  isAuthenticated = true,
+  isAdmin = false,
+}: Props) {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [isSigningOut, setIsSigningOut] = React.useState(false);
+  const displayName = session?.user.name || name;
+  const image = session?.user.image || initialImage;
+  const initial = (displayName?.[0] || "U").toUpperCase();
+
   const onSignOut = async () => {
-    await authClient.signOut();
+    setIsSigningOut(true);
+    const result = await authClient.signOut();
+
+    if (result.error) {
+      setIsSigningOut(false);
+      return;
+    }
+
+    router.replace("/");
+    router.refresh();
   };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-8">
-          <Avatar className="size-6">
+        <Button variant="ghost" size="icon" className="size-10 rounded-full">
+          <Avatar className="size-8">
+            {image && (
+              <AvatarImage
+                src={image}
+                alt={displayName || "User avatar"}
+                referrerPolicy="no-referrer"
+              />
+            )}
             <AvatarFallback className="text-xs">{initial}</AvatarFallback>
           </Avatar>
           <span className="sr-only">Open user menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-52">
-        <DropdownMenuLabel>{name || "My Account"}</DropdownMenuLabel>
+        <DropdownMenuLabel>{displayName || "My Account"}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {isAuthenticated && (
           <>
@@ -58,8 +89,17 @@ export function UserMenu({ name, isAuthenticated = true, isAdmin = false }: Prop
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onSignOut} className="text-destructive">
-              <LogOut className="mr-2 size-4" /> Log out
+            <DropdownMenuItem
+              onClick={onSignOut}
+              disabled={isSigningOut}
+              className="text-destructive"
+            >
+              {isSigningOut ? (
+                <LoaderCircle className="mr-2 size-4 animate-spin" />
+              ) : (
+                <LogOut className="mr-2 size-4" />
+              )}
+              {isSigningOut ? "Logging out…" : "Log out"}
             </DropdownMenuItem>
           </>
         )}

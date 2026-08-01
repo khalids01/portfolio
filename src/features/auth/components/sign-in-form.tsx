@@ -1,14 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { signInWithSso } from "@/lib/auth-client";
+import { SsoLoginButton } from "@/components/core/SSO-login-btn";
 
 export function SignInForm() {
   return (
     <div className="max-w-xs">
-      <Button onClick={() => signInWithSso("/admin")} type="button" className="w-full">
-        Continue with SkyCanvas
-      </Button>
+      <SsoLoginButton
+        callbackURL="/admin"
+        label="Continue with SkyCanvas"
+        className="w-full"
+      />
     </div>
   );
 }

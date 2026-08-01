@@ -96,7 +96,12 @@ export type LandingData = {
   projects: ProjectData[];
   projectCategories: ProjectCategoryData[];
   socialLinks: Array<{ platform: string; url: string }>;
-  session: { userId: string; name?: string | null; role?: "ADMIN" | "USER" } | null;
+  session: {
+    userId: string;
+    name?: string | null;
+    image?: string | null;
+    role?: "ADMIN" | "USER";
+  } | null;
 };
 
 export async function getLandingData(): Promise<LandingData> {
@@ -205,9 +210,14 @@ export async function getLandingData(): Promise<LandingData> {
   if (session) {
     const u = await prisma.user.findUnique({
       where: { id: session.user.id },
-      select: { role: true, name: true },
+      select: { role: true, name: true, image: true },
     });
-    sessionData = { userId: session.user.id, name: u?.name ?? null, role: u?.role };
+    sessionData = {
+      userId: session.user.id,
+      name: u?.name ?? session.user.name,
+      image: u?.image ?? session.user.image,
+      role: u?.role,
+    };
   }
 
   return {

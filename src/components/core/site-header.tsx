@@ -38,6 +38,7 @@ export function SiteHeader({
           {isAuthed ? (
             <UserMenu
               name={session?.name ?? undefined}
+              image={session?.image ?? undefined}
               isAuthenticated
               isAdmin={isAdmin}
             />
