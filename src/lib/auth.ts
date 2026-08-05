@@ -1,29 +1,20 @@
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { genericOAuth } from "better-auth/plugins";
-import { createSsoBetterAuthProvider } from "@skycanvasstudio/sso/better-auth";
+
 import { env } from "@/env";
-import { prisma } from "@/lib/prisma";
+import { createSsoBetterAuthIntegration } from "@skycanvasstudio/sso/better-auth"
+import { betterAuth } from "better-auth"
+import { genericOAuth } from "better-auth/plugins"
 
-const skycanvas = {
-  ...createSsoBetterAuthProvider({
-    clientId: env.SSO_CLIENT_ID,
-    baseUrl: env.SSO_URL,
-  }),
-  // Better Auth otherwise preserves stale fields from an earlier auth method.
-  overrideUserInfo: true,
-};
-
+export const skycanvas = createSsoBetterAuthIntegration({
+  clientId: env.SSO_CLIENT_ID,
+  baseUrl: env.SSO_URL,
+  // forceLogin: true, // optional explicit reauthentication
+})
 
 export const auth = betterAuth({
-  baseURL: env.BETTER_AUTH_URL ?? env.NEXT_PUBLIC_APP_URL,
+  // Keep your existing database and auth options.
   account: { encryptOAuthTokens: true },
-  database: prismaAdapter(prisma, {
-    provider: "postgresql",
-  }),
   plugins: [
-    genericOAuth({
-      config: [skycanvas],
-    }),
+    // Keep your existing plugins here.
+    genericOAuth({ config: [skycanvas.provider] }),
   ],
-});
+})

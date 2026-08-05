@@ -4,6 +4,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/core/theme-provider";
 import { QueryProvider } from "@/components/core/query-provider";
 import { VisitorTracker } from "@/features/analytics/components/visitor-tracker";
+import { SsoProvider } from "@/lib/auth-client"
+import { getInitialAuthSession } from "@/lib/auth-session.server"
+import type { ReactNode } from "react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +26,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const bootstrap = await getInitialAuthSession()
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -36,7 +40,7 @@ export default function RootLayout({
         <VisitorTracker />
         <ThemeProvider>
           <QueryProvider>
-            {children}
+            <SsoProvider bootstrap={bootstrap}>{children}</SsoProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

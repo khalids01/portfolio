@@ -5,18 +5,8 @@ import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/core/mode-toggle";
 import { UserMenu } from "@/components/core/user-menu";
 import { AnimatedName } from "@/components/core/animated-name";
-import type { LandingData } from "@/features/landing/data";
-import { SsoLoginButton } from "./SSO-login-btn";
 
-export function SiteHeader({
-  name,
-  session,
-}: {
-  name: string;
-  session: LandingData["session"];
-}) {
-  const isAuthed = Boolean(session);
-  const isAdmin = session?.role === "ADMIN";
+export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-20 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,20 +21,14 @@ export function SiteHeader({
               priority
             />
           </div>
-          <AnimatedName name={name} />
+          <AnimatedName />
         </Link>
         <div className="ml-auto flex items-center gap-1">
           <ModeToggle />
-          {isAuthed ? (
-            <UserMenu
-              name={session?.name ?? undefined}
-              image={session?.image ?? undefined}
-              isAuthenticated
-              isAdmin={isAdmin}
-            />
-          ) : (
-           <SsoLoginButton/> 
-          )}
+
+          <UserMenu
+          />
+
         </div>
       </div>
       <Separator />

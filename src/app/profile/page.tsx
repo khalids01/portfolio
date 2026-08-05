@@ -32,7 +32,7 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <SiteHeader name={data.name} session={data.session} />
+      <SiteHeader />
       <div className="container py-10 space-y-4 mx-auto">
         <Card className="bg-background">
           <CardHeader>

@@ -1,13 +1,12 @@
 "use client";
 
-import { SsoLoginButton } from "@/components/core/SSO-login-btn";
+import { SsoSignInButton } from "@skycanvasstudio/sso/react";
 
 export function SignInForm() {
   return (
     <div className="max-w-xs">
-      <SsoLoginButton
+      <SsoSignInButton
         callbackURL="/admin"
-        label="Continue with SkyCanvas"
         className="w-full"
       />
     </div>

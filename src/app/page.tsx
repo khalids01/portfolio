@@ -13,10 +13,10 @@ import { prisma } from "@/lib/prisma";
 export default async function Home() {
   const data = await getLandingData();
   const visitorCount = await prisma.visitor.count();
-  
+
   return (
     <>
-      <SiteHeader name={data.name} session={data.session} />
+      <SiteHeader />
       <main>
         <Hero data={data} visitorCount={visitorCount} />
         {data.skills.length > 0 && <SkillsSection skills={data.skills} />}
