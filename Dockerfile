@@ -17,11 +17,7 @@ RUN apt-get update && apt-get install -y \
 
 # ---- Install deps ----
 COPY package.json package-lock.json* ./
-RUN if [ -f package-lock.json ]; then \
-      npm ci --legacy-peer-deps; \
-    else \
-      npm install --legacy-peer-deps; \
-    fi
+RUN npm install --legacy-peer-deps
 
 # ---- App source ----
 COPY . .

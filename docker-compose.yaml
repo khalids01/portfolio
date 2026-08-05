@@ -13,6 +13,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        EMAIL: ${EMAIL}
+        EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+        EMAIL_FROM: ${EMAIL_FROM}
+        SMTP_HOST: ${SMTP_HOST}
+        SMTP_PORT: ${SMTP_PORT}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+        FILE_SERVER_URL: ${FILE_SERVER_URL}
+        FILE_SERVER_API_KEY: ${FILE_SERVER_API_KEY}
+        BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+        BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+        SSO_URL: ${SSO_URL}
+        SSO_CLIENT_ID: ${SSO_CLIENT_ID}
     image: portfolio:latest
     container_name: portfolio
     env_file:
