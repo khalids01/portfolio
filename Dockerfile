@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
 
 # ---- Install deps ----
 COPY package.json package-lock.json* ./
+COPY prisma ./prisma
 RUN npm install --legacy-peer-deps
 
 # ---- App source ----
