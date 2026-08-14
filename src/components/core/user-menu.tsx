@@ -1,25 +1,28 @@
 "use client";
-import "@skycanvasstudio/sso/styles.css"
-import { SsoSignInButton, SsoUserMenu } from "@skycanvasstudio/sso/react"
-import { useSso } from "@/lib/auth-client"
+import "@skycanvasstudio/sso/styles.css";
+import { SsoUserMenu, useSkycanvas } from "@skycanvasstudio/sso/react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export function UserMenu() {
-  const { user, isPending, signIn, signOut } = useSso()
+  const { session, status, logout } = useSkycanvas();
+  const user = session?.user;
 
-  if (isPending) return <span>Loading…</span>
+  if (status === "loading") return <span>Loading…</span>;
 
   return user ? (
     <SsoUserMenu
       user={user}
       items={[
-        { label: "Dashboard", href: "/admin", },
+        { label: "Dashboard", href: "/admin" },
         { label: "Profile", href: "/profile" },
         { label: "Settings", href: "/settings" },
       ]}
-      onLogout={() => signOut({ returnTo: "/" })}
-
+      onLogout={() => logout({ returnTo: "/" })}
     />
   ) : (
-    <SsoSignInButton onSignIn={() => signIn("/admin")} />
-  )
+    <Button asChild>
+      <Link href={"/auth/sign-in"}>Signin</Link>
+    </Button>
+  );
 }

@@ -1,9 +1,9 @@
 "use client";
 import { motion } from "motion/react";
-import { useSso } from "@/lib/auth-client";
+import { useUser } from "@skycanvasstudio/sso/react";
 
 export function AnimatedName() {
-  const { user } = useSso()
+  const { user } = useUser();
   return (
     <motion.span
       initial={{ opacity: 0, y: 6 }}

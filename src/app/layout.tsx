@@ -4,9 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/core/theme-provider";
 import { QueryProvider } from "@/components/core/query-provider";
 import { VisitorTracker } from "@/features/analytics/components/visitor-tracker";
-import { SsoProvider } from "@/lib/auth-client"
-import { getInitialAuthSession } from "@/lib/auth-session.server"
-import type { ReactNode } from "react"
+import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
+import { skycanvas } from "@/lib/skycanvas";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +30,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const bootstrap = await getInitialAuthSession()
+  const bootstrap = await skycanvas.getBootstrap();
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -40,7 +39,7 @@ export default async function RootLayout({
         <VisitorTracker />
         <ThemeProvider>
           <QueryProvider>
-            <SsoProvider bootstrap={bootstrap}>{children}</SsoProvider>
+            <SkyCanvasProvider bootstrap={bootstrap}>{children}</SkyCanvasProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>

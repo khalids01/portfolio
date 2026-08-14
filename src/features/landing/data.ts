@@ -1,6 +1,5 @@
-import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
+import { skycanvas } from "@/lib/skycanvas";
 
 export type SkillData = {
   id: string;
@@ -106,8 +105,7 @@ export type LandingData = {
 
 export async function getLandingData(): Promise<LandingData> {
   // Get session (for header right-side logic)
-  const hdrs = await headers();
-  const session = await auth.api.getSession({ headers: hdrs });
+  const session = (await skycanvas.auth()).session;
 
   // Choose the portfolio owner profile. For now, pick the most recently updated.
   const profile = await prisma.profile.findFirst({
@@ -209,7 +207,7 @@ export async function getLandingData(): Promise<LandingData> {
   let sessionData: LandingData["session"] = null;
   if (session) {
     const u = await prisma.user.findUnique({
-      where: { id: session.user.id },
+      where: { email: session.user.email },
       select: { role: true, name: true, image: true },
     });
     sessionData = {

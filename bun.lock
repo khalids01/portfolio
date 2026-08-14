@@ -36,10 +36,9 @@
         "@radix-ui/react-tooltip": "^1.2.8",
         "@react-three/drei": "^10.7.7",
         "@react-three/fiber": "^9.4.2",
-        "@skycanvasstudio/sso": "^0.7.0",
+        "@skycanvasstudio/sso": "^0.9.7",
         "@tanstack/react-query": "^5.90.14",
         "axios": "^1.13.2",
-        "better-auth": "^1.4.9",
         "chromium": "^3.0.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -510,7 +509,7 @@
 
     "@sindresorhus/is": ["@sindresorhus/is@4.6.0", "", {}, "sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw=="],
 
-    "@skycanvasstudio/sso": ["@skycanvasstudio/sso@0.7.0", "", { "dependencies": { "@base-ui/react": "^1.2.0", "jose": "^6.1.0" }, "peerDependencies": { "@tanstack/react-start": ">=1.160.0", "next": ">=14", "react": ">=18" }, "optionalPeers": ["@tanstack/react-start", "next", "react"] }, "sha512-tmFhVegtJBs42yJ7VtAgqcmnQWB/usZtX9qSen3LQo5bLaK2+1Bl+biIdShbtKupImxPTposddtpNJLACpeTkg=="],
+    "@skycanvasstudio/sso": ["@skycanvasstudio/sso@0.9.7", "", { "dependencies": { "@base-ui/react": "^1.2.0", "jose": "^6.1.0", "react-hook-form": "^7.84.0" }, "peerDependencies": { "@tanstack/react-start": ">=1.160.0", "better-auth": ">=1.6.23", "elysia": ">=1.4.0", "next": ">=14", "react": ">=18" }, "optionalPeers": ["@tanstack/react-start", "better-auth", "elysia", "next", "react"] }, "sha512-g38pyXNqWQPo5Y2IUDzGRORYEgBOfeUJDxwxlpSwNMXtzCqhZNAe6gASWe4fGB6NT76epnQobf0ke9YqejDWfw=="],
 
     "@smithy/abort-controller": ["@smithy/abort-controller@4.0.5", "", { "dependencies": { "@smithy/types": "^4.3.2", "tslib": "^2.6.2" } }, "sha512-jcrqdTQurIrBbUm4W2YdLVMQDoL0sA9DTxYd2s+R/y+2U9NLOP7Xf/YqfSg1FZhlZIYEnvk2mwbyvIfdLEPo8g=="],
 
@@ -1851,6 +1850,8 @@
     "@radix-ui/react-separator/@radix-ui/react-primitive": ["@radix-ui/react-primitive@2.1.4", "", { "dependencies": { "@radix-ui/react-slot": "1.2.4" }, "peerDependencies": { "@types/react": "*", "@types/react-dom": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc", "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-9hQc4+GNVtJAIEPEqlYqW5RiYdrr8ea5XQ0ZOnD6fgru+83kqT15mq2OCcbe8KnjRZl5vF3ks69AKz3kh1jrhg=="],
 
     "@radix-ui/react-tooltip/@radix-ui/react-slot": ["@radix-ui/react-slot@1.2.3", "", { "dependencies": { "@radix-ui/react-compose-refs": "1.1.2" }, "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A=="],
+
+    "@skycanvasstudio/sso/react-hook-form": ["react-hook-form@7.85.0", "", { "peerDependencies": { "react": "^16.8.0 || ^17 || ^18 || ^19" } }, "sha512-U2MTriFXnclmV4rOE20p2DcRFv5WEg3FIcBFOKcOLFHDVvGIMPvLTkTWefUsonmlaVy23khVDxDWym6uJVGOzw=="],
 
     "@tailwindcss/oxide-wasm32-wasi/@emnapi/core": ["@emnapi/core@1.7.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.1.0", "tslib": "^2.4.0" }, "bundled": true }, "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg=="],
 

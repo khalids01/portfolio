@@ -1,12 +1,16 @@
 import * as React from "react";
 import { redirect } from "next/navigation";
-import { requireAdmin } from "@/lib/admin";
 import { AdminShell } from "@/features/admin/components/admin-shell";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const result = await requireAdmin();
-  if (!result.ok) {
-    redirect("/");
-  }
+import { skycanvas } from "@/lib/skycanvas";
+
+export default async function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const auth = await skycanvas.auth();
+  if (!auth.isAuthenticated) redirect("/auth/sign-in");
+
   return <AdminShell>{children}</AdminShell>;
 }
