@@ -40,9 +40,9 @@ services:
     expose:
       - "4000"
 
-    depends_on:
-      prisma-migrate:
-        condition: service_completed_successfully
+    # depends_on:
+    #   prisma-migrate:
+    #     condition: service_completed_successfully
 
     restart: unless-stopped
 
