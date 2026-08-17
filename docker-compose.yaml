@@ -1,15 +1,15 @@
 services:
-  prisma-migrate:
-    image: node:24-bookworm-slim
-    working_dir: /app
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    command: npx prisma migrate deploy
-    restart: "no"
-    networks:
-      - dokploy-network
+  # prisma-migrate:
+  #   image: node:24-bookworm-slim
+  #   working_dir: /app
+  #   volumes:
+  #     - .:/app
+  #   env_file:
+  #     - .env
+  #   command: npx prisma migrate deploy
+  #   restart: "no"
+  #   networks:
+  #     - dokploy-network
 
   portfolio:
     build:
