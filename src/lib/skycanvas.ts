@@ -6,5 +6,6 @@ export const skycanvas = createNextSso({
   secretKey: env.SKYCANVAS_SECRET_KEY,
   ssoUrl: env.SKYCANVAS_SSO_URL,
   interactionMode: "embedded",
+  appUrl: env.NEXT_PUBLIC_APP_URL,
   oauthMode: "popup",
 });
