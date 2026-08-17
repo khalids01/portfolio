@@ -8,6 +8,8 @@ services:
       - .env
     command: npx prisma migrate deploy
     restart: "no"
+    networks:
+      - dokploy-network
 
   portfolio:
     build:
@@ -27,24 +29,33 @@ services:
         BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
         SSO_URL: ${SSO_URL}
         SSO_CLIENT_ID: ${SSO_CLIENT_ID}
+
     image: portfolio:latest
-    container_name: portfolio
+
     env_file:
       - .env
-    ports:
-      - "4000:4000"
+
+    expose:
+      - "4000"
+
     depends_on:
-      - prisma-migrate
+      prisma-migrate:
+        condition: service_completed_successfully
+
     restart: unless-stopped
+
+    networks:
+      - dokploy-network
+
     labels:
       - traefik.enable=true
 
-      # Disable request body buffering
       - traefik.http.middlewares.no-buffer.buffering.maxRequestBodyBytes=0
       - traefik.http.middlewares.no-buffer.buffering.memRequestBodyBytes=0
 
-      # HTTP
       - traefik.http.routers.portfolio-web.middlewares=redirect-to-https@file,no-buffer
-
-      # HTTPS
       - traefik.http.routers.portfolio-websecure.middlewares=no-buffer
+
+networks:
+  dokploy-network:
+    external: true
