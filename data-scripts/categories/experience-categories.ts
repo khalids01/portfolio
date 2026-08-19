@@ -1,9 +1,10 @@
 import type { SeedScript } from "../types";
+import { EXPERIENCE_CATEGORY } from "../taxonomy";
 import { upsertCategory } from "../utils";
 
 const categories = [
-  { name: "Full-Time", slug: "full-time", order: 0 },
-  { name: "Freelance / Contract", slug: "freelance-contract", order: 1 },
+  { ...EXPERIENCE_CATEGORY.FULL_TIME, order: 0 },
+  { ...EXPERIENCE_CATEGORY.FREELANCE_CONTRACT, order: 1 },
 ];
 
 export const experienceCategoriesSeed: SeedScript = {

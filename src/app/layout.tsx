@@ -17,13 +17,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Khalid",
-  description: "Khalid's Portfolio",
-  icons: {
-    icon: "/icon.png",
-  },
-};
+export {metadata} from "@/lib/meta-data"  
 
 export default async function RootLayout({
   children,

@@ -7,6 +7,7 @@ import { interspeedExperienceSeed } from "./experience/interspeed";
 import { freelanceExperienceSeed } from "./experience/freelance-contract";
 import { limsProjectSeed } from "./projects/lims";
 import { algorithmicCryptoProjectSeed } from "./projects/algorithmic-crypto";
+import { multiExchangeTradingProjectSeed } from "./projects/multi-exchange-trading";
 import { emrProjectSeed } from "./projects/emr";
 import { paybridgeProjectSeed } from "./projects/paybridge";
 import { jobPlatformsProjectSeed } from "./projects/job-platforms";
@@ -22,6 +23,7 @@ export const seedScripts: SeedScript[] = [
   freelanceExperienceSeed,
   limsProjectSeed,
   algorithmicCryptoProjectSeed,
+  multiExchangeTradingProjectSeed,
   emrProjectSeed,
   paybridgeProjectSeed,
   jobPlatformsProjectSeed,

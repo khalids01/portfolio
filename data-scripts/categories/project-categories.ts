@@ -1,13 +1,14 @@
 import type { SeedScript } from "../types";
+import { PROJECT_CATEGORY } from "../taxonomy";
 import { upsertCategory } from "../utils";
 
 const categories = [
-  { name: "Production Apps", slug: "production-apps", order: 0 },
-  { name: "Enterprise HealthTech", slug: "enterprise-healthtech", order: 1 },
-  { name: "FinTech / Blockchain", slug: "fintech-blockchain", order: 2 },
-  { name: "SaaS / Internal Tools", slug: "saas-internal-tools", order: 3 },
-  { name: "Ecommerce", slug: "ecommerce", order: 4 },
-  { name: "Open Source", slug: "open-source", order: 5 },
+  { ...PROJECT_CATEGORY.PRODUCTION_APPS, order: 0 },
+  { ...PROJECT_CATEGORY.ENTERPRISE_HEALTHTECH, order: 1 },
+  { ...PROJECT_CATEGORY.FINTECH_BLOCKCHAIN, order: 2 },
+  { ...PROJECT_CATEGORY.SAAS_INTERNAL_TOOLS, order: 3 },
+  { ...PROJECT_CATEGORY.ECOMMERCE, order: 4 },
+  { ...PROJECT_CATEGORY.OPEN_SOURCE, order: 5 },
 ];
 
 export const projectCategoriesSeed: SeedScript = {

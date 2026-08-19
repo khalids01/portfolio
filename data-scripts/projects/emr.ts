@@ -1,4 +1,5 @@
 import type { SeedScript } from "../types";
+import { PROJECT_CATEGORY, SKILL } from "../taxonomy";
 import { upsertProject } from "../utils";
 
 export const emrProjectSeed: SeedScript = {
@@ -13,19 +14,24 @@ export const emrProjectSeed: SeedScript = {
       slug: "emr-system",
       description:
         "Customization and modernization work on a fork of OpenEMR, improving selected clinician and patient workflows with new UI and APIs.",
-      categorySlug: "open-source",
+      categorySlug: PROJECT_CATEGORY.ENTERPRISE_HEALTHTECH.slug,
       statusBadges: ["OpenEMR Fork", "Customization", "Paused"],
       featuredRank: 6,
-      role:
-        "Contributed smaller focused improvements compared with the LIMS ownership.",
+      role: "Contributed smaller focused improvements compared with the LIMS ownership.",
       impact:
         "Improved selected workflows in a mature healthcare codebase while learning legacy modernization constraints.",
-      tags: ["PHP", "TypeScript", "React", "MySQL", "REST", "Open Source"],
+      tags: [
+        SKILL.PHP.name,
+        SKILL.TYPESCRIPT.name,
+        SKILL.REACT.name,
+        SKILL.MYSQL.name,
+        SKILL.REST_APIS.name,
+        "Open Source",
+      ],
       caseStudy: {
         problem:
           "A mature OpenEMR-based system needed selected workflow and UI modernization without rewriting the whole product.",
-        role:
-          "Contributed targeted module improvements, API work, and frontend modernization.",
+        role: "Contributed targeted module improvements, API work, and frontend modernization.",
         features: [
           "Legacy module modernization",
           "Patient and clinician workflow improvements",

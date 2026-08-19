@@ -1,4 +1,5 @@
 import type { SeedScript } from "../types";
+import { PROJECT_CATEGORY, SKILL } from "../taxonomy";
 import { upsertProject } from "../utils";
 
 export const limsProjectSeed: SeedScript = {
@@ -13,22 +14,28 @@ export const limsProjectSeed: SeedScript = {
       slug: "lims",
       description:
         "Enterprise LIMS for hospitals and diagnostic centers, supporting clinical and anatomical laboratory workflows with strict access control and automation.",
-      categorySlug: "enterprise-healthtech",
+      categorySlug: PROJECT_CATEGORY.ENTERPRISE_HEALTHTECH.slug,
       statusBadges: [
         "Private Enterprise Project",
-        "Production-ready",
-        "Paused after funding ended",
+        "Advanced Development",
+        "Paused After Funding Ended",
       ],
-      featuredRank: 1,
-      role: "Built around 85% of the system over 2.5 years.",
+      featuredRank: 3,
+      role: "Primary full-stack developer, owning and building approximately 85% of the system over 2.5 years.",
       impact:
-        "Feature-rich healthcare platform prepared for real laboratory and hospital workflows before funding paused.",
-      tags: ["TypeScript", "Next.js", "Fastify", "MariaDB", "HealthTech", "Enterprise SaaS"],
+        "Built a feature-rich enterprise healthcare platform covering complex laboratory workflows before development paused after funding ended.",
+      tags: [
+        SKILL.TYPESCRIPT.name,
+        SKILL.NEXTJS.name,
+        SKILL.FASTIFY.name,
+        SKILL.MARIADB.name,
+        "HealthTech",
+        "Enterprise SaaS",
+      ],
       caseStudy: {
         problem:
           "Hospitals and diagnostic centers needed one system to manage patient registration, samples, lab workflows, reports, and internal access control.",
-        role:
-          "Primary full-stack developer responsible for most product workflows, backend APIs, data modeling, and UI flows.",
+        role: "Primary full-stack developer responsible for most product workflows, backend APIs, data modeling, and UI flows.",
         features: [
           "Patient and sample workflows",
           "Clinical and anatomical laboratory processes",

@@ -1,4 +1,9 @@
 import type { SeedScript } from "../types";
+import {
+  PROJECT_CATEGORY,
+  PROJECT_STATUS,
+  SKILL,
+} from "../taxonomy";
 import { upsertProject } from "../utils";
 
 export const jobPlatformsProjectSeed: SeedScript = {
@@ -12,19 +17,24 @@ export const jobPlatformsProjectSeed: SeedScript = {
       title: "Job Posting Platforms",
       slug: "job-posting-platforms",
       description:
-        "A set of production job posting applications with live deployments for real business use cases.",
-      categorySlug: "production-apps",
-      statusBadges: ["Production Used", "Live Apps"],
-      featuredRank: 3,
-      role: "Built full-stack job board features, dashboards, and deployment flows.",
+        "Production job posting applications built for real business recruitment workflows, including public listings, administration, and deployment.",
+      categorySlug: PROJECT_CATEGORY.PRODUCTION_APPS.slug,
+      statusBadges: [PROJECT_STATUS.PRODUCTION_USED, "Live Apps"],
+      featuredRank: 7,
       impact:
-        "Demonstrates commercially shipped apps beyond R&D and private enterprise work.",
-      tags: ["TypeScript", "Next.js", "SaaS", "JobTech", "Production"],
+        "Delivered commercially used applications with complete frontend, backend, administrative, and deployment workflows.",
+      role: "Built full-stack job board features, dashboards, and deployment flows.",
+      tags: [
+        SKILL.TYPESCRIPT.name,
+        SKILL.NEXTJS.name,
+        "JobTech",
+        "Production",
+        "Full Stack",
+      ],
       caseStudy: {
         problem:
           "Businesses needed practical job posting workflows with admin control and public listings.",
-        role:
-          "Built production application features from frontend to backend and deployment.",
+        role: "Built production application features from frontend to backend and deployment.",
         features: [
           "Job listing management",
           "Public job browsing",
