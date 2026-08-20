@@ -113,7 +113,7 @@ export const metadata: Metadata = {
       "Full-Stack TypeScript Developer building complex web applications, APIs, real-time systems, cloud infrastructure, and FinTech platforms.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/meta/og-image.png",
         width: 1200,
         height: 630,
         alt: "Abdullah Khalid - Full-Stack TypeScript Developer",
@@ -126,7 +126,7 @@ export const metadata: Metadata = {
     title: "Abdullah Khalid | Full-Stack TypeScript Developer",
     description:
       "Full-Stack TypeScript Developer specializing in React, Next.js, Node.js, Bun, real-time systems, infrastructure, and FinTech.",
-    images: ["/og-image.png"],
+    images: ["/meta/og-image.png"],
   },
 
   robots: {
