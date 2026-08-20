@@ -5,6 +5,7 @@ export type SkillData = {
   id: string;
   name: string;
   category: string;
+  icon?: string | null;
   level?: number | null;
   experienceYears?: number | null;
   experienceMonths?: number | null;
@@ -23,6 +24,8 @@ export type ExperienceData = {
   images: string[];
   category: { id: string; name: string; slug: string } | null;
   highlights: Array<{ text: string }>;
+  skills: Array<{ id: string; name: string; icon: string | null }>;
+  projects: Array<{ id: string; title: string; slug: string }>;
 };
 
 export type ProjectCategoryData = {
@@ -46,7 +49,12 @@ export type ProjectData = {
   categoryId: string | null;
   category: { id: string; name: string; slug: string } | null;
   tags: Array<{ name: string }>;
-  skills: Array<{ name: string }>;
+  skills: Array<{
+    id: string;
+    name: string;
+    icon: string | null;
+    category: string;
+  }>;
   statusBadges: string[];
   featuredRank?: number | null;
   role?: string | null;
@@ -118,14 +126,20 @@ export async function getLandingData(): Promise<LandingData> {
         include: {
           highlights: true,
           category: { select: { id: true, name: true, slug: true } },
+          skills: { orderBy: { order: "asc" }, select: { id: true, name: true, icon: true } },
+          projects: { select: { id: true, title: true, slug: true } },
         },
       },
       projects: {
         orderBy: [{ featuredRank: "asc" }, { startDate: "desc" }],
         include: {
           tags: true,
-          skills: { select: { name: true } },
+          skills: {
+            orderBy: { order: "asc" },
+            select: { id: true, name: true, icon: true, category: true },
+          },
           category: { select: { id: true, name: true, slug: true } },
+          experience: { select: { id: true, slug: true, company: true, role: true } },
         },
       },
       categories: {
@@ -148,6 +162,7 @@ export async function getLandingData(): Promise<LandingData> {
     id: s.id,
     name: s.name,
     category: s.category,
+    icon: s.icon,
     level: s.level,
     experienceYears: s.experienceYears,
     experienceMonths: s.experienceMonths,
@@ -166,6 +181,16 @@ export async function getLandingData(): Promise<LandingData> {
     images: normalizeProjectImages(e.images),
     category: e.category,
     highlights: e.highlights.map((h) => ({ text: h.text })),
+    skills: e.skills.map((skill) => ({
+      id: skill.id,
+      name: skill.name,
+      icon: skill.icon,
+    })),
+    projects: e.projects.map((project) => ({
+      id: project.id,
+      title: project.title,
+      slug: project.slug,
+    })),
   }));
 
   const projectCategories: ProjectCategoryData[] = (profile?.categories || []).map(
@@ -191,7 +216,12 @@ export async function getLandingData(): Promise<LandingData> {
     categoryId: p.categoryId,
     category: p.category,
     tags: p.tags.map((t) => ({ name: t.name })),
-    skills: p.skills.map((s) => ({ name: s.name })),
+    skills: p.skills.map((s) => ({
+      id: s.id,
+      name: s.name,
+      icon: s.icon,
+      category: s.category,
+    })),
     statusBadges: normalizeStringArray(p.statusBadges),
     featuredRank: p.featuredRank,
     role: p.role,

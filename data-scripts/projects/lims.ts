@@ -1,5 +1,5 @@
 import type { SeedScript } from "../types";
-import { PROJECT_CATEGORY, SKILL } from "../taxonomy";
+import { PROJECT_CATEGORY, PROJECT_TAG, SKILL } from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const limsProjectSeed: SeedScript = {
@@ -7,7 +7,12 @@ export const limsProjectSeed: SeedScript = {
   label: "Project: LIMS",
   group: "projects",
   order: 40,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: [
+    "profile/default",
+    "skills/default",
+    "categories/project",
+    "experience/interspeed",
+  ],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "Laboratory Information Management System (LIMS)",
@@ -24,14 +29,19 @@ export const limsProjectSeed: SeedScript = {
       role: "Primary full-stack developer, owning and building approximately 85% of the system over 2.5 years.",
       impact:
         "Built a feature-rich enterprise healthcare platform covering complex laboratory workflows before development paused after funding ended.",
-      tags: [
-        SKILL.TYPESCRIPT.name,
-        SKILL.NEXTJS.name,
-        SKILL.FASTIFY.name,
-        SKILL.MARIADB.name,
-        "HealthTech",
-        "Enterprise SaaS",
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.NEXTJS.slug,
+        SKILL.FASTIFY.slug,
+        SKILL.MARIADB.slug,
       ],
+
+      tags: [
+        PROJECT_TAG.HEALTHTECH,
+        PROJECT_TAG.ENTERPRISE_SAAS,
+      ],
+
+      experienceSlug: "interspeed-full-stack-typescript-developer",
       caseStudy: {
         problem:
           "Hospitals and diagnostic centers needed one system to manage patient registration, samples, lab workflows, reports, and internal access control.",

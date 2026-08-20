@@ -6,6 +6,7 @@ import { join } from "path";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "./generated/client";
+import { SKILLS } from "../data-scripts/portfolio-constants";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -158,18 +159,48 @@ async function upsertProfile(userId: string, profile: SeedProfile) {
   });
 }
 
-async function replaceSkills(profileId: string, skills: SeedSkill[] = []) {
-  await prisma.skill.deleteMany({ where: { profileId } });
-  if (!skills.length) return;
-  await prisma.skill.createMany({
-    data: skills.map((s, idx) => ({
+// Canonical slug -> definition map so legacy JSON seed rows map onto the same
+// stable Skill rows as the canonical data-scripts seed (no duplicate rows), and
+// canonical names/categories are never regressed by older legacy labels.
+const CANONICAL_SKILLS = new Map<string, { name: string; category: string }>(
+  SKILLS.map((skill) => [skill.slug, { name: skill.name, category: skill.category }]),
+);
+const LEGACY_NAME_TO_SLUG: Record<string, string> = {
+  "Linux Server Ops": "linux-server-ops",
+  "Solana RPC / Anchor": "solana",
+  "Jupiter DEX Aggregator": "jupiter",
+};
+
+async function upsertSkills(profileId: string, skills: SeedSkill[] = []) {
+  for (const [idx, skill] of skills.entries()) {
+    const name = skill.name as string;
+    const canonicalSlug =
+      SKILLS.find((s) => s.name === name)?.slug ?? LEGACY_NAME_TO_SLUG[name];
+
+    if (!canonicalSlug) {
+      console.warn(`Skipping legacy skill not in canonical vocabulary: ${name}`);
+      continue;
+    }
+
+    const canonical = CANONICAL_SKILLS.get(canonicalSlug);
+    const data = {
       profileId,
-      name: s.name as string,
-      category: s.category as string,
-      level: (s.level ?? null) as number | null,
-      order: (s.order ?? idx) as number,
-    })),
-  });
+      name: canonical?.name ?? name,
+      category: canonical?.category ?? (skill.category as string),
+      level: (skill.level ?? null) as number | null,
+      order: (skill.order ?? idx) as number,
+    };
+
+    await prisma.skill.upsert({
+      where: {
+        profileId_slug: { profileId, slug: canonicalSlug },
+      },
+      // Do not overwrite icon (or label/experience years) managed by the
+      // canonical seed or the admin dashboard.
+      update: data,
+      create: { ...data, slug: canonicalSlug },
+    });
+  }
 }
 
 async function replaceExperiences(
@@ -384,7 +415,7 @@ async function main() {
     fullName: profile.fullName,
   });
 
-  await replaceSkills(profile.id, json.skills || []);
+  await upsertSkills(profile.id, json.skills || []);
   console.log("Synced skills:", (json.skills || []).length);
 
   await replaceExperiences(profile.id, json.experiences || []);

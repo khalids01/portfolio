@@ -22,6 +22,23 @@ async function resolveProjectCategoryId(
   return category?.id ?? null;
 }
 
+async function resolveProjectExperienceId(
+  profileId: string,
+  experienceId: string | null | undefined,
+): Promise<string | null> {
+  if (!experienceId) return null;
+
+  const experience = await prisma.experience.findFirst({
+    where: {
+      id: experienceId,
+      profileId,
+    },
+    select: { id: true },
+  });
+
+  return experience?.id ?? null;
+}
+
 function normalizeProjectImages(images: unknown): string[] {
   if (!Array.isArray(images)) return [];
   return images.filter(
@@ -35,6 +52,19 @@ function normalizeStringArray(value: unknown): string[] {
   return value.filter(
     (item): item is string => typeof item === "string" && item.trim().length > 0,
   );
+}
+
+async function resolveProfileSkillIds(profileId: string, value: string[] | undefined) {
+  const ids = [...new Set((value ?? []).filter(Boolean))];
+  if (!ids.length) return ids;
+  const skills = await prisma.skill.findMany({
+    where: { id: { in: ids }, profileId },
+    select: { id: true },
+  });
+  if (skills.length !== ids.length) {
+    throw new Error("Invalid skill IDs for the current profile");
+  }
+  return ids;
 }
 
 function normalizeCaseStudy(value: unknown) {
@@ -52,8 +82,12 @@ function serializeProject<T extends { images: unknown; statusBadges?: unknown }>
 
 const projectInclude = {
   tags: true,
-  skills: { select: { id: true, name: true } },
+  skills: {
+    orderBy: { order: "asc" as const },
+    select: { id: true, name: true, icon: true, category: true },
+  },
   category: { select: { id: true, name: true, slug: true } },
+  experience: { select: { id: true, slug: true, company: true, role: true } },
 };
 
 // GET: list projects, or fetch one project by id, for the current admin's profile
@@ -135,6 +169,7 @@ export async function POST(req: Request) {
       tagNames,
       skillIds,
       categoryId,
+      experienceId,
       statusBadges,
       featuredRank,
       role,
@@ -153,6 +188,7 @@ export async function POST(req: Request) {
       tagNames?: string[];
       skillIds?: string[];
       categoryId?: string | null;
+      experienceId?: string | null;
       statusBadges?: unknown;
       featuredRank?: number | null;
       role?: string | null;
@@ -164,6 +200,11 @@ export async function POST(req: Request) {
       profile.id,
       categoryId,
     );
+    const resolvedExperienceId = await resolveProjectExperienceId(
+      profile.id,
+      experienceId,
+    );
+    const resolvedSkillIds = await resolveProfileSkillIds(profile.id, skillIds);
 
     const tagsConnectOrCreate = (tagNames ?? [])
       .filter(Boolean)
@@ -185,6 +226,7 @@ export async function POST(req: Request) {
         startDate: startDate ? new Date(startDate) : null,
         endDate: endDate ? new Date(endDate) : null,
         categoryId: resolvedCategoryId,
+        experienceId: resolvedExperienceId,
         statusBadges: normalizeStringArray(statusBadges),
         featuredRank: featuredRank ?? null,
         role: role || null,
@@ -194,8 +236,8 @@ export async function POST(req: Request) {
           ? { connectOrCreate: tagsConnectOrCreate }
           : undefined,
         skills:
-          Array.isArray(skillIds) && skillIds.length
-            ? { connect: skillIds.map((id) => ({ id })) }
+          resolvedSkillIds.length
+            ? { connect: resolvedSkillIds.map((id) => ({ id })) }
             : undefined,
       },
       include: projectInclude,
@@ -239,6 +281,7 @@ export async function PATCH(req: Request) {
       startDate,
       endDate,
       categoryId,
+      experienceId,
       statusBadges,
       featuredRank,
       role,
@@ -258,6 +301,7 @@ export async function PATCH(req: Request) {
       tagNames?: string[];
       skillIds?: string[];
       categoryId?: string | null;
+      experienceId?: string | null;
       statusBadges?: unknown;
       featuredRank?: number | null;
       role?: string | null;
@@ -266,6 +310,13 @@ export async function PATCH(req: Request) {
     };
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    const existingProject = await prisma.project.findFirst({
+      where: { id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!existingProject) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = {};
@@ -291,6 +342,13 @@ export async function PATCH(req: Request) {
       );
     }
 
+    if (experienceId !== undefined) {
+      updateData.experienceId = await resolveProjectExperienceId(
+        profile.id,
+        experienceId,
+      );
+    }
+
     if (startDate !== undefined)
       updateData.startDate = startDate ? new Date(startDate) : null;
     if (endDate !== undefined)
@@ -308,8 +366,9 @@ export async function PATCH(req: Request) {
     }
 
     if (skillIds !== undefined) {
+      const resolvedSkillIds = await resolveProfileSkillIds(profile.id, skillIds);
       updateData.skills = {
-        set: skillIds.map((sid) => ({ id: sid })),
+        set: resolvedSkillIds.map((sid) => ({ id: sid })),
       };
     }
 
@@ -341,6 +400,14 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+    const profile = await getAdminProfile(guard.session.user.id as string);
+    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    const project = await prisma.project.findFirst({
+      where: { id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!project) return NextResponse.json({ error: "Project not found" }, { status: 404 });
 
     await prisma.project.delete({ where: { id } });
     return NextResponse.json({ ok: true });

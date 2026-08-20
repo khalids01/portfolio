@@ -14,10 +14,10 @@ import {
   Globe,
   FileCode2,
 } from "lucide-react";
-import { getSkillIcon } from "@/constants/icons";
+import { getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
 import Image from "next/image";
 
-export type Skill = { name: string };
+export type Skill = { name: string; icon?: string | null };
 
 // Simple mapping of skill names to placeholder lucide icons
 function iconForSkill(name: string): ComponentType<{ className?: string }> {
@@ -40,7 +40,7 @@ export function SkillSphere({ skills }: { skills: Skill[] }) {
       return [Code2, Boxes, Database, Braces, Terminal, Cloud, GitBranch, Globe, Cpu, FileCode2].map(Icon => ({ type: 'icon' as const, value: Icon }));
     }
     return skills.map((s: Skill) => {
-      const brandIcon = getSkillIcon(s.name);
+      const brandIcon = normalizeSkillIcon(s.icon) ?? getSkillIcon(s.name);
       if (brandIcon) {
         return { type: 'brand' as const, value: brandIcon, name: s.name };
       }

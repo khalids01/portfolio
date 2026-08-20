@@ -41,9 +41,23 @@ function normalizeImages(value: unknown) {
   );
 }
 
+async function resolveProfileSkillIds(profileId: string, value: string[] | undefined) {
+  const ids = [...new Set((value ?? []).filter(Boolean))];
+  if (!ids.length) return ids;
+  const skills = await prisma.skill.findMany({
+    where: { id: { in: ids }, profileId },
+    select: { id: true },
+  });
+  if (skills.length !== ids.length) {
+    throw new Error("Invalid skill IDs for the current profile");
+  }
+  return ids;
+}
+
 const include = {
   highlights: true,
   category: { select: { id: true, name: true, slug: true } },
+  skills: { select: { id: true, name: true } },
 };
 
 export async function GET() {
@@ -94,6 +108,7 @@ export async function POST(req: Request) {
       images?: unknown;
       categoryId?: string | null;
       highlights?: unknown;
+      skillIds?: string[];
     };
 
     const startDate = parseDate(body.startDate);
@@ -105,6 +120,7 @@ export async function POST(req: Request) {
     }
 
     const categoryId = await resolveExperienceCategoryId(profile.id, body.categoryId);
+    const skillIds = await resolveProfileSkillIds(profile.id, body.skillIds);
     const created = await prisma.experience.create({
       data: {
         profileId: profile.id,
@@ -119,6 +135,10 @@ export async function POST(req: Request) {
         coverImage: body.coverImage || null,
         images: normalizeImages(body.images),
         categoryId,
+        skills:
+          skillIds.length
+            ? { connect: skillIds.map((id) => ({ id })) }
+            : undefined,
         highlights: {
           create: normalizeHighlights(body.highlights).map((text) => ({ text })),
         },
@@ -159,10 +179,18 @@ export async function PATCH(req: Request) {
       images?: unknown;
       categoryId?: string | null;
       highlights?: unknown;
+      skillIds?: string[];
     };
 
     if (!body.id) {
       return NextResponse.json({ error: "Missing id" }, { status: 400 });
+    }
+    const existingExperience = await prisma.experience.findFirst({
+      where: { id: body.id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!existingExperience) {
+      return NextResponse.json({ error: "Experience not found" }, { status: 404 });
     }
 
     const data: Record<string, unknown> = {};
@@ -178,6 +206,12 @@ export async function PATCH(req: Request) {
     if (body.images !== undefined) data.images = normalizeImages(body.images);
     if (body.categoryId !== undefined) {
       data.categoryId = await resolveExperienceCategoryId(profile.id, body.categoryId);
+    }
+    if (body.skillIds !== undefined) {
+      const skillIds = await resolveProfileSkillIds(profile.id, body.skillIds);
+      data.skills = {
+        set: skillIds.map((id) => ({ id })),
+      };
     }
 
     const updated = await prisma.$transaction(async (tx) => {
@@ -224,6 +258,14 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+    const profile = await getAdminProfile(guard.session.user.id as string);
+    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    const experience = await prisma.experience.findFirst({
+      where: { id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!experience) return NextResponse.json({ error: "Experience not found" }, { status: 404 });
 
     await prisma.experience.delete({ where: { id } });
     return NextResponse.json({ ok: true });

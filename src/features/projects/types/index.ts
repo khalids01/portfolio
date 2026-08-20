@@ -11,8 +11,20 @@ export type Project = {
   endDate?: string | Date | null;
   categoryId?: string | null;
   category?: { id: string; name: string; slug: string } | null;
+  experienceId?: string | null;
+  experience?: {
+    id: string;
+    slug: string;
+    company: string;
+    role: string;
+  } | null;
   tags: { id: string; name: string }[];
-  skills: { id: string; name: string }[];
+  skills: {
+    id: string;
+    name: string;
+    icon?: string | null;
+    category?: string | null;
+  }[];
   statusBadges: string[];
   featuredRank?: number | null;
   role?: string | null;

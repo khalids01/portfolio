@@ -1,5 +1,5 @@
 import type { SeedScript } from "../types";
-import { PROJECT_CATEGORY, SKILL } from "../taxonomy";
+import { PROJECT_CATEGORY, PROJECT_TAG, SKILL } from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const multiExchangeTradingProjectSeed: SeedScript = {
@@ -7,7 +7,12 @@ export const multiExchangeTradingProjectSeed: SeedScript = {
   label: "Project: Multi-Exchange Solana Trading Platform",
   group: "projects",
   order: 42,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: [
+    "profile/default",
+    "skills/default",
+    "categories/project",
+    "experience/interspeed",
+  ],
 
   async run({ prisma }) {
     await upsertProject(prisma, {
@@ -28,23 +33,29 @@ export const multiExchangeTradingProjectSeed: SeedScript = {
       impact:
         "Unified multiple exchange and liquidity integrations behind a TypeScript trading system capable of monitoring opportunities and coordinating automated buy/sell workflows.",
 
-      tags: [
-        SKILL.TYPESCRIPT.name,
-        SKILL.BUN.name,
-        SKILL.ELYSIA.name,
-        SKILL.NEXTJS.name,
-        SKILL.REACT.name,
-        SKILL.POSTGRESQL.name,
-        SKILL.PRISMA.name,
-        SKILL.REDIS.name,
-        SKILL.WEBSOCKETS.name,
-        SKILL.SOLANA.name,
-        SKILL.JUPITER.name,
-        SKILL.BINANCE.name,
-        SKILL.KUCOIN.name,
-        SKILL.COINBASE.name,
-        SKILL.DYDX.name,
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.BUN.slug,
+        SKILL.ELYSIA.slug,
+        SKILL.NEXTJS.slug,
+        SKILL.REACT.slug,
+        SKILL.POSTGRESQL.slug,
+        SKILL.PRISMA.slug,
+        SKILL.REDIS.slug,
+        SKILL.WEBSOCKETS.slug,
+        SKILL.SOLANA.slug,
+        SKILL.JUPITER.slug,
+        SKILL.BINANCE.slug,
+        SKILL.KUCOIN.slug,
+        SKILL.COINBASE.slug,
+        SKILL.DYDX.slug,
       ],
+
+      tags: [
+        PROJECT_TAG.FINTECH,
+      ],
+
+      experienceSlug: "interspeed-full-stack-typescript-developer",
 
       caseStudy: {
         problem:

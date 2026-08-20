@@ -1,6 +1,28 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
+import { getAdminProfile } from "@/lib/admin-profile";
+
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+async function resolveProfileProjectIds(profileId: string, value: string[] | null | undefined) {
+  const ids = [...new Set((value ?? []).filter(Boolean))];
+  if (!ids.length) return ids;
+  const projects = await prisma.project.findMany({
+    where: { id: { in: ids }, profileId },
+    select: { id: true },
+  });
+  if (projects.length !== ids.length) {
+    throw new Error("Invalid project IDs for the current profile");
+  }
+  return ids;
+}
 
 // GET: list skills for the current admin's profile
 export async function GET() {
@@ -10,12 +32,8 @@ export async function GET() {
       { error: guard.message },
       { status: guard.status },
     );
-  const userId = guard.session.user.id as string;
-
   try {
-    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
-    let profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) profile = await prisma.profile.findFirst();
+    const profile = await getAdminProfile(guard.session.user.id as string);
     if (!profile) return NextResponse.json({ data: [] });
     const skills = await prisma.skill.findMany({
       where: { profileId: profile.id },
@@ -40,18 +58,15 @@ export async function POST(req: Request) {
       { error: guard.message },
       { status: guard.status },
     );
-  const userId = guard.session.user.id as string;
-
   try {
     const body = await req.json();
-    // Try to find the admin's own profile; fall back to the first profile (single-owner portfolio)
-    let profile = await prisma.profile.findUnique({ where: { userId } });
-    if (!profile) profile = await prisma.profile.findFirst();
+    const profile = await getAdminProfile(guard.session.user.id as string);
     if (!profile)
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
     const {
       name,
+      slug,
       label,
       icon,
       category,
@@ -62,6 +77,7 @@ export async function POST(req: Request) {
       projectIds,
     } = body as {
       name: string;
+      slug?: string | null;
       label?: string | null;
       icon?: string | null;
       category?: string | null;
@@ -72,9 +88,32 @@ export async function POST(req: Request) {
       projectIds?: string[] | null;
     };
 
+    const resolvedSlug = (slug ?? "").trim() || slugify(name);
+    if (!resolvedSlug) {
+      return NextResponse.json(
+        { error: "A valid skill slug is required" },
+        { status: 400 },
+      );
+    }
+
+    const existing = await prisma.skill.findUnique({
+      where: {
+        profileId_slug: { profileId: profile.id, slug: resolvedSlug },
+      },
+      select: { id: true },
+    });
+    if (existing) {
+      return NextResponse.json(
+        { error: `A skill with slug "${resolvedSlug}" already exists` },
+        { status: 409 },
+      );
+    }
+    const resolvedProjectIds = await resolveProfileProjectIds(profile.id, projectIds);
+
     const created = await prisma.skill.create({
       data: {
         profileId: profile.id,
+        slug: resolvedSlug,
         name,
         label: label ?? null,
         icon: icon ?? null,
@@ -83,8 +122,8 @@ export async function POST(req: Request) {
         order: order ?? 0,
         experienceYears: experienceYears ?? 0,
         experienceMonths: experienceMonths ?? 0,
-        projects: projectIds?.length
-          ? { connect: projectIds.map((id) => ({ id })) }
+        projects: resolvedProjectIds.length
+          ? { connect: resolvedProjectIds.map((id) => ({ id })) }
           : undefined,
       },
       include: { projects: { select: { id: true, title: true, slug: true } } },
@@ -112,6 +151,7 @@ export async function PATCH(req: Request) {
     const body = await req.json();
     const { id, ...updates } = body as {
       id: string;
+      slug?: string | null;
       name?: string;
       label?: string | null;
       icon?: string | null;
@@ -125,13 +165,47 @@ export async function PATCH(req: Request) {
 
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
 
+    const profile = await getAdminProfile(guard.session.user.id as string);
+    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    const existingSkill = await prisma.skill.findFirst({
+      where: { id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!existingSkill) return NextResponse.json({ error: "Skill not found" }, { status: 404 });
+
+    if (updates.slug !== undefined && updates.slug !== null) {
+      const resolvedSlug = updates.slug.trim() || slugify(updates.name ?? "");
+      if (!resolvedSlug) {
+        return NextResponse.json(
+          { error: "A valid skill slug is required" },
+          { status: 400 },
+        );
+      }
+      const duplicate = await prisma.skill.findFirst({
+        where: {
+          profileId: profile.id,
+          slug: resolvedSlug,
+          id: { not: id },
+        },
+        select: { id: true },
+      });
+      if (duplicate) {
+        return NextResponse.json(
+          { error: `A skill with slug "${resolvedSlug}" already exists` },
+          { status: 409 },
+        );
+      }
+      updates.slug = resolvedSlug;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = { ...updates };
 
     if (Object.prototype.hasOwnProperty.call(updates, "projectIds")) {
+      const projectIds = await resolveProfileProjectIds(profile.id, updates.projectIds);
       // Replace many-to-many set with provided projectIds
       updateData.projects = {
-        set: (updates.projectIds ?? []).map((pid) => ({ id: pid })),
+        set: projectIds.map((pid) => ({ id: pid })),
       };
       delete updateData.projectIds;
     }
@@ -164,6 +238,14 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
+
+    const profile = await getAdminProfile(guard.session.user.id as string);
+    if (!profile) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    const skill = await prisma.skill.findFirst({
+      where: { id, profileId: profile.id },
+      select: { id: true },
+    });
+    if (!skill) return NextResponse.json({ error: "Skill not found" }, { status: 404 });
 
     await prisma.skill.delete({ where: { id } });
     return NextResponse.json({ ok: true });

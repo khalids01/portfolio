@@ -78,7 +78,8 @@ export function SkillIconSelect({
                   key={key}
                   value={key}
                   onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                    const path = SKILL_ICONS[currentValue] || currentValue;
+                    onChange(path === value ? "" : path);
                     setOpen(false);
                   }}
                 >

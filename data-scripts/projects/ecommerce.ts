@@ -4,7 +4,7 @@ import {
   PROJECT_STATUS,
   PROJECT_TAG,
   SKILL,
-} from "../taxonomy";
+} from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const ecommerceProjectSeed: SeedScript = {
@@ -12,7 +12,12 @@ export const ecommerceProjectSeed: SeedScript = {
   label: "Project: Ecommerce apps",
   group: "projects",
   order: 45,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: [
+    "profile/default",
+    "skills/default",
+    "categories/project",
+    "experience/freelance-contract",
+  ],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "Ecommerce Applications",
@@ -29,13 +34,18 @@ export const ecommerceProjectSeed: SeedScript = {
       role: "Built full-stack storefront, product, order, dashboard, payment, and integration workflows.",
       impact:
         "Delivered commerce systems used for real customer purchases and business operations.",
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.NEXTJS.slug,
+      ],
+
       tags: [
-        SKILL.TYPESCRIPT.name,
-        SKILL.NEXTJS.name,
-        "Ecommerce",
+        PROJECT_TAG.ECOMMERCE,
         PROJECT_TAG.PAYMENTS,
         "Dashboard",
       ],
+
+      experienceSlug: "freelance-contract-full-stack-web-developer",
       caseStudy: {
         problem:
           "Retail and business users needed ecommerce flows that could manage products, orders, and customer-facing purchase paths.",

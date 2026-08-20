@@ -1,5 +1,5 @@
 import type { SeedScript } from "../types";
-import { EXPERIENCE_CATEGORY } from "../taxonomy";
+import { EXPERIENCE_CATEGORY, SKILL } from "../portfolio-constants";
 import { upsertExperience } from "../utils";
 
 export const freelanceExperienceSeed: SeedScript = {
@@ -7,11 +7,12 @@ export const freelanceExperienceSeed: SeedScript = {
   label: "Experience: Freelance / Contract",
   group: "experience",
   order: 31,
-  dependsOn: ["profile/default", "categories/experience"],
+  dependsOn: ["profile/default", "skills/default", "categories/experience"],
 
   async run({ prisma }) {
     await upsertExperience(prisma, {
       slug: "freelance-contract-full-stack-web-developer",
+      legacySlugs: ["freelance-contract-full-stack-web-developer-2020-01-01"],
       company: "Freelance / Contract",
       role: "Web Designer & Web Developer",
       location: "Remote",
@@ -30,6 +31,13 @@ export const freelanceExperienceSeed: SeedScript = {
         "Worked on contract ecommerce projects, building storefront, product, dashboard, and business workflow features.",
         "Progressed from web design into frontend and full-stack development using JavaScript, React, Next.js, Node.js, and related web technologies.",
         "Handled client requirements, revisions, integrations, deployment, maintenance, and production troubleshooting across freelance and contract work.",
+      ],
+
+      skillSlugs: [
+        SKILL.JAVASCRIPT.slug,
+        SKILL.REACT.slug,
+        SKILL.NEXTJS.slug,
+        SKILL.NODEJS.slug,
       ],
     });
   },

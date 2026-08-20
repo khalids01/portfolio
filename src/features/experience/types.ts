@@ -13,4 +13,6 @@ export type Experience = {
   categoryId?: string | null;
   category?: { id: string; name: string; slug: string } | null;
   highlights: { id: string; text: string }[];
+  skills: { id: string; name: string; icon?: string | null }[];
+  projects?: { id: string; title: string; slug: string }[];
 };

@@ -2,6 +2,25 @@
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 
 -- CreateTable
+CREATE TABLE "Visitor" (
+    "id" TEXT NOT NULL,
+    "ip" TEXT,
+    "userAgent" TEXT,
+    "path" TEXT,
+    "source" TEXT,
+    "city" TEXT,
+    "country" TEXT,
+    "region" TEXT,
+    "timezone" TEXT,
+    "os" TEXT,
+    "browser" TEXT,
+    "device" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Visitor_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL,
     "name" TEXT,
@@ -90,6 +109,7 @@ CREATE TABLE "Profile" (
 CREATE TABLE "Skill" (
     "id" TEXT NOT NULL,
     "profileId" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "label" TEXT,
     "icon" TEXT,
@@ -106,6 +126,7 @@ CREATE TABLE "Skill" (
 CREATE TABLE "Experience" (
     "id" TEXT NOT NULL,
     "profileId" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "company" TEXT NOT NULL,
     "role" TEXT NOT NULL,
     "location" TEXT,
@@ -113,6 +134,9 @@ CREATE TABLE "Experience" (
     "endDate" TIMESTAMP(3),
     "current" BOOLEAN NOT NULL DEFAULT false,
     "description" TEXT,
+    "categoryId" TEXT,
+    "coverImage" TEXT,
+    "images" JSONB NOT NULL DEFAULT '[]',
 
     CONSTRAINT "Experience_pkey" PRIMARY KEY ("id")
 );
@@ -141,6 +165,20 @@ CREATE TABLE "Education" (
 );
 
 -- CreateTable
+CREATE TABLE "Category" (
+    "id" TEXT NOT NULL,
+    "profileId" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "categoryType" TEXT NOT NULL,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Project" (
     "id" TEXT NOT NULL,
     "profileId" TEXT NOT NULL,
@@ -148,10 +186,18 @@ CREATE TABLE "Project" (
     "slug" TEXT NOT NULL,
     "description" TEXT,
     "coverImage" TEXT,
+    "images" JSONB NOT NULL DEFAULT '[]',
     "url" TEXT,
     "repoUrl" TEXT,
     "startDate" TIMESTAMP(3),
     "endDate" TIMESTAMP(3),
+    "categoryId" TEXT,
+    "statusBadges" JSONB NOT NULL DEFAULT '[]',
+    "featuredRank" INTEGER,
+    "role" TEXT,
+    "impact" TEXT,
+    "caseStudy" JSONB,
+    "experienceId" TEXT,
 
     CONSTRAINT "Project_pkey" PRIMARY KEY ("id")
 );
@@ -189,6 +235,21 @@ CREATE TABLE "ContactMessage" (
 );
 
 -- CreateTable
+CREATE TABLE "Resume" (
+    "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL DEFAULT 'default',
+    "title" TEXT NOT NULL DEFAULT 'Default Resume',
+    "targetRole" TEXT,
+    "isDefault" BOOLEAN NOT NULL DEFAULT false,
+    "defaultLayout" TEXT NOT NULL DEFAULT 'classic',
+    "data" JSONB NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Resume_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "FeatureFlag" (
     "key" TEXT NOT NULL,
     "value" BOOLEAN NOT NULL DEFAULT false,
@@ -196,6 +257,14 @@ CREATE TABLE "FeatureFlag" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "FeatureFlag_pkey" PRIMARY KEY ("key")
+);
+
+-- CreateTable
+CREATE TABLE "_ExperienceToSkill" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+
+    CONSTRAINT "_ExperienceToSkill_AB_pkey" PRIMARY KEY ("A","B")
 );
 
 -- CreateTable
@@ -230,7 +299,16 @@ CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
 CREATE INDEX "Skill_profileId_idx" ON "Skill"("profileId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Skill_profileId_slug_key" ON "Skill"("profileId", "slug");
+
+-- CreateIndex
 CREATE INDEX "Experience_profileId_idx" ON "Experience"("profileId");
+
+-- CreateIndex
+CREATE INDEX "Experience_categoryId_idx" ON "Experience"("categoryId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Experience_profileId_slug_key" ON "Experience"("profileId", "slug");
 
 -- CreateIndex
 CREATE INDEX "ExperienceHighlight_experienceId_idx" ON "ExperienceHighlight"("experienceId");
@@ -239,16 +317,43 @@ CREATE INDEX "ExperienceHighlight_experienceId_idx" ON "ExperienceHighlight"("ex
 CREATE INDEX "Education_profileId_idx" ON "Education"("profileId");
 
 -- CreateIndex
+CREATE INDEX "Category_profileId_idx" ON "Category"("profileId");
+
+-- CreateIndex
+CREATE INDEX "Category_profileId_categoryType_idx" ON "Category"("profileId", "categoryType");
+
+-- CreateIndex
+CREATE INDEX "Category_profileId_categoryType_order_idx" ON "Category"("profileId", "categoryType", "order");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_profileId_categoryType_slug_key" ON "Category"("profileId", "categoryType", "slug");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Project_slug_key" ON "Project"("slug");
 
 -- CreateIndex
 CREATE INDEX "Project_profileId_idx" ON "Project"("profileId");
 
 -- CreateIndex
+CREATE INDEX "Project_categoryId_idx" ON "Project"("categoryId");
+
+-- CreateIndex
+CREATE INDEX "Project_experienceId_idx" ON "Project"("experienceId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
 
 -- CreateIndex
 CREATE INDEX "SocialLink_profileId_idx" ON "SocialLink"("profileId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Resume_slug_key" ON "Resume"("slug");
+
+-- CreateIndex
+CREATE INDEX "Resume_isDefault_idx" ON "Resume"("isDefault");
+
+-- CreateIndex
+CREATE INDEX "_ExperienceToSkill_B_index" ON "_ExperienceToSkill"("B");
 
 -- CreateIndex
 CREATE INDEX "_ProjectToTag_B_index" ON "_ProjectToTag"("B");
@@ -269,6 +374,9 @@ ALTER TABLE "Profile" ADD CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Skill" ADD CONSTRAINT "Skill_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Experience" ADD CONSTRAINT "Experience_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Experience" ADD CONSTRAINT "Experience_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -278,10 +386,25 @@ ALTER TABLE "ExperienceHighlight" ADD CONSTRAINT "ExperienceHighlight_experience
 ALTER TABLE "Education" ADD CONSTRAINT "Education_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Category" ADD CONSTRAINT "Category_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Project" ADD CONSTRAINT "Project_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Project" ADD CONSTRAINT "Project_experienceId_fkey" FOREIGN KEY ("experienceId") REFERENCES "Experience"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Project" ADD CONSTRAINT "Project_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "SocialLink" ADD CONSTRAINT "SocialLink_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ExperienceToSkill" ADD CONSTRAINT "_ExperienceToSkill_A_fkey" FOREIGN KEY ("A") REFERENCES "Experience"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_ExperienceToSkill" ADD CONSTRAINT "_ExperienceToSkill_B_fkey" FOREIGN KEY ("B") REFERENCES "Skill"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ProjectToTag" ADD CONSTRAINT "_ProjectToTag_A_fkey" FOREIGN KEY ("A") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;

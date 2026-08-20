@@ -4,7 +4,7 @@ import {
   PROJECT_STATUS,
   PROJECT_TAG,
   SKILL,
-} from "../taxonomy";
+} from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const paybridgeProjectSeed: SeedScript = {
@@ -12,7 +12,7 @@ export const paybridgeProjectSeed: SeedScript = {
   label: "Project: PayBridge stablecoin payments",
   group: "projects",
   order: 43,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: ["profile/default", "skills/default", "categories/project"],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "PayBridge",
@@ -36,17 +36,21 @@ export const paybridgeProjectSeed: SeedScript = {
       impact:
         "Explores how stablecoin infrastructure can improve institutional cross-border settlement while keeping blockchain complexity invisible to end customers.",
 
-      tags: [
-        SKILL.TYPESCRIPT.name,
-        PROJECT_TAG.FINTECH,
-        "USDC",
-        "Circle",
-        "Arc",
-        "Stablecoins",
-        PROJECT_TAG.PAYMENTS,
-        "Treasury",
-        "Reconciliation",
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.CIRCLE.slug,
       ],
+
+      tags: [
+        PROJECT_TAG.FINTECH,
+        PROJECT_TAG.PAYMENTS,
+        "USDC",
+        PROJECT_TAG.STABLECOINS,
+        PROJECT_TAG.TREASURY,
+        PROJECT_TAG.RECONCILIATION,
+      ],
+
+      experienceSlug: null,
 
       caseStudy: {
         problem:

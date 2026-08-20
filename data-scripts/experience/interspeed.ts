@@ -1,5 +1,5 @@
 import type { SeedScript } from "../types";
-import { EXPERIENCE_CATEGORY } from "../taxonomy";
+import { EXPERIENCE_CATEGORY, SKILL } from "../portfolio-constants";
 import { upsertExperience } from "../utils";
 
 export const interspeedExperienceSeed: SeedScript = {
@@ -7,10 +7,11 @@ export const interspeedExperienceSeed: SeedScript = {
   label: "Experience: Interspeed",
   group: "experience",
   order: 30,
-  dependsOn: ["profile/default", "categories/experience"],
+  dependsOn: ["profile/default", "skills/default", "categories/experience"],
   async run({ prisma }) {
     await upsertExperience(prisma, {
       slug: "interspeed-full-stack-typescript-developer",
+      legacySlugs: ["interspeed-full-stack-typescript-developer-2023-01-01"],
       company: "Interspeed",
       role: "Full-Stack TypeScript Developer",
       location: "Remote",
@@ -35,6 +36,30 @@ export const interspeedExperienceSeed: SeedScript = {
         "Contributed targeted frontend and API modernization to an OpenEMR-based healthcare platform while preserving workflows within a large legacy PHP and MySQL codebase.",
 
         "Built and maintained production infrastructure using AWS, Docker, Linux, CI/CD, Grafana, and cloud-hosted database services.",
+      ],
+
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.REACT.slug,
+        SKILL.NEXTJS.slug,
+        SKILL.BUN.slug,
+        SKILL.ELYSIA.slug,
+        SKILL.FASTIFY.slug,
+        SKILL.REDIS.slug,
+        SKILL.WEBSOCKETS.slug,
+        SKILL.MARIADB.slug,
+        SKILL.MYSQL.slug,
+        SKILL.AWS.slug,
+        SKILL.DOCKER.slug,
+        SKILL.LINUX_SERVER_OPS.slug,
+        SKILL.CI_CD.slug,
+        SKILL.GRAFANA.slug,
+        SKILL.SOLANA.slug,
+        SKILL.JUPITER.slug,
+        SKILL.BINANCE.slug,
+        SKILL.KUCOIN.slug,
+        SKILL.COINBASE.slug,
+        SKILL.DYDX.slug,
       ],
     });
   },

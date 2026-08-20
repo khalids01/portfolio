@@ -4,20 +4,23 @@ import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
 import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
-import { getSkillIcon, getSkillColor } from "@/constants/icons";
+import { getSkillColor, normalizeSkillIcon } from "@/constants/icons";
 import Image from "next/image";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Languages": Code2,
   "Frontend": Monitor,
   "Backend": Layers,
+  "Database & Data": Database,
   "Database & ORM": Database,
   "DevOps & Cloud": Cloud,
   "Tools & Others": Terminal,
-  "Other": Globe,
+  "Other": Terminal,
   "FinTech / Blockchain": Wallet,
   "AI Tools & Capabilities": Cpu,
+  "Engineering": Cpu,
   "Security": Shield,
+  "Cloud": Globe,
 };
 
 export function SkillsSection({ skills }: { skills: SkillData[] }) {
@@ -101,7 +104,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
 
                   <div className="flex flex-wrap gap-3">
                     {categorySkills.map((skill) => {
-                      const iconPath = getSkillIcon(skill.name);
+                      const iconPath = normalizeSkillIcon(skill?.icon);
                       const brandColor = getSkillColor(skill.name);
                       return (
                         <div

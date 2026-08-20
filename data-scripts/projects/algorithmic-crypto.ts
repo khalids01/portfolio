@@ -4,7 +4,7 @@ import {
   PROJECT_STATUS,
   PROJECT_TAG,
   SKILL,
-} from "../taxonomy";
+} from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const algorithmicCryptoProjectSeed: SeedScript = {
@@ -12,7 +12,12 @@ export const algorithmicCryptoProjectSeed: SeedScript = {
   label: "Project: Algorithmic Crypto Trading Platform",
   group: "projects",
   order: 41,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: [
+    "profile/default",
+    "skills/default",
+    "categories/project",
+    "experience/interspeed",
+  ],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "Algorithmic Crypto Trading Platform",
@@ -36,21 +41,28 @@ export const algorithmicCryptoProjectSeed: SeedScript = {
       impact:
         "Created an experimentation platform for evaluating trading strategies and execution workflows using real-time data, simulation, and cost-aware opportunity validation.",
 
-      tags: [
-        SKILL.TYPESCRIPT.name,
-        SKILL.BUN.name,
-        SKILL.ELYSIA.name,
-        SKILL.REDIS.name,
-        SKILL.POSTGRESQL.name,
-        SKILL.PRISMA.name,
-        SKILL.REACT.name,
-        "TanStack",
-        SKILL.WEBSOCKETS.name,
-        SKILL.SOLIDITY.name,
-        SKILL.FOUNDRY.name,
-        "EVM",
-        PROJECT_TAG.FINTECH,
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.BUN.slug,
+        SKILL.ELYSIA.slug,
+        SKILL.REDIS.slug,
+        SKILL.POSTGRESQL.slug,
+        SKILL.PRISMA.slug,
+        SKILL.REACT.slug,
+        SKILL.TANSTACK_QUERY.slug,
+        SKILL.WEBSOCKETS.slug,
+        SKILL.ETHEREUM.slug,
+        SKILL.SOLIDITY.slug,
+        SKILL.FOUNDRY.slug,
       ],
+
+      tags: [
+        PROJECT_TAG.FINTECH,
+        PROJECT_TAG.ALGORITHMIC_TRADING,
+        PROJECT_TAG.MARKET_INTELLIGENCE,
+      ],
+
+      experienceSlug: "interspeed-full-stack-typescript-developer",
 
       caseStudy: {
         problem:

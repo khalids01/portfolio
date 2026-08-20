@@ -176,6 +176,16 @@ export const getSkillIcon = (skillName: string): string | null => {
   return SKILL_ICONS[key] || null;
 };
 
+// Resolve the icon value coming from the Skill.icon database field.
+// Canonical seeds persist public paths (e.g. "/icons/typescript.svg"); this
+// also normalizes legacy camelCase keys (e.g. "typeScript") stored by older
+// admin versions so the UI keeps working.
+export const normalizeSkillIcon = (icon?: string | null): string | null => {
+  if (!icon) return null;
+  if (icon.startsWith("/")) return icon;
+  return SKILL_ICONS[icon] || null;
+};
+
 export const getSkillColor = (skillName: string): string => {
   const key = toCamelCase(skillName);
   return SKILL_COLORS[key] || "#64748b"; // default slate-500

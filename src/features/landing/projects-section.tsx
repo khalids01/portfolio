@@ -23,9 +23,11 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CoreImg } from "@/components/core/img";
+import { normalizeSkillIcon } from "@/constants/icons";
 
 const ALL_TAB = "all" as const;
 
@@ -206,8 +208,19 @@ function ProjectCard({
             <div className="mt-auto border-t border-border/60 pt-4">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
                 {visibleSkills.map((skill, idx) => (
-                  <React.Fragment key={skill.name}>
-                    <span>{skill.name}</span>
+                  <React.Fragment key={skill.id}>
+                    <span className="inline-flex items-center gap-1">
+                      {skill.icon ? (
+                        <Image
+                          src={normalizeSkillIcon(skill.icon) ?? ""}
+                          alt=""
+                          width={12}
+                          height={12}
+                          className="object-contain"
+                        />
+                      ) : null}
+                      <span>{skill.name}</span>
+                    </span>
                     {idx < visibleSkills.length - 1 && (
                       <span className="text-border">•</span>
                     )}
@@ -507,11 +520,24 @@ function ProjectDetailModal({
                 <div className="flex flex-wrap gap-2">
                   {project.skills.map((skill) => (
                     <Badge
-                      key={skill.name}
+                      key={skill.id}
                       variant="secondary"
                       className="rounded-md bg-muted text-muted-foreground"
                     >
-                      {skill.name}
+                      <span className="inline-flex items-center gap-1.5">
+                        {skill.icon ? (
+                          <Image
+                            src={normalizeSkillIcon(skill.icon) ?? ""}
+                            alt=""
+                            width={14}
+                            height={14}
+                            className="object-contain"
+                          />
+                        ) : (
+                          <Code2 className="size-3.5" />
+                        )}
+                        {skill.name}
+                      </span>
                     </Badge>
                   ))}
                 </div>

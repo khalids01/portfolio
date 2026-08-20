@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CoreImg } from "@/components/core/img";
 import { ImagePickerDialog } from "@/features/admin/images/components/image-picker-dialog";
 import { useAdminCategories } from "@/features/admin/categories/useAdminCategories";
+import { useAdminExperiences } from "@/features/admin/experience/useAdminExperiences";
 import { SkillSelect } from "@/features/skills/components/skill-select";
 import type { Project } from "@/features/projects/types";
 import { ImageIcon, X } from "lucide-react";
@@ -39,6 +40,7 @@ type ProjectFormData = {
   tagNames: string;
   skillIds: string[];
   categoryId: string;
+  experienceId: string;
   statusBadges: string;
   featuredRank: string;
   role: string;
@@ -77,6 +79,7 @@ const emptyDefaults: ProjectFormData = {
   tagNames: "",
   skillIds: [],
   categoryId: "",
+  experienceId: "none",
   statusBadges: "",
   featuredRank: "",
   role: "",
@@ -125,6 +128,7 @@ function getProjectDefaults(project: Project): ProjectFormData {
     tagNames: project.tags.map((tag) => tag.name).join(", "),
     skillIds: project.skills.map((skill) => skill.id),
     categoryId: project.categoryId ?? project.category?.id ?? "",
+    experienceId: project.experienceId ?? "none",
     statusBadges: project.statusBadges?.join(", ") ?? "",
     featuredRank:
       project.featuredRank == null ? "" : String(project.featuredRank),
@@ -149,8 +153,10 @@ export function ProjectForm(props: ProjectFormProps) {
   const router = useRouter();
   const { create, update } = useAdminProjects();
   const { list: categoriesList } = useAdminCategories("project");
+  const { list: experiencesList } = useAdminExperiences();
   const firstCategoryId = categoriesList.data?.data[0]?.id ?? "";
   const categories = categoriesList.data?.data ?? [];
+  const experiences = experiencesList.data?.data ?? [];
   const isEdit = props.mode === "edit";
   const onSuccess = props.onSuccess;
   const project = isEdit ? props.project : undefined;
@@ -211,6 +217,7 @@ export function ProjectForm(props: ProjectFormProps) {
       tagNames: fromCommaList(data.tagNames),
       skillIds: data.skillIds,
       categoryId: data.categoryId || null,
+      experienceId: data.experienceId === "none" ? null : data.experienceId,
       statusBadges: fromCommaList(data.statusBadges),
       featuredRank:
         data.featuredRank === "" ? null : Number(data.featuredRank),
@@ -455,6 +462,29 @@ export function ProjectForm(props: ProjectFormProps) {
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label>Experience (optional)</Label>
+        <Controller
+          name="experienceId"
+          control={control}
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="No experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">No experience</SelectItem>
+                {experiences.map((experience) => (
+                  <SelectItem key={experience.id} value={experience.id}>
+                    {experience.company} — {experience.role}
                   </SelectItem>
                 ))}
               </SelectContent>

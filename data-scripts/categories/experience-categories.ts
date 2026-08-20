@@ -1,5 +1,5 @@
 import type { SeedScript } from "../types";
-import { EXPERIENCE_CATEGORY } from "../taxonomy";
+import { EXPERIENCE_CATEGORY } from "../portfolio-constants";
 import { upsertCategory } from "../utils";
 
 const categories = [

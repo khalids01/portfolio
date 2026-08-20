@@ -2,8 +2,9 @@ import type { SeedScript } from "../types";
 import {
   PROJECT_CATEGORY,
   PROJECT_STATUS,
+  PROJECT_TAG,
   SKILL,
-} from "../taxonomy";
+} from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const jobPlatformsProjectSeed: SeedScript = {
@@ -11,7 +12,7 @@ export const jobPlatformsProjectSeed: SeedScript = {
   label: "Project: Job posting platforms",
   group: "projects",
   order: 44,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: ["profile/default", "skills/default", "categories/project"],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "Job Posting Platforms",
@@ -24,13 +25,18 @@ export const jobPlatformsProjectSeed: SeedScript = {
       impact:
         "Delivered commercially used applications with complete frontend, backend, administrative, and deployment workflows.",
       role: "Built full-stack job board features, dashboards, and deployment flows.",
-      tags: [
-        SKILL.TYPESCRIPT.name,
-        SKILL.NEXTJS.name,
-        "JobTech",
-        "Production",
-        "Full Stack",
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.NEXTJS.slug,
       ],
+
+      tags: [
+        PROJECT_TAG.JOBTECH,
+        PROJECT_TAG.PRODUCTION,
+        PROJECT_TAG.FULL_STACK,
+      ],
+
+      experienceSlug: null,
       caseStudy: {
         problem:
           "Businesses needed practical job posting workflows with admin control and public listings.",

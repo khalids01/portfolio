@@ -24,6 +24,7 @@ import { CoreImg } from "@/components/core/img";
 import { ImagePickerDialog } from "@/features/admin/images/components/image-picker-dialog";
 import { ImageIcon, Plus, Pencil, Trash2, X } from "lucide-react";
 import { useAdminCategories } from "@/features/admin/categories/useAdminCategories";
+import { SkillSelect } from "@/features/skills/components/skill-select";
 import type { Experience } from "@/features/experience/types";
 import { useAdminExperiences } from "../useAdminExperiences";
 
@@ -39,6 +40,7 @@ type ExperienceFormState = {
   coverImage: string;
   images: string[];
   categoryId: string;
+  skillIds: string[];
   highlights: string;
 };
 
@@ -54,6 +56,7 @@ const emptyForm: ExperienceFormState = {
   coverImage: "",
   images: [],
   categoryId: "none",
+  skillIds: [],
   highlights: "",
 };
 
@@ -75,6 +78,7 @@ function toForm(experience: Experience): ExperienceFormState {
     coverImage: experience.coverImage ?? "",
     images: experience.images ?? [],
     categoryId: experience.categoryId ?? "none",
+    skillIds: experience.skills.map((skill) => skill.id),
     highlights: experience.highlights.map((highlight) => highlight.text).join("\n"),
   };
 }
@@ -124,6 +128,7 @@ export function AdminExperienceList() {
       coverImage: form.coverImage || null,
       images: form.images,
       categoryId: form.categoryId === "none" ? null : form.categoryId,
+      skillIds: form.skillIds,
       highlights: fromLines(form.highlights),
     };
 
@@ -273,6 +278,14 @@ export function AdminExperienceList() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Skills</Label>
+              <SkillSelect
+                selectedSkillIds={form.skillIds}
+                onChange={(ids) => setField("skillIds", ids)}
+              />
             </div>
 
             <div className="space-y-2">
