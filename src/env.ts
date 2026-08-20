@@ -42,7 +42,7 @@ const envSchema = z
       z.string().min(1),
     ),
     SKYCANVAS_SSO_URL: z.preprocess(normalizeEnvString, z.string().url()),
-    SKYCANVAS_SECRET_KEY:z.preprocess(normalizeEnvString, z.string()),
+    SKYCANVAS_SECRET_KEY: z.preprocess(normalizeEnvString, z.string()),
     NEXT_PUBLIC_APP_URL: z.preprocess(
       normalizeEnvString,
       z.string().optional(),
@@ -60,6 +60,8 @@ const envSchema = z
       normalizeEnvString,
       z.string().optional(),
     ),
+    APP_URL: z.preprocess(normalizeEnvString, z.string()),
+    SSO_WEBHOOK_SECRET: z.preprocess(normalizeEnvString, z.string().min(16)),
   })
   .superRefine((env, ctx) => {
     // If SMTP is enabled, credentials must exist.
@@ -98,6 +100,8 @@ const parsed = envSchema.safeParse({
   FILE_SERVER_URL: process.env.FILE_SERVER_URL,
   FILE_SERVER_PUBLIC_URL: process.env.FILE_SERVER_PUBLIC_URL,
   FILE_SERVER_API_KEY: process.env.FILE_SERVER_API_KEY,
+  APP_URL: process.env.APP_URL,
+  SSO_WEBHOOK_SECRET: process.env.SSO_WEBHOOK_SECRET,
 });
 
 if (!parsed.success) {
