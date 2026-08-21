@@ -35,8 +35,8 @@ export const resumeSchema = z.object({
   education: z.array(z.object({
     institution: z.string(),
     degree: z.string(),
-    start: z.string(),
-    end: z.string(),
+    start: z.string().optional(),
+    end: z.string().optional(),
   })),
   languages: z.array(z.object({
     name: z.string(),

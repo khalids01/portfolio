@@ -346,7 +346,7 @@ export function ResumeForm({
            <CardHeader>
              <div className="flex items-center justify-between">
               <CardTitle>Education</CardTitle>
-              <Button type="button" variant="outline" size="sm" onClick={() => education.append({ institution: "", degree: "", start: "", end: "" })}>
+              <Button type="button" variant="outline" size="sm" onClick={() => education.append({ institution: "", degree: "" })}>
                 <Plus className="mr-2 h-4 w-4" /> Add Education
               </Button>
             </div>
@@ -378,13 +378,13 @@ export function ResumeForm({
                   )} />
                   <FormField control={form.control} name={`education.${index}.start`} render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Start</FormLabel>
+                      <FormLabel>Start (optional)</FormLabel>
                       <FormControl><Input placeholder="2016" {...field} /></FormControl>
                     </FormItem>
                   )} />
                   <FormField control={form.control} name={`education.${index}.end`} render={({ field }) => (
                     <FormItem>
-                      <FormLabel>End</FormLabel>
+                      <FormLabel>End (optional)</FormLabel>
                       <FormControl><Input placeholder="2020" {...field} /></FormControl>
                     </FormItem>
                   )} />

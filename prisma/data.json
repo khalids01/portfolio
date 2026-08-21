@@ -92,7 +92,8 @@
       "current": false,
       "description": "Delivered end-to-end web, SaaS, and e-commerce solutions for clients in tech and retail.",
       "highlights": [
-        "Completed 100+ client projects with consistent 5-star ratings.",
+        "Delivered 100+ website designs as part of a remote web-design team after an initial Fiverr engagement became longer-term direct work.",
+        "Worked with several Fiverr and direct clients; both clients who left public reviews gave 5-star ratings.",
         "Built custom CMS dashboards and multi-vendor e-commerce platforms using Next.js and NestJS.",
         "Integrated payment gateways and third-party APIs.",
         "Deployed and maintained applications on AWS and Vercel."
@@ -207,7 +208,8 @@
         "start": "2020-01",
         "end": "2023-01",
         "bullets": [
-          "Completed 100+ client projects with consistent 5-star ratings.",
+          "Delivered 100+ website designs as part of a remote web-design team after an initial Fiverr engagement became longer-term direct work.",
+          "Worked with several Fiverr and direct clients; both clients who left public reviews gave 5-star ratings.",
           "Built custom CMS dashboards and multi-vendor e-commerce platforms using Next.js and NestJS.",
           "Integrated payment gateways and third-party APIs."
         ]
@@ -231,14 +233,14 @@
       {
         "institution": "Uttara University",
         "degree": "B.Sc. in Computer Science & Engineering",
-        "start": "2024",
-        "end": "Present"
+        "start": "",
+        "end": ""
       },
       {
         "institution": "Tangail Polytechnic Institute",
         "degree": "Diploma in Computer Science & Engineering",
-        "start": "2019",
-        "end": "2023"
+        "start": "",
+        "end": ""
       }
     ],
     "languages": [

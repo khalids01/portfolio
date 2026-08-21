@@ -116,6 +116,11 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ResumeDateRange({ start, end }: { start?: string; end?: string }) {
+  const range = [start, end].filter(Boolean).join(" — ");
+  return range ? <p className="text-xs text-slate-400">{range}</p> : null;
+}
+
 function ClassicResumeLayout({ data }: ResumeLayoutProps) {
   const { basics, summary, skills, experience, projects, education, languages } = data;
 
@@ -227,7 +232,7 @@ function ClassicResumeLayout({ data }: ResumeLayoutProps) {
                   <div key={idx} className="resume-block space-y-1">
                     <h3 className="text-sm font-bold">{edu.institution}</h3>
                     <p className="text-sm text-slate-600">{edu.degree}</p>
-                    <p className="text-xs text-slate-400">{edu.start} — {edu.end}</p>
+                    <ResumeDateRange start={edu.start} end={edu.end} />
                   </div>
                 ))}
               </div>
@@ -322,9 +327,11 @@ function EuropassProResumeLayout({ data }: ResumeLayoutProps) {
             <div className="space-y-3 pl-5">
               {education.map((edu, index) => (
                 <div key={index} className="resume-block space-y-1">
-                  <p className="text-[11.5px] font-medium uppercase tracking-wide text-slate-500">
-                    {edu.start} - {edu.end}
-                  </p>
+                  {[edu.start, edu.end].filter(Boolean).length ? (
+                    <p className="text-[11.5px] font-medium uppercase tracking-wide text-slate-500">
+                      {[edu.start, edu.end].filter(Boolean).join(" - ")}
+                    </p>
+                  ) : null}
                   <h3 className="text-[14px] font-extrabold uppercase text-slate-700">{edu.degree}</h3>
                   <p className="text-[13px] text-slate-600">{edu.institution}</p>
                 </div>
@@ -461,7 +468,9 @@ function ModernSidebarResumeLayout({ data }: ResumeLayoutProps) {
             {education.map((edu, index) => (
               <div key={index} className="resume-block">
                 <h3 className="text-[13.5px] font-bold text-slate-900">{edu.degree}</h3>
-                <p className="text-[12.8px] text-slate-600">{edu.institution} · {edu.start} - {edu.end}</p>
+                <p className="text-[12.8px] text-slate-600">
+                  {edu.institution}{[edu.start, edu.end].filter(Boolean).length ? ` · ${[edu.start, edu.end].filter(Boolean).join(" - ")}` : ""}
+                </p>
               </div>
             ))}
           </section>
@@ -539,7 +548,7 @@ function AtsPlainResumeLayout({ data }: ResumeLayoutProps) {
             <h2 className="border-b border-slate-300 text-[14px] font-bold uppercase">Education</h2>
             {education.map((edu, index) => (
               <p key={index} className="resume-block text-[12px] leading-5">
-                <span className="font-bold">{edu.degree}</span>, {edu.institution}, {edu.start} - {edu.end}
+                <span className="font-bold">{edu.degree}</span>, {edu.institution}{[edu.start, edu.end].filter(Boolean).length ? `, ${[edu.start, edu.end].filter(Boolean).join(" - ")}` : ""}
               </p>
             ))}
           </section>
