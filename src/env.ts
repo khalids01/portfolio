@@ -51,6 +51,8 @@ const envSchema = z
       normalizeEnvString,
       z.string().optional(),
     ),
+    PDF_SERVICE_URL: z.preprocess(normalizeEnvString, z.string().url().optional()),
+    PDF_SERVICE_SECRET_KEY: z.preprocess(normalizeEnvString, z.string().min(16).optional()),
     FILE_SERVER_URL: z.preprocess(normalizeEnvString, z.string().optional()),
     FILE_SERVER_PUBLIC_URL: z.preprocess(
       normalizeEnvString,
@@ -97,6 +99,8 @@ const parsed = envSchema.safeParse({
   SKYCANVAS_SECRET_KEY: process.env.SKYCANVAS_SECRET_KEY,
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   CHROMIUM_EXECUTABLE_PATH: process.env.CHROMIUM_EXECUTABLE_PATH,
+  PDF_SERVICE_URL: process.env.PDF_SERVICE_URL,
+  PDF_SERVICE_SECRET_KEY: process.env.PDF_SERVICE_SECRET_KEY,
   FILE_SERVER_URL: process.env.FILE_SERVER_URL,
   FILE_SERVER_PUBLIC_URL: process.env.FILE_SERVER_PUBLIC_URL,
   FILE_SERVER_API_KEY: process.env.FILE_SERVER_API_KEY,

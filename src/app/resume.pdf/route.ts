@@ -10,6 +10,7 @@ import {
   isResumePdfCacheFresh,
 } from "@/features/resume/pdf-cache";
 import { normalizeResumeLayoutId } from "@/features/resume/layouts";
+import { generateResumePdfFromService, isPdfServiceConfigured } from "@/features/resume/pdf-service";
 import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
 export const dynamic = "force-dynamic";
@@ -72,6 +73,26 @@ export async function GET(request: NextRequest) {
   // 2. Check cache
   ensureResumePdfCacheDir();
   const layout = normalizeResumeLayoutId(requestedLayout, normalizeResumeLayoutId(resume.defaultLayout));
+
+  if (isPdfServiceConfigured()) {
+    try {
+      const generated = await generateResumePdfFromService({
+        variant,
+        layout,
+        version: resume.updatedAt.toISOString(),
+      });
+      return new Response(generated.bytes, {
+        headers: {
+          "Content-Type": "application/pdf",
+          "Content-Disposition": 'attachment; filename="Abdullah_Khalid_Resume.pdf"',
+          "X-PDF-Service-Cache": generated.cache,
+        },
+      });
+    } catch (error) {
+      console.error("PDF service generation failed", error);
+      return NextResponse.json({ error: "PDF generation failed" }, { status: 502 });
+    }
+  }
 
   const cacheFile = getResumePdfCacheFile(variant, layout);
 

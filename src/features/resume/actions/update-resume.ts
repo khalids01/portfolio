@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { resumeSchema, type ResumeData } from "../schema";
 import { revalidatePath } from "next/cache";
 import { clearResumePdfCache } from "../pdf-cache";
+import { invalidateResumePdfServiceCache } from "../pdf-service";
 
 export async function updateResume(input: {
   slug: string;
@@ -53,6 +54,7 @@ export async function updateResume(input: {
     });
 
     clearResumePdfCache();
+    await invalidateResumePdfServiceCache(input.slug);
     revalidatePath("/resume");
     revalidatePath(`/resume/${input.slug}`);
     revalidatePath("/admin/resume");
