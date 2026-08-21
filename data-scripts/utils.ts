@@ -442,7 +442,7 @@ export async function upsertResume(
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
-      defaultLayout: input.defaultLayout ?? "classic",
+      defaultLayout: input.defaultLayout ?? "ats-standard",
       data: data as Prisma.InputJsonValue,
     },
     create: {
@@ -450,7 +450,7 @@ export async function upsertResume(
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
-      defaultLayout: input.defaultLayout ?? "classic",
+      defaultLayout: input.defaultLayout ?? "ats-standard",
       data: data as Prisma.InputJsonValue,
     },
   });

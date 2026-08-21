@@ -49,7 +49,7 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
-        defaultLayout: body.defaultLayout ?? "classic",
+        defaultLayout: body.defaultLayout ?? "ats-standard",
         data: body.data || {},
       },
       create: {
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
-        defaultLayout: body.defaultLayout ?? "classic",
+        defaultLayout: body.defaultLayout ?? "ats-standard",
         data: body.data || {},
       },
     });

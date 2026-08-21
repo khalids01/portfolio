@@ -40,14 +40,14 @@ export async function updateResume(input: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
-        defaultLayout: input.defaultLayout ?? "classic",
+        defaultLayout: input.defaultLayout ?? "ats-standard",
         data: parsed.data,
       },
       update: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
-        defaultLayout: input.defaultLayout ?? "classic",
+        defaultLayout: input.defaultLayout ?? "ats-standard",
         data: parsed.data,
       },
     });

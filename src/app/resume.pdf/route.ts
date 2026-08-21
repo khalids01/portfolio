@@ -118,7 +118,10 @@ export async function GET(request: NextRequest) {
     await page.emulateMedia({ media: "print" });
 
     await page.goto(resumeUrl, {
-      waitUntil: "networkidle",
+      // The resume can coexist with authenticated client UI that polls in the
+      // background. Waiting for idle makes an otherwise complete document time
+      // out, while the document load itself is sufficient for static PDF output.
+      waitUntil: "load",
       timeout: 30000,
     });
 

@@ -54,7 +54,7 @@ function resumeSeed({
         title: `${title} Resume`,
         targetRole: title,
         isDefault,
-        defaultLayout: "ats-plain",
+        defaultLayout: "ats-standard",
         data: createResume({ title, summary, skills, experience, projects }),
       });
     },

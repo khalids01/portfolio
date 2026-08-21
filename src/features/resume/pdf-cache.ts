@@ -7,14 +7,14 @@ import {
 } from "fs";
 import { join } from "path";
 
-export const RESUME_PDF_CACHE_VERSION = "v2";
+export const RESUME_PDF_CACHE_VERSION = "v3";
 export const RESUME_PDF_CACHE_DIR = join(process.cwd(), "tmp", "resume-cache");
 
 function normalizeCachePart(value = "default") {
   return value.replace(/[^a-z0-9-]/gi, "-").toLowerCase() || "default";
 }
 
-export function getResumePdfCacheFile(variant = "default", layout = "classic") {
+export function getResumePdfCacheFile(variant = "default", layout = "ats-standard") {
   return join(
     RESUME_PDF_CACHE_DIR,
     `resume-${normalizeCachePart(variant)}-${normalizeCachePart(layout)}-${RESUME_PDF_CACHE_VERSION}.pdf`,
@@ -27,7 +27,7 @@ export function ensureResumePdfCacheDir() {
   }
 }
 
-export function isResumePdfCacheFresh(updatedAt: Date, variant = "default", layout = "classic") {
+export function isResumePdfCacheFresh(updatedAt: Date, variant = "default", layout = "ats-standard") {
   const file = getResumePdfCacheFile(variant, layout);
   if (!existsSync(file)) return false;
 
