@@ -1,4 +1,4 @@
-import { getResumeRecord } from "@/features/resume/data";
+import { getResumeRecord, listResumeMeta } from "@/features/resume/data";
 import { ResumeView } from "@/features/resume/components/resume-view";
 import { normalizeResumeLayoutId } from "@/features/resume/layouts";
 import { Metadata } from "next";
@@ -15,9 +15,10 @@ export default async function ResumePage({
 }: {
   searchParams: Promise<{ layout?: string }>;
 }) {
-  const [{ layout }, record] = await Promise.all([
+  const [{ layout }, record, variants] = await Promise.all([
     searchParams,
     getResumeRecord(),
+    listResumeMeta(),
   ]);
   const activeLayout = normalizeResumeLayoutId(layout, normalizeResumeLayoutId(record.defaultLayout));
 
@@ -27,6 +28,7 @@ export default async function ResumePage({
         data={record.data}
         resumeSlug={record.slug}
         activeLayout={activeLayout}
+        variants={variants}
       />
     </main>
   );

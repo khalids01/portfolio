@@ -1,4 +1,4 @@
-import { getResumeRecord } from "@/features/resume/data";
+import { getResumeRecord, listResumeMeta } from "@/features/resume/data";
 import { ResumeView } from "@/features/resume/components/resume-view";
 import { normalizeResumeLayoutId } from "@/features/resume/layouts";
 import { Metadata } from "next";
@@ -21,15 +21,16 @@ export default async function ResumeVariantPage({
   const [{ slug }, { layout }] = await Promise.all([params, searchParams]);
 
   try {
-    const record = await getResumeRecord(slug);
+    const [record, variants] = await Promise.all([getResumeRecord(slug), listResumeMeta()]);
     const activeLayout = normalizeResumeLayoutId(layout, normalizeResumeLayoutId(record.defaultLayout));
 
     return (
-      <main className="min-h-screen bg-slate-100 px-4 py-6 md:py-10 print:bg-white print:p-0">
+      <main className="min-h-screen bg-slate-950 px-4 py-6 md:py-10 print:bg-white print:p-0">
         <ResumeView
           data={record.data}
           resumeSlug={record.slug}
           activeLayout={activeLayout}
+          variants={variants}
         />
       </main>
     );

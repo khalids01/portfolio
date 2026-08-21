@@ -1,9 +1,11 @@
 "use client";
 
 import type { ResumeData } from "../schema";
+import type { ResumeMeta } from "../data";
 import { RESUME_LAYOUTS, normalizeResumeLayoutId, type ResumeLayoutId } from "../layouts";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, MapPin, Download, Github, Linkedin, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -12,10 +14,12 @@ export function ResumeView({
   data,
   resumeSlug,
   activeLayout,
+  variants,
 }: {
   data: ResumeData;
   resumeSlug: string;
   activeLayout: ResumeLayoutId;
+  variants: ResumeMeta[];
 }) {
   const layout = normalizeResumeLayoutId(activeLayout);
   const SelectedLayout = getResumeLayout(layout);
@@ -23,9 +27,48 @@ export function ResumeView({
   return (
     <>
       <ResumeToolbar resumeSlug={resumeSlug} activeLayout={layout} />
+      <ResumeVariantSelector activeSlug={resumeSlug} activeLayout={layout} variants={variants} />
       <ResumeLayoutTabs activeLayout={layout} />
       <SelectedLayout data={data} />
     </>
+  );
+}
+
+function ResumeVariantSelector({
+  activeSlug,
+  activeLayout,
+  variants,
+}: {
+  activeSlug: string;
+  activeLayout: ResumeLayoutId;
+  variants: ResumeMeta[];
+}) {
+  const router = useRouter();
+
+  function updateVariant(slug: string) {
+    const params = new URLSearchParams({ layout: activeLayout });
+    const href = slug === "default" ? `/resume?${params}` : `/resume/${slug}?${params}`;
+    router.push(href);
+  }
+
+  return (
+    <div className="no-print mx-auto mb-4 flex w-full max-w-[210mm] items-center gap-3">
+      <label htmlFor="resume-variant" className="shrink-0 text-sm font-medium text-slate-400">
+        Resume variant
+      </label>
+      <Select value={activeSlug} onValueChange={updateVariant}>
+        <SelectTrigger id="resume-variant" className="w-full max-w-md bg-background/80">
+          <SelectValue placeholder="Select a resume variant" />
+        </SelectTrigger>
+        <SelectContent>
+          {variants.map((variant) => (
+            <SelectItem key={variant.slug} value={variant.slug}>
+              {variant.title}{variant.isDefault ? " (default)" : ""}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }
 
