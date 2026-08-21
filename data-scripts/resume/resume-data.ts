@@ -19,14 +19,14 @@ const freelanceExperience = (bullets: string[]): ResumeData["experience"][number
   company: "Freelance / Contract",
   role: "Web Designer & Web Developer",
   start: "2020",
-  end: "Jan 2023",
+  end: "Feb 2023",
   bullets,
 });
 
 const interspeedExperience = (role: string, bullets: string[]): ResumeData["experience"][number] => ({
   company: "Interspeed",
   role,
-  start: "Jan 2023",
+  start: "Jun 2023",
   end: "Present",
   bullets,
 });

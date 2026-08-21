@@ -1,4 +1,3 @@
-import type { ResumeData } from "@/features/resume/schema";
 import {
   ContactLine,
   EducationList,
@@ -6,8 +5,10 @@ import {
   SectionHeading,
   SkillsRows,
 } from "./shared/resume-primitives";
+import { ResumeSheet } from "./shared/resume-sheet";
+import type { ResumeLayoutProps } from "../../settings";
 
-export function SeniorCompactLayout({ data }: { data: ResumeData }) {
+export function SeniorCompactLayout({ data, density, pageSize }: ResumeLayoutProps) {
   const {
     basics,
     summary,
@@ -18,22 +19,21 @@ export function SeniorCompactLayout({ data }: { data: ResumeData }) {
     languages,
   } = data;
   return (
-    <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[12mm] text-slate-900 shadow-sm print:shadow-none">
+    <ResumeSheet density={density} pageSize={pageSize} className="p-[var(--resume-page-padding)]">
         <header className="resume-block">
-          <h1 className="text-[24px] font-bold">{basics.name}</h1>
-          <div className="mt-1 flex items-baseline justify-between gap-3 border-b border-slate-800 pb-2">
-            <p className="text-[12.5px] font-semibold">{basics.title}</p>
+          <h1 className="text-[22pt] font-bold">{basics.name}</h1>
+          <div className="mt-1 border-b border-slate-800 pb-2">
+            <p className="text-[length:calc(var(--resume-body-size)*1.1)] font-semibold">{basics.title}</p>
             <ContactLine
               basics={basics}
-              className="justify-end text-slate-600"
+              className="mt-2 text-slate-600"
             />
           </div>
         </header>
-        <div className="mt-4 space-y-4">
+        <div className="mt-[var(--resume-section-gap)] space-y-[var(--resume-section-gap)]">
           <section className="resume-section space-y-1">
             <SectionHeading>Summary</SectionHeading>
-            <p className="text-[10.75px] leading-[1.45]">{summary}</p>
+            <p className="text-[length:var(--resume-body-size)] leading-[var(--resume-line-height)]">{summary}</p>
           </section>
           <section className="resume-section space-y-2">
             <SectionHeading>Experience</SectionHeading>
@@ -49,8 +49,8 @@ export function SeniorCompactLayout({ data }: { data: ResumeData }) {
             <SectionHeading>Selected Systems / Projects</SectionHeading>
             {projects.map((item) => (
               <div className="resume-block" key={item.name}>
-                <h3 className="text-[10.75px] font-bold">{item.name}</h3>
-                <p className="text-[10.25px] leading-[1.35]">{item.desc}</p>
+                <h3 className="text-[length:var(--resume-body-size)] font-bold">{item.name}</h3>
+                <p className="text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)]">{item.desc}</p>
               </div>
             ))}
           </section>
@@ -64,14 +64,13 @@ export function SeniorCompactLayout({ data }: { data: ResumeData }) {
           </section>
           <section className="resume-section space-y-1">
             <SectionHeading>Languages</SectionHeading>
-            <p className="text-[10.5px]">
+            <p className="text-[length:var(--resume-small-size)]">
               {languages
                 .map((item) => `${item.name}: ${item.level}`)
                 .join(" · ")}
             </p>
           </section>
         </div>
-      </article>
-    </div>
+    </ResumeSheet>
   );
 }

@@ -8,9 +8,11 @@ export function ContactLine({
   basics: ResumeData["basics"];
   className?: string;
 }) {
+  const displayUrl = (url: string) => url.replace(/^https?:\/\/(?:www\.)?/, "").replace(/\/$/, "");
+
   return (
     <div
-      className={`flex flex-wrap gap-x-2 gap-y-1 text-[11px] leading-4 ${className}`}
+      className={`flex flex-wrap gap-x-2 gap-y-1 text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)] ${className}`}
     >
       <span>{basics.email}</span>
       {basics.location ? <span aria-hidden="true">·</span> : null}
@@ -24,7 +26,7 @@ export function ContactLine({
             rel="noopener noreferrer"
             className="underline decoration-current/30 underline-offset-2"
           >
-            {link.name}
+            {displayUrl(link.url)}
           </a>
         </span>
       ))}
@@ -41,7 +43,7 @@ export function SectionHeading({
 }) {
   return (
     <h2
-      className={`border-b border-slate-300 pb-1 text-[12px] font-bold tracking-[0.08em] text-slate-900 ${className}`}
+      className={`border-b border-slate-300 pb-1 text-[length:calc(var(--resume-body-size)*1.16)] font-bold tracking-[0.08em] text-slate-900 ${className}`}
     >
       {children}
     </h2>
@@ -56,20 +58,20 @@ export function ExperienceEntry({
   compact?: boolean;
 }) {
   return (
-    <div className="resume-block space-y-1.5">
+    <div className="resume-block space-y-[calc(var(--resume-section-gap)/3)]">
       <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-[12px] font-bold tracking-[0.04em] text-slate-950">
+        <h3 className="text-[length:calc(var(--resume-body-size)*1.08)] font-bold tracking-[0.04em] text-slate-950">
           {experience.company}
         </h3>
-        <span className="shrink-0 text-[10px] font-medium text-slate-600">
+        <span className="shrink-0 text-[length:var(--resume-small-size)] font-medium text-slate-600">
           {experience.start} — {experience.end}
         </span>
       </div>
-      <p className="text-[11px] font-medium text-slate-700">
+      <p className="text-[length:var(--resume-body-size)] font-medium text-slate-700">
         {experience.role} · Remote
       </p>
       <ul
-        className={`ml-4 list-disc text-slate-700 ${compact ? "space-y-0.5 text-[10.5px] leading-[1.4]" : "space-y-1 text-[11px] leading-[1.45]"}`}
+        className={`ml-4 list-disc text-slate-700 ${compact ? "space-y-0.5 text-[length:var(--resume-small-size)]" : "space-y-1 text-[length:var(--resume-body-size)]"} leading-[var(--resume-line-height)]`}
       >
         {experience.bullets.map((bullet) => (
           <li key={bullet}>{bullet}</li>
@@ -87,16 +89,16 @@ export function EducationList({
   hideDates?: boolean;
 }) {
   return (
-    <div className="space-y-2">
+    <div className="space-y-[calc(var(--resume-section-gap)/2)]">
       {education.map((item) => (
         <div
           className="resume-block"
           key={`${item.degree}-${item.institution}`}
         >
-          <p className="text-[11px] font-semibold text-slate-900">
+          <p className="text-[length:var(--resume-body-size)] font-semibold text-slate-900">
             {item.degree}
           </p>
-          <p className="text-[10.5px] text-slate-600">
+          <p className="text-[length:var(--resume-small-size)] text-slate-600">
             {item.institution}
             {!hideDates && [item.start, item.end].filter(Boolean).length
               ? ` · ${[item.start, item.end].filter(Boolean).join(" — ")}`
@@ -110,14 +112,12 @@ export function EducationList({
 
 export function SkillsRows({ skills }: { skills: ResumeData["skills"] }) {
   return (
-    <div className="space-y-1 text-[10.75px] leading-[1.45]">
+    <div className="grid grid-cols-[minmax(7rem,max-content)_minmax(0,1fr)] gap-x-3 gap-y-1 text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)]">
       {skills.map((group) => (
-        <p key={group.group}>
-          <span className="mr-3 inline-block min-w-24 font-bold text-slate-900">
-            {group.group}
-          </span>
-          {group.items.join(", ")}
-        </p>
+        <div className="contents" key={group.group}>
+          <span className="font-bold text-slate-900">{group.group}</span>
+          <span>{group.items.join(", ")}</span>
+        </div>
       ))}
     </div>
   );

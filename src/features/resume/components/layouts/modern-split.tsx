@@ -1,12 +1,13 @@
-import type { ResumeData } from "@/features/resume/schema";
 import {
   ContactLine,
-  EducationList,
   ExperienceEntry,
   SectionHeading,
+  SkillsRows,
 } from "./shared/resume-primitives";
+import { ResumeSheet } from "./shared/resume-sheet";
+import type { ResumeLayoutProps } from "../../settings";
 
-export function ModernSplitLayout({ data }: { data: ResumeData }) {
+export function ModernSplitLayout({ data, density, pageSize }: ResumeLayoutProps) {
   const {
     basics,
     summary,
@@ -17,50 +18,43 @@ export function ModernSplitLayout({ data }: { data: ResumeData }) {
     languages,
   } = data;
   return (
-    <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto grid min-h-[297mm] w-[210mm] grid-cols-[60mm_1fr] bg-white text-slate-900 shadow-sm print:shadow-none">
-        <aside className="bg-slate-100 px-5 py-8">
-          <h1 className="text-[22px] font-bold leading-tight">{basics.name}</h1>
-          <p className="mt-1 text-[11px] font-medium text-slate-700">
+    <ResumeSheet density={density} pageSize={pageSize} className="grid grid-cols-[54mm_minmax(0,1fr)] overflow-hidden">
+        <aside className="bg-slate-900 px-[calc(var(--resume-page-padding)*0.65)] py-[var(--resume-page-padding)] text-slate-200">
+          <h1 className="text-[20pt] font-bold leading-tight text-white">{basics.name}</h1>
+          <p className="mt-2 text-[length:var(--resume-small-size)] font-medium leading-[var(--resume-line-height)] text-slate-300">
             {basics.title}
           </p>
-          <div className="mt-7 space-y-6">
+          <div className="mt-[calc(var(--resume-section-gap)*2)] space-y-[calc(var(--resume-section-gap)*1.4)]">
             <section className="resume-block space-y-2">
-              <SectionHeading>Contact</SectionHeading>
+              <SectionHeading className="border-slate-600 text-white">Contact</SectionHeading>
               <ContactLine
                 basics={basics}
-                className="block space-y-1 text-[10px] text-slate-700 [&>span]:block [&>span[aria-hidden=true]]:hidden"
+                className="block space-y-1 break-all text-slate-300 [&>span]:block [&>span[aria-hidden=true]]:hidden"
               />
             </section>
-            <section className="resume-section space-y-3">
-              <SectionHeading>Skills</SectionHeading>
-              {skills.map((group) => (
-                <div className="resume-block" key={group.group}>
-                  <h3 className="text-[10px] font-bold">{group.group}</h3>
-                  <p className="text-[10px] leading-[1.45] text-slate-700">
-                    {group.items.join(", ")}
-                  </p>
+            <section className="resume-section space-y-2">
+              <SectionHeading className="border-slate-600 text-white">Education</SectionHeading>
+              {education.map((item) => (
+                <div className="resume-block" key={`${item.degree}-${item.institution}`}>
+                  <p className="text-[length:var(--resume-small-size)] font-semibold text-white">{item.degree}</p>
+                  <p className="mt-1 text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)] text-slate-300">{item.institution}</p>
                 </div>
               ))}
             </section>
-            <section className="resume-section space-y-2">
-              <SectionHeading>Education</SectionHeading>
-              <EducationList education={education} hideDates />
-            </section>
             <section className="resume-section space-y-1">
-              <SectionHeading>Languages</SectionHeading>
+              <SectionHeading className="border-slate-600 text-white">Languages</SectionHeading>
               {languages.map((item) => (
-                <p className="text-[10px] text-slate-700" key={item.name}>
+                <p className="text-[length:var(--resume-small-size)] text-slate-300" key={item.name}>
                   <strong>{item.name}</strong> · {item.level}
                 </p>
               ))}
             </section>
           </div>
         </aside>
-        <main className="space-y-6 px-7 py-8">
+        <main className="space-y-[var(--resume-section-gap)] p-[var(--resume-page-padding)]">
           <section className="resume-section space-y-2">
             <SectionHeading>Summary</SectionHeading>
-            <p className="text-[11px] leading-[1.55] text-slate-700">
+            <p className="text-[length:var(--resume-body-size)] leading-[var(--resume-line-height)] text-slate-700">
               {summary}
             </p>
           </section>
@@ -78,15 +72,18 @@ export function ModernSplitLayout({ data }: { data: ResumeData }) {
             <SectionHeading>Selected Projects</SectionHeading>
             {projects.map((item) => (
               <div className="resume-block" key={item.name}>
-                <h3 className="text-[11px] font-bold">{item.name}</h3>
-                <p className="text-[10.5px] leading-[1.45] text-slate-700">
+                <h3 className="text-[length:var(--resume-body-size)] font-bold">{item.name}</h3>
+                <p className="text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)] text-slate-700">
                   {item.desc}
                 </p>
               </div>
             ))}
           </section>
+          <section className="resume-section space-y-2">
+            <SectionHeading>Technical Skills</SectionHeading>
+            <SkillsRows skills={skills} />
+          </section>
         </main>
-      </article>
-    </div>
+    </ResumeSheet>
   );
 }

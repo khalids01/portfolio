@@ -1,5 +1,6 @@
 import { env } from "@/env";
 import type { ResumeLayoutId } from "./layouts";
+import type { ResumeDensity, ResumePageSize } from "./settings";
 
 function configured() {
   return Boolean(env.PDF_SERVICE_URL && env.PDF_SERVICE_SECRET_KEY);
@@ -23,6 +24,8 @@ export function isPdfServiceConfigured() {
 export async function generateResumePdfFromService(input: {
   variant: string;
   layout: ResumeLayoutId;
+  density: ResumeDensity;
+  pageSize: ResumePageSize;
   version: string;
 }) {
   if (!configured()) throw new Error("PDF service is not configured");

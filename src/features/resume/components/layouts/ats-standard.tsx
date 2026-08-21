@@ -1,4 +1,3 @@
-import type { ResumeData } from "@/features/resume/schema";
 import {
   ContactLine,
   EducationList,
@@ -6,8 +5,10 @@ import {
   SectionHeading,
   SkillsRows,
 } from "./shared/resume-primitives";
+import { ResumeSheet } from "./shared/resume-sheet";
+import type { ResumeLayoutProps } from "../../settings";
 
-export function AtsStandardLayout({ data }: { data: ResumeData }) {
+export function AtsStandardLayout({ data, density, pageSize }: ResumeLayoutProps) {
   const {
     basics,
     summary,
@@ -18,16 +19,16 @@ export function AtsStandardLayout({ data }: { data: ResumeData }) {
     languages,
   } = data;
   return (
-    <Sheet>
+    <ResumeSheet density={density} pageSize={pageSize} className="p-[var(--resume-page-padding)]">
       <header className="resume-block border-b-2 border-slate-700 pb-3">
-        <h1 className="text-[25px] font-bold leading-tight">{basics.name}</h1>
-        <p className="mt-0.5 text-[13px] font-medium">{basics.title}</p>
+        <h1 className="text-[22pt] font-bold leading-tight">{basics.name}</h1>
+        <p className="mt-0.5 text-[length:calc(var(--resume-body-size)*1.1)] font-medium">{basics.title}</p>
         <ContactLine basics={basics} className="mt-2 text-slate-700" />
       </header>
-      <div className="mt-4 space-y-4">
+      <div className="mt-[var(--resume-section-gap)] space-y-[var(--resume-section-gap)]">
         <section className="resume-section space-y-1.5">
           <SectionHeading>Summary</SectionHeading>
-          <p className="text-[11px] leading-[1.45]">{summary}</p>
+          <p className="text-[length:var(--resume-body-size)] leading-[var(--resume-line-height)]">{summary}</p>
         </section>
         <section className="resume-section space-y-2">
           <SectionHeading>Technical Skills</SectionHeading>
@@ -47,9 +48,9 @@ export function AtsStandardLayout({ data }: { data: ResumeData }) {
           <SectionHeading>Selected Projects</SectionHeading>
           {projects.map((item) => (
             <div className="resume-block" key={item.name}>
-              <h3 className="text-[11px] font-bold">{item.name}</h3>
-              <p className="text-[10.5px] leading-[1.4]">{item.desc}</p>
-              <ul className="ml-4 list-disc text-[10.5px] leading-[1.4]">
+              <h3 className="text-[length:var(--resume-body-size)] font-bold">{item.name}</h3>
+              <p className="text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)]">{item.desc}</p>
+              <ul className="ml-4 list-disc text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)]">
                 {item.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>
                 ))}
@@ -63,21 +64,11 @@ export function AtsStandardLayout({ data }: { data: ResumeData }) {
         </section>
         <section className="resume-section space-y-1">
           <SectionHeading>Languages</SectionHeading>
-          <p className="text-[10.5px]">
+          <p className="text-[length:var(--resume-small-size)]">
             {languages.map((item) => `${item.name}: ${item.level}`).join(" · ")}
           </p>
         </section>
       </div>
-    </Sheet>
-  );
-}
-
-function Sheet({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[14mm] text-slate-950 shadow-sm print:shadow-none">
-        {children}
-      </article>
-    </div>
+    </ResumeSheet>
   );
 }

@@ -1,4 +1,3 @@
-import type { ResumeData } from "@/features/resume/schema";
 import {
   ContactLine,
   EducationList,
@@ -6,8 +5,10 @@ import {
   SectionHeading,
   SkillsRows,
 } from "./shared/resume-primitives";
+import { ResumeSheet } from "./shared/resume-sheet";
+import type { ResumeLayoutProps } from "../../settings";
 
-export function EngineeringProLayout({ data }: { data: ResumeData }) {
+export function EngineeringProLayout({ data, density, pageSize }: ResumeLayoutProps) {
   const {
     basics,
     summary,
@@ -18,21 +19,20 @@ export function EngineeringProLayout({ data }: { data: ResumeData }) {
     languages,
   } = data;
   return (
-    <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[13mm] text-slate-900 shadow-sm print:shadow-none">
+    <ResumeSheet density={density} pageSize={pageSize} className="p-[var(--resume-page-padding)]">
         <header className="resume-block border-l-4 border-sky-700 pl-4">
-          <h1 className="text-[29px] font-bold tracking-tight">
+          <h1 className="text-[23pt] font-bold tracking-tight">
             {basics.name}
           </h1>
-          <p className="text-[14px] font-medium text-slate-700">
+          <p className="text-[length:calc(var(--resume-body-size)*1.12)] font-medium text-slate-700">
             {basics.title}
           </p>
           <ContactLine basics={basics} className="mt-2 text-slate-600" />
         </header>
-        <div className="mt-5 space-y-5">
+        <div className="mt-[var(--resume-section-gap)] space-y-[var(--resume-section-gap)]">
           <section className="resume-section space-y-2">
             <SectionHeading>Professional Summary</SectionHeading>
-            <p className="text-[11.5px] leading-[1.55] text-slate-700">
+            <p className="text-[length:var(--resume-body-size)] leading-[var(--resume-line-height)] text-slate-700">
               {summary}
             </p>
           </section>
@@ -49,8 +49,8 @@ export function EngineeringProLayout({ data }: { data: ResumeData }) {
             <SectionHeading>Selected Projects</SectionHeading>
             {projects.map((item) => (
               <div className="resume-block" key={item.name}>
-                <h3 className="text-[11.5px] font-bold">{item.name}</h3>
-                <p className="text-[10.75px] leading-[1.45] text-slate-700">
+                <h3 className="text-[length:var(--resume-body-size)] font-bold">{item.name}</h3>
+                <p className="text-[length:var(--resume-small-size)] leading-[var(--resume-line-height)] text-slate-700">
                   {item.desc}
                 </p>
               </div>
@@ -66,14 +66,13 @@ export function EngineeringProLayout({ data }: { data: ResumeData }) {
           </section>
           <section className="resume-section space-y-1">
             <SectionHeading>Languages</SectionHeading>
-            <p className="text-[10.75px]">
+            <p className="text-[length:var(--resume-small-size)]">
               {languages
                 .map((item) => `${item.name}: ${item.level}`)
                 .join(" · ")}
             </p>
           </section>
         </div>
-      </article>
-    </div>
+    </ResumeSheet>
   );
 }

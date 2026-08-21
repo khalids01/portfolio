@@ -10,6 +10,11 @@ import {
   isResumePdfCacheFresh,
 } from "@/features/resume/pdf-cache";
 import { normalizeResumeLayoutId } from "@/features/resume/layouts";
+import {
+  normalizeResumeDensity,
+  normalizeResumePageSize,
+  RESUME_PAGE_SIZES,
+} from "@/features/resume/settings";
 import { generateResumePdfFromService, isPdfServiceConfigured } from "@/features/resume/pdf-service";
 import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
@@ -60,6 +65,8 @@ function getPdfErrorMessage(error: unknown) {
 export async function GET(request: NextRequest) {
   const variant = request.nextUrl.searchParams.get("variant") || "default";
   const requestedLayout = request.nextUrl.searchParams.get("layout");
+  const requestedDensity = request.nextUrl.searchParams.get("density");
+  const requestedPageSize = request.nextUrl.searchParams.get("page");
   // 1. Check DB for last update
   const resume = await prisma.resume.findUnique({
     where: { slug: variant },
@@ -73,12 +80,16 @@ export async function GET(request: NextRequest) {
   // 2. Check cache
   ensureResumePdfCacheDir();
   const layout = normalizeResumeLayoutId(requestedLayout, normalizeResumeLayoutId(resume.defaultLayout));
+  const density = normalizeResumeDensity(requestedDensity);
+  const pageSize = normalizeResumePageSize(requestedPageSize);
 
   if (isPdfServiceConfigured()) {
     try {
       const generated = await generateResumePdfFromService({
         variant,
         layout,
+        density,
+        pageSize,
         version: resume.updatedAt.toISOString(),
       });
       return new Response(generated.bytes, {
@@ -94,9 +105,9 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const cacheFile = getResumePdfCacheFile(variant, layout);
+  const cacheFile = getResumePdfCacheFile(variant, layout, density, pageSize);
 
-  if (isResumePdfCacheFresh(resume.updatedAt, variant, layout)) {
+  if (isResumePdfCacheFresh(resume.updatedAt, variant, layout, density, pageSize)) {
     console.log("Serving cached PDF");
     const cachedPdf = readFileSync(cacheFile);
     return new Response(new Uint8Array(cachedPdf), {
@@ -113,8 +124,8 @@ export async function GET(request: NextRequest) {
   const baseUrl = env.NEXT_PUBLIC_APP_URL || `${protocol}://${host}`;
   const resumeUrl =
     variant === "default"
-      ? `${baseUrl}/resume?layout=${layout}`
-      : `${baseUrl}/resume/${variant}?layout=${layout}`;
+      ? `${baseUrl}/resume?layout=${layout}&density=${density}&page=${pageSize}`
+      : `${baseUrl}/resume/${variant}?layout=${layout}&density=${density}&page=${pageSize}`;
 
   const startTime = Date.now();
   console.log("Generating fresh PDF from:", resumeUrl);
@@ -149,7 +160,7 @@ export async function GET(request: NextRequest) {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     const pdfBuffer = await page.pdf({
-      format: "A4",
+      format: RESUME_PAGE_SIZES[pageSize].pdfFormat,
       printBackground: true,
       margin: {
         top: "0",
