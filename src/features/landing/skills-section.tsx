@@ -4,7 +4,7 @@ import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
 import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
-import { getSkillColor, normalizeSkillIcon } from "@/constants/icons";
+import { getSkillColor, getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
 import Image from "next/image";
 
 const categoryIcons: Record<string, React.ElementType> = {
@@ -104,7 +104,9 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
 
                   <div className="flex flex-wrap gap-3">
                     {categorySkills.map((skill) => {
-                      const iconPath = normalizeSkillIcon(skill?.icon);
+                      // Prefer the persisted path, but keep older/legacy rows
+                      // working when their icon column is still null.
+                      const iconPath = normalizeSkillIcon(skill?.icon) ?? getSkillIcon(skill.name);
                       const brandColor = getSkillColor(skill.name);
                       return (
                         <div

@@ -27,7 +27,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CoreImg } from "@/components/core/img";
-import { normalizeSkillIcon } from "@/constants/icons";
+import { getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
 
 const ALL_TAB = "all" as const;
 
@@ -212,7 +212,7 @@ function ProjectCard({
                     <span className="inline-flex items-center gap-1">
                       {skill.icon ? (
                         <Image
-                          src={normalizeSkillIcon(skill.icon) ?? ""}
+                          src={normalizeSkillIcon(skill.icon) ?? getSkillIcon(skill.name) ?? ""}
                           alt=""
                           width={12}
                           height={12}
@@ -527,7 +527,7 @@ function ProjectDetailModal({
                       <span className="inline-flex items-center gap-1.5">
                         {skill.icon ? (
                           <Image
-                            src={normalizeSkillIcon(skill.icon) ?? ""}
+                            src={normalizeSkillIcon(skill.icon) ?? getSkillIcon(skill.name) ?? ""}
                             alt=""
                             width={14}
                             height={14}

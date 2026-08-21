@@ -295,7 +295,7 @@ export const SKILL = {
     slug: "ci-cd",
     name: "CI/CD",
     category: SKILL_CATEGORY.DEVOPS_CLOUD,
-    icon: null,
+    icon: "/icons/githubactions.svg",
   },
   GRAFANA: {
     slug: "grafana",
