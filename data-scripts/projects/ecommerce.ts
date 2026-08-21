@@ -22,6 +22,7 @@ export const ecommerceProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Ecommerce Applications",
       slug: "ecommerce-applications",
+      images: [],
       description:
         "Production ecommerce applications built for client and business-owned retail workflows, including systems used to generate real sales.",
       categorySlug: PROJECT_CATEGORY.ECOMMERCE.slug,

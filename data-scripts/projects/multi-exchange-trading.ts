@@ -18,6 +18,7 @@ export const multiExchangeTradingProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Multi-Exchange Solana Trading Platform",
       slug: "multi-exchange-solana-trading",
+      images: [],
 
       description:
         "Automated crypto trading platform for monitoring and executing Solana trading workflows across centralized and decentralized exchanges.",

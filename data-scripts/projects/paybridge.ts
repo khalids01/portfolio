@@ -17,6 +17,7 @@ export const paybridgeProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "PayBridge",
       slug: "paybridge",
+      images: [],
 
       description:
         "Institutional cross-border settlement orchestration platform exploring how regulated payment providers can use stablecoin infrastructure for treasury settlement, liquidity management, payout coordination, and reconciliation.",

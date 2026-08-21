@@ -17,9 +17,10 @@ export const limsProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Laboratory Information Management System (LIMS)",
       slug: "lims",
+      images: [],
       description:
         "Enterprise LIMS for hospitals and diagnostic centers, supporting clinical and anatomical laboratory workflows with strict access control and automation.",
-      categorySlug: PROJECT_CATEGORY.ENTERPRISE_HEALTHTECH.slug,
+      categorySlug: PROJECT_CATEGORY.HEALTHTECH.slug,
       statusBadges: [
         "Private Enterprise Project",
         "Advanced Development",

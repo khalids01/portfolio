@@ -17,9 +17,10 @@ export const jobPlatformsProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Job Posting Platforms",
       slug: "job-posting-platforms",
+      images: [],
       description:
         "Production job posting applications built for real business recruitment workflows, including public listings, administration, and deployment.",
-      categorySlug: PROJECT_CATEGORY.PRODUCTION_APPS.slug,
+      categorySlug: PROJECT_CATEGORY.SAAS_PLATFORMS.slug,
       statusBadges: [PROJECT_STATUS.PRODUCTION_USED, "Live Apps"],
       featuredRank: 7,
       impact:

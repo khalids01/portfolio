@@ -17,9 +17,10 @@ export const emrProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Electronic Medical Record (EMR)",
       slug: "emr-system",
+      images: [],
       description:
         "Customization and modernization work on a fork of OpenEMR, improving selected clinician and patient workflows with new UI and APIs.",
-      categorySlug: PROJECT_CATEGORY.ENTERPRISE_HEALTHTECH.slug,
+      categorySlug: PROJECT_CATEGORY.HEALTHTECH.slug,
       statusBadges: ["OpenEMR Fork", "Customization", "Paused"],
       featuredRank: 6,
       role: "Contributed smaller focused improvements compared with the LIMS ownership.",

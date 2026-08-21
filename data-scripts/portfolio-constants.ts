@@ -9,29 +9,29 @@
 // Project categories
 // ---------------------------------------------------------------------------
 export const PROJECT_CATEGORY = {
-  PRODUCTION_APPS: {
-    name: "Production Apps",
-    slug: "production-apps",
-  },
-  ENTERPRISE_HEALTHTECH: {
-    name: "Enterprise HealthTech",
-    slug: "enterprise-healthtech",
+  HEALTHTECH: {
+    name: "HealthTech",
+    slug: "healthtech",
   },
   FINTECH_BLOCKCHAIN: {
     name: "FinTech / Blockchain",
     slug: "fintech-blockchain",
   },
-  SAAS_INTERNAL_TOOLS: {
-    name: "SaaS / Internal Tools",
-    slug: "saas-internal-tools",
+  SAAS_PLATFORMS: {
+    name: "SaaS / Platforms",
+    slug: "saas-platforms",
   },
   ECOMMERCE: {
     name: "Ecommerce",
     slug: "ecommerce",
   },
-  OPEN_SOURCE: {
-    name: "Open Source",
-    slug: "open-source",
+  BUSINESS_APPS: {
+    name: "Business Applications",
+    slug: "business-applications",
+  },
+  DEVELOPER_TOOLS: {
+    name: "Developer Tools",
+    slug: "developer-tools",
   },
 } as const;
 

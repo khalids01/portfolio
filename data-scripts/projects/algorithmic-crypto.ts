@@ -22,6 +22,7 @@ export const algorithmicCryptoProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Algorithmic Crypto Trading Platform",
       slug: "crypto-trading-platform",
+      images: [],
 
       description:
         "R&D platform for algorithmic crypto trading infrastructure, real-time market intelligence, arbitrage research, strategy validation, and automated execution architecture.",
