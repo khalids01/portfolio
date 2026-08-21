@@ -41,7 +41,7 @@ function ExperienceCard({ experience, index }: { experience: ExperienceData; ind
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
@@ -106,7 +106,7 @@ function ExperienceCard({ experience, index }: { experience: ExperienceData; ind
                 {experience.highlights.map((highlight, idx) => (
                   <motion.div
                     key={idx}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 + idx * 0.05 }}
@@ -143,7 +143,7 @@ export function ExperienceSection({ experiences }: { experiences: ExperienceData
           
           {/* Header Area */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="flex flex-col items-center text-center space-y-4"

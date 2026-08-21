@@ -22,7 +22,7 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
       <div className="mx-auto max-w-4xl text-center space-y-8">
         {/* Status Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="flex justify-center"
@@ -38,7 +38,7 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
 
         {/* Main Content */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="space-y-6"
@@ -53,7 +53,7 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
 
         {/* Meta Info */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground"
@@ -80,7 +80,7 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
 
         {/* Actions */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-wrap justify-center gap-4 pt-4"
@@ -101,7 +101,7 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
 
         {/* Social Links */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex justify-center gap-4 pt-8"

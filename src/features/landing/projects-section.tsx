@@ -72,7 +72,7 @@ function ProjectCard({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
       className="h-full"
@@ -596,7 +596,7 @@ export function ProjectsSection({
       <div className="mx-auto max-w-7xl space-y-12">
         <div className="text-center space-y-4">
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl font-bold tracking-tight md:text-5xl"
@@ -604,7 +604,7 @@ export function ProjectsSection({
             Featured Projects
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}

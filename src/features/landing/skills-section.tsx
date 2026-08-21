@@ -57,7 +57,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
         {/* Section header */}
         <div className="text-center space-y-4">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl font-bold tracking-tight md:text-5xl"
@@ -65,7 +65,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
             Skills & Expertise
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
