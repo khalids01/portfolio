@@ -79,7 +79,7 @@ export function ResumeView({
         zoom={zoom}
         onZoomChange={setZoom}
       />
-      <div className="resume-preview-origin mx-auto w-fit max-w-full origin-top" style={{ transform: `scale(${zoom / 100})` }}>
+      <div className="resume-preview-origin mx-auto w-full max-w-full origin-top overflow-hidden" style={{ transform: `scale(${zoom / 100})` }}>
         <SelectedLayout data={data} density={activeDensity} pageSize={activePageSize} />
       </div>
     </>
@@ -102,7 +102,7 @@ function ResumeVariantSelector({
     );
   }
   return (
-    <div className="no-print mx-auto mb-4 flex w-full max-w-[210mm] items-center gap-3">
+    <div className="no-print mx-auto mb-4 flex w-full max-w-[210mm] flex-col items-stretch gap-1.5 sm:flex-row sm:items-center sm:gap-3">
       <label
         htmlFor="resume-variant"
         className="shrink-0 text-sm font-medium text-slate-400"
@@ -112,7 +112,7 @@ function ResumeVariantSelector({
       <Select value={activeSlug} onValueChange={updateVariant}>
         <SelectTrigger
           id="resume-variant"
-          className="w-full max-w-md bg-background/80"
+          className="h-11 w-full max-w-none bg-background/80 sm:max-w-md"
         >
           <SelectValue placeholder="Select a resume variant" />
         </SelectTrigger>
@@ -141,12 +141,12 @@ function ResumeToolbar({
 }) {
   const pdfHref = `/resume.pdf?variant=${encodeURIComponent(resumeSlug)}&layout=${activeLayout}&density=${activeDensity}&page=${activePageSize}`;
   return (
-    <div className="no-print mx-auto mb-6 flex w-full max-w-[210mm] flex-wrap items-center justify-between gap-3">
+    <div className="no-print sticky top-2 z-20 mx-auto mb-5 flex w-full max-w-[210mm] items-center justify-between gap-2 rounded-xl border border-slate-800/80 bg-slate-950/95 px-2 py-2 shadow-lg backdrop-blur sm:static sm:mb-6 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
       <Button
         variant="ghost"
-        size="sm"
+        size="default"
         asChild
-        className="text-slate-500 hover:text-primary transition-colors"
+        className="h-10 px-2 text-slate-400 hover:text-primary transition-colors sm:h-9"
       >
         <Link href="/">
           <ArrowLeft className="mr-2 h-4 w-4" />
@@ -154,8 +154,8 @@ function ResumeToolbar({
         </Link>
       </Button>
       <Button
-        size="lg"
-        className="rounded-full text-white! bg-slate-900! shadow-lg hover:shadow-xl transition-all"
+        size="default"
+        className="h-10 rounded-lg text-white! bg-slate-800! px-4 shadow-lg hover:bg-slate-700! hover:shadow-xl transition-all sm:h-11 sm:rounded-full"
         asChild
       >
         <a href={pdfHref}>
@@ -192,20 +192,22 @@ function ResumeDocumentControls({
       <div>
         <p className="mb-1 text-sm font-medium text-slate-400">Layout</p>
         <Tabs value={activeLayout} onValueChange={(value) => updateDocumentSetting("layout", value)}>
-        <TabsList className="grid h-auto w-full grid-cols-2 rounded-md border bg-background/80 p-1 backdrop-blur sm:grid-cols-3 lg:grid-cols-5">
+        <div className="overflow-x-auto pb-1 [scrollbar-width:thin]">
+        <TabsList className="flex h-auto w-max min-w-full gap-1 rounded-md border bg-background/80 p-1 backdrop-blur">
           {RESUME_LAYOUTS.map((layout) => (
             <TabsTrigger
               key={layout.id}
               value={layout.id}
-              className="rounded-sm text-xs md:text-sm"
+              className="h-10 shrink-0 rounded-sm px-3 text-xs sm:px-4 md:text-sm"
             >
               {layout.label}
             </TabsTrigger>
           ))}
         </TabsList>
+        </div>
         </Tabs>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <DocumentSelect
           label="Density"
           value={activeDensity}
@@ -224,6 +226,7 @@ function ResumeDocumentControls({
           options={([75, 90, 100] as const).map((value) => ({ value: String(value), label: `${value}%` }))}
           onChange={(value) => onZoomChange(Number(value) as ResumePreviewZoom)}
           icon={<ZoomIn className="h-3.5 w-3.5" />}
+          className="col-span-2 sm:col-span-1"
         />
       </div>
     </div>
@@ -236,18 +239,20 @@ function DocumentSelect({
   options,
   onChange,
   icon,
+  className = "",
 }: {
   label: string;
   value: string;
   options: { value: string; label: string }[];
   onChange: (value: string) => void;
   icon?: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <label className="grid gap-1 text-sm font-medium text-slate-400">
+    <label className={`grid gap-1 text-sm font-medium text-slate-400 ${className}`}>
       {label}
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-full bg-background/80">
+        <SelectTrigger className="h-11 w-full bg-background/80">
           {icon}
           <SelectValue />
         </SelectTrigger>

@@ -17,7 +17,7 @@ export function ResumeSheet({
   children: ReactNode;
 }) {
   return (
-    <div className="resume-preview-sheet w-full overflow-x-auto print:overflow-visible">
+    <div className="resume-preview-sheet w-full overflow-x-auto overscroll-x-contain print:overflow-visible">
       <article
         className={`resume-sheet mx-auto bg-white text-slate-900 shadow-sm print:shadow-none ${className}`}
         style={resumeSheetStyle(density, pageSize)}
