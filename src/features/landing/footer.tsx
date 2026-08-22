@@ -4,23 +4,34 @@ import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
 
-export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic" | "githubUrl" | "linkedinUrl" | "socialLinks"> }) {
+export function Footer({
+  data,
+}: {
+  data: Pick<
+    LandingData,
+    "name" | "emailPublic" | "githubUrl" | "linkedinUrl" | "socialLinks"
+  >;
+}) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="border-t border-border bg-muted/30 backdrop-blur-sm">
+    <footer
+      id="contact"
+      className="border-t border-border bg-muted/30 backdrop-blur-sm"
+    >
       <div className="container mx-auto px-3 py-12 md:py-16">
         <div className="mx-auto max-w-6xl space-y-12">
           {/* Contact Form */}
           <ContactForm />
-          
+
           {/* Main footer content */}
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* About */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">{data.name}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Building exceptional digital experiences with modern technologies and best practices.
+                Building exceptional digital experiences with modern
+                technologies and best practices.
               </p>
               {/* Social links */}
               <div className="flex items-center gap-3">
@@ -59,18 +70,36 @@ export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Quick Links</h3>
               <nav className="flex flex-col gap-2">
-                <a href="#skills" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#skills"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Skills
                 </a>
-                <a href="#experience" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#experience"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Experience
                 </a>
-                <a href="#projects" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#projects"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Projects
                 </a>
-                <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a
+                  href="#services"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Services
                 </a>
+                <Link
+                  href="/agent-text"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Agent Text
+                </Link>
               </nav>
             </div>
 
@@ -78,7 +107,8 @@ export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Get In Touch</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Have a project in mind or want to collaborate? Feel free to reach out!
+                Have a project in mind or want to collaborate? Feel free to
+                reach out!
               </p>
               {data.emailPublic && (
                 <a
@@ -98,7 +128,9 @@ export function Footer({ data }: { data: Pick<LandingData, "name" | "emailPublic
                 © {currentYear} {data.name}. All rights reserved.
               </p>
               <p className="flex items-center gap-1">
-                Made with <Heart className="h-4 w-4 text-red-500 fill-current" /> using Next.js
+                Made with{" "}
+                <Heart className="h-4 w-4 text-red-500 fill-current" /> using
+                Next.js
               </p>
             </div>
           </div>
