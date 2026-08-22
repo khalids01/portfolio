@@ -49,7 +49,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@skycanvasstudio/sso": "^0.10.0",
+    "@skycanvasstudio/sso": "^0.10.1",
     "@tanstack/react-query": "^5.90.14",
     "axios": "^1.13.2",
     "chromium": "^3.0.3",

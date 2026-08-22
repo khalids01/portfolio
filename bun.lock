@@ -36,7 +36,7 @@
         "@radix-ui/react-tooltip": "^1.2.8",
         "@react-three/drei": "^10.7.7",
         "@react-three/fiber": "^9.4.2",
-        "@skycanvasstudio/sso": "^0.10.0",
+        "@skycanvasstudio/sso": "^0.10.1",
         "@tanstack/react-query": "^5.90.14",
         "axios": "^1.13.2",
         "chromium": "^3.0.3",
@@ -497,7 +497,7 @@
 
     "@sindresorhus/is": ["@sindresorhus/is@4.6.0", "", {}, "sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw=="],
 
-    "@skycanvasstudio/sso": ["@skycanvasstudio/sso@0.10.0", "", { "dependencies": { "@base-ui/react": "^1.2.0", "jose": "^6.1.0", "react-hook-form": "^7.84.0" }, "peerDependencies": { "@tanstack/react-start": ">=1.160.0", "better-auth": ">=1.6.23", "elysia": ">=1.4.0", "next": ">=14", "react": ">=18" }, "optionalPeers": ["@tanstack/react-start", "better-auth", "elysia", "next", "react"] }, "sha512-8IvKM+GDdwVashZM7tn7zhYlwMZTWF6+xplYEso9rPh3S43poAblzTRuFlh3W+G2EnyRwAZJUnRLbwuqtLVPIg=="],
+    "@skycanvasstudio/sso": ["@skycanvasstudio/sso@0.10.1", "", { "dependencies": { "@base-ui/react": "^1.2.0", "jose": "^6.1.0", "react-hook-form": "^7.84.0" }, "peerDependencies": { "@tanstack/react-start": ">=1.160.0", "better-auth": ">=1.6.23", "elysia": ">=1.4.0", "next": ">=14", "react": ">=18" }, "optionalPeers": ["@tanstack/react-start", "better-auth", "elysia", "next", "react"] }, "sha512-yiW0CdGsTk9OuhOew58uDXWIrmn0tpxINRSmXEMiCdEDRf/TcJlya6daBZcgvs6Y3KWuPmKe9bTNyEKqHpsj7A=="],
 
     "@smithy/abort-controller": ["@smithy/abort-controller@4.0.5", "", { "dependencies": { "@smithy/types": "^4.3.2", "tslib": "^2.6.2" } }, "sha512-jcrqdTQurIrBbUm4W2YdLVMQDoL0sA9DTxYd2s+R/y+2U9NLOP7Xf/YqfSg1FZhlZIYEnvk2mwbyvIfdLEPo8g=="],
 
