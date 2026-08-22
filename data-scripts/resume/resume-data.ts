@@ -6,7 +6,6 @@ const links = [
 ];
 
 const education: ResumeData["education"] = [
-  { institution: "Uttara University", degree: "B.Sc. in Computer Science & Engineering" },
   { institution: "Tangail Polytechnic Institute", degree: "Diploma in Computer Science & Engineering" },
 ];
 
