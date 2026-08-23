@@ -12,8 +12,11 @@ import { MotionConfig } from "motion/react";
 import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
-  const data = await getLandingData();
-  const visitorCount = await prisma.visitor.count();
+
+  const [data, visitorCount] = await Promise.all([
+    getLandingData(),
+    prisma.visitor.count(),
+  ]);
 
   return (
     <MotionConfig reducedMotion="user">
