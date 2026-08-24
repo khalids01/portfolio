@@ -6,6 +6,10 @@ import { skycanvas } from "@/lib/skycanvas";
 import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
 import { QueryProvider } from "@/components/core/query-provider";
 
+// Admin pages are authenticated and database-backed. Never execute their
+// queries during static generation; only the public landing page uses ISR.
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({
   children,
 }: {
