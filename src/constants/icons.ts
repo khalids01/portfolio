@@ -47,6 +47,8 @@ export const SKILL_ICONS: Record<string, string> = {
   phoenix: "/icons/phoenixframework.svg",
   graphQl: "/icons/graphql.svg",
   apollo: "/icons/apollographql.svg",
+  restApis: "/icons/rest-apis.svg",
+  webSockets: "/icons/websockets.svg",
 
   // Database & ORM
   prisma: "/icons/prisma.svg",
@@ -61,6 +63,7 @@ export const SKILL_ICONS: Record<string, string> = {
   redis: "/icons/redis.svg",
   supabase: "/icons/supabase.svg",
   firebase: "/icons/firebase.svg",
+  sqlite: "/icons/sqlite.svg",
 
   // DevOps & Cloud
   awsRdsElastiCacheS3Ec2: "/icons/amazonaws.svg",
@@ -79,6 +82,7 @@ export const SKILL_ICONS: Record<string, string> = {
 
   // FinTech / Blockchain
   web3Js: "/icons/web3dotjs.svg",
+  solidity: "/icons/solidity.svg",
   solanaRpcAnchor: "/icons/solana.svg",
   solana: "/icons/solana.svg",
   anchor: "/icons/anchor.svg",
@@ -96,6 +100,8 @@ export const SKILL_ICONS: Record<string, string> = {
   cleanArchitecture: "/icons/clean-architecture.svg",
   performanceOptimization: "/icons/performance-optimization.svg",
   apiSecurity: "/icons/api-security.svg",
+  realTimeSystems: "/icons/real-time-systems.svg",
+  eventDrivenArchitecture: "/icons/event-driven-architecture.svg",
 };
 
 export const SKILL_COLORS: Record<string, string> = {
@@ -128,6 +134,8 @@ export const SKILL_COLORS: Record<string, string> = {
   phoenix: "#FD4F00",
   graphQl: "#E10098",
   apollo: "#311C87",
+  restApis: "#38BDF8",
+  webSockets: "#8B5CF6",
   prisma: "#2D3748",
   drizzle: "#C5F74F",
   typeOrm: "#FE0803",
@@ -141,6 +149,7 @@ export const SKILL_COLORS: Record<string, string> = {
   redis: "#DC382D",
   supabase: "#3ECF8E",
   firebase: "#FFCA28",
+  sqlite: "#0EA5E9",
   aws: "#FF9900",
   awsRdsElastiCacheS3Ec2: "#FF9900",
   docker: "#2496ED",
@@ -165,10 +174,13 @@ export const SKILL_COLORS: Record<string, string> = {
   coinbase: "#0052FF",
   coinbaseApi: "#0052FF",
   web3Js: "#F16822",
+  solidity: "#94A3B8",
   systemDesign: "#3B82F6",
   cleanArchitecture: "#10B981",
   performanceOptimization: "#F59E0B",
   apiSecurity: "#EF4444",
+  realTimeSystems: "#F97316",
+  eventDrivenArchitecture: "#14B8A6",
 };
 
 export const getSkillIcon = (skillName: string): string | null => {

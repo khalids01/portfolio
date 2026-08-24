@@ -201,13 +201,13 @@ export const SKILL = {
     slug: "rest-apis",
     name: "REST APIs",
     category: SKILL_CATEGORY.BACKEND,
-    icon: null,
+    icon: "/icons/rest-apis.svg",
   },
   WEBSOCKETS: {
     slug: "websockets",
     name: "WebSockets",
     category: SKILL_CATEGORY.BACKEND,
-    icon: null,
+    icon: "/icons/websockets.svg",
   },
 
   // Database & Data
@@ -233,7 +233,7 @@ export const SKILL = {
     slug: "sqlite",
     name: "SQLite",
     category: SKILL_CATEGORY.DATABASE_DATA,
-    icon: null,
+    icon: "/icons/sqlite.svg",
   },
   MONGODB: {
     slug: "mongodb",
@@ -369,7 +369,7 @@ export const SKILL = {
     slug: "solidity",
     name: "Solidity",
     category: SKILL_CATEGORY.FINTECH_BLOCKCHAIN,
-    icon: null,
+    icon: "/icons/solidity.svg",
   },
   FOUNDRY: {
     slug: "foundry",
@@ -395,13 +395,13 @@ export const SKILL = {
     slug: "real-time-systems",
     name: "Real-Time Systems",
     category: SKILL_CATEGORY.ENGINEERING,
-    icon: null,
+    icon: "/icons/real-time-systems.svg",
   },
   EVENT_DRIVEN_ARCHITECTURE: {
     slug: "event-driven-architecture",
     name: "Event-Driven Architecture",
     category: SKILL_CATEGORY.ENGINEERING,
-    icon: null,
+    icon: "/icons/event-driven-architecture.svg",
   },
   PERFORMANCE_OPTIMIZATION: {
     slug: "performance-optimization",

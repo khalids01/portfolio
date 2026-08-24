@@ -26,8 +26,7 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-1">
           <ModeToggle />
 
-          <UserMenu
-          />
+          <UserMenu showSignIn={false} />
 
         </div>
       </div>

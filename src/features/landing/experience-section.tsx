@@ -133,7 +133,7 @@ export function ExperienceSection({ experiences }: { experiences: ExperienceData
   if (!experiences.length) return null;
 
   return (
-    <section id="experience" className="relative w-full py-20 md:py-32 overflow-hidden bg-background">
+    <section id="experience" className="relative w-full overflow-hidden py-20 md:py-32">
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-500/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-[-20%] w-[600px] h-[600px] bg-blue-500/10 dark:bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />

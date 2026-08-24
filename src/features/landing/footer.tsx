@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
+import { SignInButton } from "@/components/core/user-menu";
 
 export function Footer({
   data,
@@ -132,6 +133,7 @@ export function Footer({
                 <Heart className="h-4 w-4 text-red-500 fill-current" /> using
                 Next.js
               </p>
+              <SignInButton />
             </div>
           </div>
         </div>

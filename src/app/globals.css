@@ -258,6 +258,30 @@ body {
     animation: spin-slow 8s linear infinite;
   }
 
+  @keyframes hero-skills-scroll-down {
+    from {
+      transform: translateY(-50%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .hero-skills-window {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 16%,
+      black 84%,
+      transparent
+    );
+  }
+
+  .hero-skills-track {
+    animation: hero-skills-scroll-down 140s linear infinite;
+    will-change: transform;
+  }
+
   /* Pulse delays */
   .delay-500 {
     animation-delay: 500ms;
