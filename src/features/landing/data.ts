@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import seedData from "../../../prisma/data.json";
 
 export type SkillData = {
   id: string;
@@ -104,7 +105,94 @@ export type LandingData = {
   socialLinks: Array<{ platform: string; url: string }>;
 };
 
+function getBuildFallbackLandingData(): LandingData {
+  const projectCategories = seedData.categories
+    .filter((category) => category.categoryType === "project")
+    .map((category) => ({
+      id: `build-category-${category.slug}`,
+      name: category.name,
+      slug: category.slug,
+      order: category.order,
+    }));
+  const categoryBySlug = new Map(
+    projectCategories.map((category) => [category.slug, category]),
+  );
+
+  return {
+    name: seedData.profile.fullName,
+    title: seedData.profile.headline,
+    bio: seedData.profile.bio,
+    location: seedData.profile.location,
+    emailPublic: seedData.profile.emailPublic,
+    resumeUrl: seedData.profile.resumeUrl,
+    githubUrl: seedData.profile.githubUrl,
+    linkedinUrl: seedData.profile.linkedinUrl,
+    skills: seedData.skills.map((skill, index) => ({
+      id: `build-skill-${index}`,
+      name: skill.name,
+      category: skill.category,
+      icon: null,
+      level: null,
+      experienceYears: null,
+      experienceMonths: null,
+    })),
+    experiences: seedData.experiences.map((experience, index) => ({
+      id: `build-experience-${index}`,
+      company: experience.company,
+      role: experience.role,
+      location: experience.location,
+      startDate: new Date(experience.startDate),
+      endDate: experience.endDate ? new Date(experience.endDate) : null,
+      current: experience.current,
+      description: experience.description,
+      coverImage: null,
+      images: [],
+      category: null,
+      highlights: experience.highlights.map((text) => ({ text })),
+      skills: [],
+      projects: [],
+    })),
+    projects: seedData.projects.map((project, index) => {
+      const category = categoryBySlug.get(project.categorySlug) ?? null;
+
+      return {
+        id: `build-project-${index}`,
+        title: project.title,
+        slug: project.slug,
+        description: project.description,
+        coverImage: project.coverImage,
+        images: [],
+        url: project.url,
+        repoUrl: project.repoUrl,
+        startDate: project.startDate ? new Date(project.startDate) : null,
+        endDate: project.endDate ? new Date(project.endDate) : null,
+        categoryId: category?.id ?? null,
+        category,
+        tags: project.tags.map((name) => ({ name })),
+        skills: [],
+        statusBadges: [],
+        featuredRank: null,
+        role: null,
+        impact: null,
+        caseStudy: null,
+      };
+    }),
+    projectCategories,
+    socialLinks: seedData.socialLinks.map((link) => ({
+      platform: link.platform,
+      url: link.url,
+    })),
+  };
+}
+
 export async function getLandingData(): Promise<LandingData> {
+  // Docker builders do not share the runtime database network. Seed-backed
+  // content produces the initial static page; ISR replaces it from Prisma
+  // after deployment, where DATABASE_URL points at the private database.
+  if (process.env.NEXT_PHASE === "phase-production-build") {
+    return getBuildFallbackLandingData();
+  }
+
   // Choose the portfolio owner profile. For now, pick the most recently updated.
   const profile = await prisma.profile.findFirst({
     orderBy: { updatedAt: "desc" },

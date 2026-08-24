@@ -18,9 +18,6 @@ services:
       extra_hosts:
         - "host.docker.internal:host-gateway"
       args:
-        # The Docker builder cannot resolve Dokploy's private runtime database
-        # hostname. Use the externally reachable URL only while building ISR.
-        DATABASE_URL: ${BUILD_DATABASE_URL}
         EMAIL: ${EMAIL}
         EMAIL_PASSWORD: ${EMAIL_PASSWORD}
         EMAIL_FROM: ${EMAIL_FROM}

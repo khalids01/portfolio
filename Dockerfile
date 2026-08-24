@@ -24,7 +24,6 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # ---- Build-time environment variables ----
-ARG DATABASE_URL
 ARG EMAIL
 ARG EMAIL_PASSWORD
 ARG EMAIL_FROM
@@ -39,7 +38,9 @@ ARG SKYCANVAS_PUBLISHABLE_KEY
 ARG SKYCANVAS_SECRET_KEY
 ARG SKYCANVAS_SSO_URL
 
-ENV DATABASE_URL=$DATABASE_URL
+# Prisma is imported while Next compiles dynamic routes, so it still needs a
+# syntactically valid URL. Production-build prerendering never connects to it.
+ENV DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build
 ENV EMAIL=$EMAIL
 ENV EMAIL_PASSWORD=$EMAIL_PASSWORD
 ENV EMAIL_FROM=$EMAIL_FROM
