@@ -278,7 +278,7 @@ body {
   }
 
   .hero-skills-track {
-    animation: hero-skills-scroll-down 140s linear infinite;
+    animation: hero-skills-scroll-down 36s linear infinite;
     will-change: transform;
   }
 
