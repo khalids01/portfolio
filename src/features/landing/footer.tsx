@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
-import { SignInButton } from "@/components/core/user-menu";
+import { Button } from "@/components/ui/button";
 
 export function Footer({
   data,
@@ -44,6 +44,7 @@ export function Footer({
                     className="rounded-lg bg-muted p-2 hover:bg-primary/10 hover:text-primary transition-colors"
                   >
                     <Github className="h-5 w-5" />
+                    <span className="sr-only">GitHub profile</span>
                   </Link>
                 )}
                 {data.linkedinUrl && (
@@ -54,6 +55,7 @@ export function Footer({
                     className="rounded-lg bg-muted p-2 hover:bg-primary/10 hover:text-primary transition-colors"
                   >
                     <Linkedin className="h-5 w-5" />
+                    <span className="sr-only">LinkedIn profile</span>
                   </Link>
                 )}
                 {data.emailPublic && (
@@ -62,6 +64,7 @@ export function Footer({
                     className="rounded-lg bg-muted p-2 hover:bg-primary/10 hover:text-primary transition-colors"
                   >
                     <Mail className="h-5 w-5" />
+                    <span className="sr-only">Email {data.name}</span>
                   </a>
                 )}
               </div>
@@ -133,7 +136,9 @@ export function Footer({
                 <Heart className="h-4 w-4 text-red-500 fill-current" /> using
                 Next.js
               </p>
-              <SignInButton />
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/auth/sign-in">Sign in</Link>
+              </Button>
             </div>
           </div>
         </div>

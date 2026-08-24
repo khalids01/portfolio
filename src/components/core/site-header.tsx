@@ -3,10 +3,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/core/mode-toggle";
-import { UserMenu } from "@/components/core/user-menu";
-import { AnimatedName } from "@/components/core/animated-name";
+import type { ReactNode } from "react";
 
-export function SiteHeader() {
+export function SiteHeader({
+  brandAddon,
+  actions,
+}: {
+  brandAddon?: ReactNode;
+  actions?: ReactNode;
+}) {
 
   return (
     <header className="sticky top-0 z-20 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -17,16 +22,17 @@ export function SiteHeader() {
               src="/icon.png"
               alt="Logo"
               fill
+              sizes="32px"
               className="object-cover"
               priority
             />
           </div>
-          <AnimatedName />
+          {brandAddon}
         </Link>
         <div className="ml-auto flex items-center gap-1">
           <ModeToggle />
 
-          <UserMenu showSignIn={false} />
+          {actions}
 
         </div>
       </div>

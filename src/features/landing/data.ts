@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { skycanvas } from "@/lib/skycanvas";
 
 export type SkillData = {
   id: string;
@@ -103,18 +102,9 @@ export type LandingData = {
   projects: ProjectData[];
   projectCategories: ProjectCategoryData[];
   socialLinks: Array<{ platform: string; url: string }>;
-  session: {
-    userId: string;
-    name?: string | null;
-    image?: string | null;
-    role?: "ADMIN" | "USER";
-  } | null;
 };
 
 export async function getLandingData(): Promise<LandingData> {
-  // Get session (for header right-side logic)
-  const session = (await skycanvas.auth()).session;
-
   // Choose the portfolio owner profile. For now, pick the most recently updated.
   const profile = await prisma.profile.findFirst({
     orderBy: { updatedAt: "desc" },
@@ -234,20 +224,6 @@ export async function getLandingData(): Promise<LandingData> {
     url: s.url,
   }));
 
-  let sessionData: LandingData["session"] = null;
-  if (session) {
-    const u = await prisma.user.findUnique({
-      where: { email: session.user.email },
-      select: { role: true, name: true, image: true },
-    });
-    sessionData = {
-      userId: session.user.id,
-      name: u?.name ?? session.user.name,
-      image: u?.image ?? session.user.image,
-      role: u?.role,
-    };
-  }
-
   return {
     name,
     title,
@@ -261,6 +237,5 @@ export async function getLandingData(): Promise<LandingData> {
     projects,
     projectCategories,
     socialLinks,
-    session: sessionData,
   };
 }

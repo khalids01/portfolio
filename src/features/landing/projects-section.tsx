@@ -622,7 +622,10 @@ export function ProjectsSection({
         >
           <div className="sticky top-16 z-20 rounded-md border border-border/60 bg-background/95 p-1.5 backdrop-blur lg:hidden">
             <Select value={activeTab} onValueChange={setActiveTab}>
-              <SelectTrigger className="h-11 w-full rounded-md">
+              <SelectTrigger
+                aria-label="Filter projects"
+                className="h-11 w-full rounded-md"
+              >
                 <SelectValue placeholder="Filter projects" />
               </SelectTrigger>
               <SelectContent>

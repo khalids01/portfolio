@@ -11,6 +11,10 @@ import { MotionConfig } from "motion/react";
 
 import { prisma } from "@/lib/prisma";
 
+// Keep database-managed portfolio content fresh without paying the full remote
+// database round trip on every public request.
+export const revalidate = 60;
+
 export default async function Home() {
 
   const [data, visitorCount] = await Promise.all([

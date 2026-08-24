@@ -152,7 +152,7 @@ export const metadata: Metadata = {
       },
     ],
     shortcut: "/icon.png",
-    apple: "/apple-icon.png",
+    apple: "/icon.png",
   },
 
   manifest: "/manifest.webmanifest",

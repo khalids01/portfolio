@@ -9,9 +9,13 @@ import {
 } from "@/components/ui/card";
 import { SiteHeader } from "@/components/core/site-header";
 import Link from "next/link";
+import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
+import { AnimatedName } from "@/components/core/animated-name";
+import { UserMenu } from "@/components/core/user-menu";
 
 export default async function ProfilePage() {
-  const session = (await skycanvas.auth()).session;
+  const bootstrap = await skycanvas.getBootstrap();
+  const session = bootstrap.session;
 
   if (!session) {
     return (
@@ -28,8 +32,11 @@ export default async function ProfilePage() {
   const { user } = session;
 
   return (
-    <>
-      <SiteHeader />
+    <SkyCanvasProvider bootstrap={bootstrap}>
+      <SiteHeader
+        brandAddon={<AnimatedName />}
+        actions={<UserMenu showSignIn={false} />}
+      />
       <div className="container py-10 space-y-4 mx-auto">
         <Card className="bg-background">
           <CardHeader>
@@ -60,6 +67,6 @@ export default async function ProfilePage() {
           </CardContent>
         </Card>
       </div>
-    </>
+    </SkyCanvasProvider>
   );
 }
