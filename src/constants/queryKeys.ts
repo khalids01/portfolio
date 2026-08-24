@@ -29,4 +29,7 @@ export const queryKeys = {
   messages: {
     admin: ["messages", "admin"] as const,
   },
+  visitors: {
+    count: ["visitors", "count"] as const,
+  },
 } as const;

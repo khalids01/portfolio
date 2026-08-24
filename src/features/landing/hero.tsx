@@ -1,9 +1,11 @@
 import type { LandingData } from "@/features/landing/data";
 import { Button } from "@/components/ui/button";
-import { MapPin, Mail, Github, Linkedin, ArrowRight, Users } from "lucide-react";
+import { MapPin, Mail, Github, Linkedin, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
+import { QueryProvider } from "@/components/core/query-provider";
+import { VisitorCount } from "@/features/analytics/components/visitor-count";
 
 const HERO_SKILL_NAMES = [
   "TypeScript",
@@ -20,7 +22,7 @@ const HERO_SKILL_NAMES = [
   "Real-Time Systems",
 ] as const;
 
-export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?: number }) {
+export function Hero({ data }: { data: LandingData }) {
   const { name, title, bio, location, emailPublic, githubUrl, linkedinUrl, skills } = data;
   const preferredSkills = new Map(
     HERO_SKILL_NAMES.map((name, index) => [name.toLowerCase(), index]),
@@ -78,12 +80,9 @@ export function Hero({ data, visitorCount }: { data: LandingData; visitorCount?:
                 <span>{emailPublic}</span>
               </a>
             )}
-            {visitorCount !== undefined && (
-              <div className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                <span>{visitorCount.toLocaleString()} visitors</span>
-              </div>
-            )}
+            <QueryProvider>
+              <VisitorCount />
+            </QueryProvider>
           </div>
 
           <div className="flex flex-col items-start gap-4 pt-1 md:flex-row md:items-center">

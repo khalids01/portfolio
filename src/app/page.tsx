@@ -9,18 +9,12 @@ import { Footer } from "@/features/landing/footer";
 import { Snowfall } from "@/components/core/snowfall";
 import { MotionConfig } from "motion/react";
 
-import { prisma } from "@/lib/prisma";
-
 // Keep database-managed portfolio content fresh without paying the full remote
 // database round trip on every public request.
 export const revalidate = 60;
 
 export default async function Home() {
-
-  const [data, visitorCount] = await Promise.all([
-    getLandingData(),
-    prisma.visitor.count(),
-  ]);
+  const data = await getLandingData();
 
   return (
     <MotionConfig reducedMotion="user">
@@ -33,7 +27,7 @@ export default async function Home() {
         </div>
         <SiteHeader />
         <main>
-          <Hero data={data} visitorCount={visitorCount} />
+          <Hero data={data} />
           {data.skills.length > 0 && <SkillsSection skills={data.skills} />}
           <ExperienceSection experiences={data.experiences} />
           <ProjectsSection
