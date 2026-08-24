@@ -108,7 +108,7 @@ function SkillRow({ name, icon }: { name: string; icon?: string | null }) {
   const shouldInvert = ["next.js", "express", "fastify", "prisma", "typeorm", "vercel", "rust", "kubernetes"].some((skill) => name.toLowerCase().includes(skill));
 
   return (
-    <div className="flex items-center justify-center gap-3 text-sm font-medium tracking-[-0.01em] text-muted-foreground sm:text-base lg:justify-start">
+    <div className="flex items-center justify-start gap-3 text-sm font-medium tracking-[-0.01em] text-muted-foreground sm:text-base">
       <div className="relative h-7 w-7 shrink-0">
         {iconPath ? <Image src={iconPath} alt="" fill sizes="28px" className={`object-contain ${shouldInvert ? "dark:invert" : ""}`} /> : <span className="grid h-full w-full place-items-center font-mono text-xs text-muted-foreground">&lt;/&gt;</span>}
       </div>
