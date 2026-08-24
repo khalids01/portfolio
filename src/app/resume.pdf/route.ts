@@ -16,6 +16,8 @@ import {
   RESUME_PAGE_SIZES,
 } from "@/features/resume/settings";
 import { generateResumePdfFromService, isPdfServiceConfigured } from "@/features/resume/pdf-service";
+import { resumeSchema } from "@/features/resume/schema";
+import { createResumePdfFilename } from "@/features/resume/pdf-filename";
 import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 
 export const dynamic = "force-dynamic";
@@ -70,12 +72,15 @@ export async function GET(request: NextRequest) {
   // 1. Check DB for last update
   const resume = await prisma.resume.findUnique({
     where: { slug: variant },
-    select: { updatedAt: true, defaultLayout: true },
+    select: { updatedAt: true, defaultLayout: true, data: true },
   });
 
   if (!resume) {
     return NextResponse.json({ error: "Resume not found" }, { status: 404 });
   }
+
+  const resumeData = resumeSchema.parse(resume.data);
+  const filename = createResumePdfFilename(resumeData);
 
   // 2. Check cache
   ensureResumePdfCacheDir();
@@ -95,7 +100,7 @@ export async function GET(request: NextRequest) {
       return new Response(generated.bytes, {
         headers: {
           "Content-Type": "application/pdf",
-          "Content-Disposition": 'attachment; filename="Abdullah_Khalid_Resume.pdf"',
+          "Content-Disposition": `attachment; filename="${filename}"`,
           "X-PDF-Service-Cache": generated.cache,
         },
       });
@@ -113,7 +118,7 @@ export async function GET(request: NextRequest) {
     return new Response(new Uint8Array(cachedPdf), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="Abdullah_Khalid_Resume.pdf"`,
+        "Content-Disposition": `attachment; filename="${filename}"`,
         "X-Cache": "HIT",
       },
     });
@@ -180,7 +185,7 @@ export async function GET(request: NextRequest) {
     return new Response(new Uint8Array(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="Abdullah_Khalid_Resume.pdf"`,
+        "Content-Disposition": `attachment; filename="${filename}"`,
         "X-Cache": "MISS",
         "X-Generation-Time": `${generationTime}ms`,
       },
