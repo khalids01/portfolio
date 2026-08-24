@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { setFeatureFlag } from "@/lib/features";
 
 /** Returns whether the app has already been set up (an ADMIN user exists). */
 async function adminExists(): Promise<boolean> {
@@ -36,65 +34,65 @@ export async function GET() {
  * - Locks signups so no one else can register.
  * - Sends a magic link to the provided email so the admin can log in immediately.
  */
-export async function POST(req: Request) {
-  try {
-    // Guard: if setup is already done, refuse
-    if (await adminExists()) {
-      return NextResponse.json(
-        { error: "Setup already completed. An admin account already exists." },
-        { status: 403 },
-      );
-    }
+// export async function POST(req: Request) {
+//   try {
+//     // Guard: if setup is already done, refuse
+//     if (await adminExists()) {
+//       return NextResponse.json(
+//         { error: "Setup already completed. An admin account already exists." },
+//         { status: 403 },
+//       );
+//     }
 
-    const body = await req.json();
-    const email = (body?.email ?? "").trim().toLowerCase();
+//     const body = await req.json();
+//     const email = (body?.email ?? "").trim().toLowerCase();
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return NextResponse.json(
-        { error: "A valid email address is required." },
-        { status: 400 },
-      );
-    }
+//     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+//       return NextResponse.json(
+//         { error: "A valid email address is required." },
+//         { status: 400 },
+//       );
+//     }
 
-    // Upsert user with ADMIN role
-    const existing = await prisma.user.findUnique({ where: { email } });
-    let user;
-    if (existing) {
-      user = await prisma.user.update({
-        where: { email },
-        data: { role: "ADMIN", emailVerified: true },
-      });
-    } else {
-      user = await prisma.user.create({
-        data: {
-          email,
-          name: email.split("@")[0], // sensible default name
-          emailVerified: true,
-          role: "ADMIN",
-        },
-      });
-    }
+//     // Upsert user with ADMIN role
+//     const existing = await prisma.user.findUnique({ where: { email } });
+//     let user;
+//     if (existing) {
+//       user = await prisma.user.update({
+//         where: { email },
+//         data: { role: "ADMIN", emailVerified: true },
+//       });
+//     } else {
+//       user = await prisma.user.create({
+//         data: {
+//           email,
+//           name: email.split("@")[0], // sensible default name
+//           emailVerified: true,
+//           role: "ADMIN",
+//         },
+//       });
+//     }
 
-    // Lock sign-ups so no one else can create an account
-    await setFeatureFlag("disableSignUp", true);
+//     // Lock sign-ups so no one else can create an account
+//     await setFeatureFlag("disableSignUp", true);
 
-    // Send magic link so the admin can log in immediately
-    await auth.api.signInMagicLink({
-      body: { email: user.email!, callbackURL: "/admin" },
-      headers: new Headers({
-        origin: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:4000",
-      }),
-    });
+//     // Send magic link so the admin can log in immediately
+//     await auth.api.signInMagicLink({
+//       body: { email: user.email!, callbackURL: "/admin" },
+//       headers: new Headers({
+//         origin: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:4000",
+//       }),
+//     });
 
-    return NextResponse.json({
-      ok: true,
-      message: "Setup complete. Check your email for the sign-in link.",
-    });
-  } catch (e) {
-    console.error("/api/admin/setup POST error", e);
-    return NextResponse.json(
-      { error: "Setup failed. Please try again." },
-      { status: 500 },
-    );
-  }
-}
+//     return NextResponse.json({
+//       ok: true,
+//       message: "Setup complete. Check your email for the sign-in link.",
+//     });
+//   } catch (e) {
+//     console.error("/api/admin/setup POST error", e);
+//     return NextResponse.json(
+//       { error: "Setup failed. Please try again." },
+//       { status: 500 },
+//     );
+//   }
+// }

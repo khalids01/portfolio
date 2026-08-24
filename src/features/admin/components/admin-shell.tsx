@@ -6,8 +6,8 @@ import { AdminSidebar, AdminSidebarProvider } from "@/features/admin/components/
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/core/mode-toggle";
-import { UserMenu } from "@/components/core/user-menu";
 
+import { UserMenu } from "@/components/core/user-menu";
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <AdminSidebarProvider>

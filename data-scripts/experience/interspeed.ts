@@ -1,4 +1,5 @@
 import type { SeedScript } from "../types";
+import { EXPERIENCE_CATEGORY, SKILL } from "../portfolio-constants";
 import { upsertExperience } from "../utils";
 
 export const interspeedExperienceSeed: SeedScript = {
@@ -6,26 +7,59 @@ export const interspeedExperienceSeed: SeedScript = {
   label: "Experience: Interspeed",
   group: "experience",
   order: 30,
-  dependsOn: ["profile/default", "categories/experience"],
+  dependsOn: ["profile/default", "skills/default", "categories/experience"],
   async run({ prisma }) {
     await upsertExperience(prisma, {
       slug: "interspeed-full-stack-typescript-developer",
+      legacySlugs: ["interspeed-full-stack-typescript-developer-2023-01-01"],
       company: "Interspeed",
       role: "Full-Stack TypeScript Developer",
       location: "Remote",
       startDate: "2023-01-01",
       endDate: null,
       current: true,
-      categorySlug: "full-time",
+      categorySlug: EXPERIENCE_CATEGORY.FULL_TIME.slug,
       description:
-        "Contributing to OrangeSphere (21s2mars), a production-grade crypto arbitrage and analytics platform, and Sofilite, a Laboratory Information Management System (LIMS) and EMR platform.",
+        "Building complex HealthTech and FinTech systems across enterprise laboratory workflows, real-time market infrastructure, automated trading, and financial-system R&D.",
+
       highlights: [
-        "Engineered a TypeScript-first trading engine using Bun and Elysia.js, processing live market data from Binance, KuCoin, Coinbase, and Solana DEXs (Jupiter / Anchor).",
-        "Built an automated cross-exchange arbitrage engine using Redis pub/sub and WebSocket streams, scanning live order books for micro-arbitrage opportunities.",
-        "Implemented execution logic accounting for fees, slippage, and latency, enabling autonomous small-volume trades under strict thresholds.",
-        "Integrated Grafana dashboards powered by AWS Athena for real-time monitoring and historical analytics.",
-        "Developed Sofilite LIMS with a multi-role architecture and dynamic form generation using Next.js, Fastify, and MariaDB.",
-        "Contributed to modernizing a large legacy EMR codebase (OpenEMR fork), improving clinician and patient workflows.",
+        "Owned approximately 85% of an enterprise Laboratory Information Management System over 2.5 years, building clinical and anatomical workflows, dynamic forms, reporting, role-based access, backend APIs, and database models.",
+
+        "Built TypeScript-based crypto trading infrastructure integrating centralized exchanges and Solana liquidity venues, including Binance, KuCoin, Coinbase, dYdX, and Jupiter.",
+
+        "Developed automated trading workflows with market monitoring, configurable opportunity detection, fee-aware profitability checks, trade lifecycle persistence, and Redis-backed asynchronous execution processing.",
+
+        "Built real-time market-data and trading interfaces using WebSockets, Redis, React, Next.js, and charting infrastructure.",
+
+        "Worked on algorithmic trading R&D covering market-data ingestion, arbitrage research, execution validation, simulation workflows, and risk-aware trading architecture.",
+
+        "Contributed targeted frontend and API modernization to an OpenEMR-based healthcare platform while preserving workflows within a large legacy PHP and MySQL codebase.",
+
+        "Built and maintained production infrastructure using AWS, Docker, Linux, CI/CD, Grafana, and cloud-hosted database services.",
+      ],
+
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.REACT.slug,
+        SKILL.NEXTJS.slug,
+        SKILL.BUN.slug,
+        SKILL.ELYSIA.slug,
+        SKILL.FASTIFY.slug,
+        SKILL.REDIS.slug,
+        SKILL.WEBSOCKETS.slug,
+        SKILL.MARIADB.slug,
+        SKILL.MYSQL.slug,
+        SKILL.AWS.slug,
+        SKILL.DOCKER.slug,
+        SKILL.LINUX_SERVER_OPS.slug,
+        SKILL.CI_CD.slug,
+        SKILL.GRAFANA.slug,
+        SKILL.SOLANA.slug,
+        SKILL.JUPITER.slug,
+        SKILL.BINANCE.slug,
+        SKILL.KUCOIN.slug,
+        SKILL.COINBASE.slug,
+        SKILL.DYDX.slug,
       ],
     });
   },

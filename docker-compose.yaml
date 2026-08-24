@@ -1,36 +1,63 @@
 services:
-  prisma-migrate:
-    image: node:24-bookworm-slim
-    working_dir: /app
-    volumes:
-      - .:/app
-    env_file:
-      - .env
-    command: npx prisma migrate deploy
-    restart: "no"
+  # prisma-migrate:
+  #   image: node:24-bookworm-slim
+  #   working_dir: /app
+  #   volumes:
+  #     - .:/app
+  #   env_file:
+  #     - .env
+  #   command: npx prisma migrate deploy
+  #   restart: "no"
+  #   networks:
+  #     - dokploy-network
 
   portfolio:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        EMAIL: ${EMAIL}
+        EMAIL_PASSWORD: ${EMAIL_PASSWORD}
+        EMAIL_FROM: ${EMAIL_FROM}
+        SMTP_HOST: ${SMTP_HOST}
+        SMTP_PORT: ${SMTP_PORT}
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+        FILE_SERVER_URL: ${FILE_SERVER_URL}
+        FILE_SERVER_API_KEY: ${FILE_SERVER_API_KEY}
+        BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+        BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+        SKYCANVAS_PUBLISHABLE_KEY: ${SKYCANVAS_PUBLISHABLE_KEY}
+        SKYCANVAS_SECRET_KEY: ${SKYCANVAS_SECRET_KEY}
+        SKYCANVAS_SSO_URL: ${SKYCANVAS_SSO_URL}
+
+
     image: portfolio:latest
-    container_name: portfolio
+
     env_file:
       - .env
-    ports:
-      - "4000:4000"
-    depends_on:
-      - prisma-migrate
+
+    expose:
+      - "4000"
+
+    # depends_on:
+    #   prisma-migrate:
+    #     condition: service_completed_successfully
+
     restart: unless-stopped
+
+    networks:
+      - dokploy-network
+
     labels:
       - traefik.enable=true
 
-      # Disable request body buffering
       - traefik.http.middlewares.no-buffer.buffering.maxRequestBodyBytes=0
       - traefik.http.middlewares.no-buffer.buffering.memRequestBodyBytes=0
 
-      # HTTP
       - traefik.http.routers.portfolio-web.middlewares=redirect-to-https@file,no-buffer
-
-      # HTTPS
       - traefik.http.routers.portfolio-websecure.middlewares=no-buffer
+
+networks:
+  dokploy-network:
+    external: true

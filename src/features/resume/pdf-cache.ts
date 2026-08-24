@@ -7,17 +7,22 @@ import {
 } from "fs";
 import { join } from "path";
 
-export const RESUME_PDF_CACHE_VERSION = "v2";
+export const RESUME_PDF_CACHE_VERSION = "v4";
 export const RESUME_PDF_CACHE_DIR = join(process.cwd(), "tmp", "resume-cache");
 
-function normalizeVariant(variant = "default") {
-  return variant.replace(/[^a-z0-9-]/gi, "-").toLowerCase() || "default";
+function normalizeCachePart(value = "default") {
+  return value.replace(/[^a-z0-9-]/gi, "-").toLowerCase() || "default";
 }
 
-export function getResumePdfCacheFile(variant = "default") {
+export function getResumePdfCacheFile(
+  variant = "default",
+  layout = "ats-standard",
+  density = "standard",
+  pageSize = "a4",
+) {
   return join(
     RESUME_PDF_CACHE_DIR,
-    `resume-${normalizeVariant(variant)}-${RESUME_PDF_CACHE_VERSION}.pdf`,
+    `resume-${normalizeCachePart(variant)}-${normalizeCachePart(layout)}-${normalizeCachePart(density)}-${normalizeCachePart(pageSize)}-${RESUME_PDF_CACHE_VERSION}.pdf`,
   );
 }
 
@@ -27,8 +32,14 @@ export function ensureResumePdfCacheDir() {
   }
 }
 
-export function isResumePdfCacheFresh(updatedAt: Date, variant = "default") {
-  const file = getResumePdfCacheFile(variant);
+export function isResumePdfCacheFresh(
+  updatedAt: Date,
+  variant = "default",
+  layout = "ats-standard",
+  density = "standard",
+  pageSize = "a4",
+) {
+  const file = getResumePdfCacheFile(variant, layout, density, pageSize);
   if (!existsSync(file)) return false;
 
   const stats = statSync(file);

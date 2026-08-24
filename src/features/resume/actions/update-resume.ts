@@ -5,12 +5,14 @@ import { prisma } from "@/lib/prisma";
 import { resumeSchema, type ResumeData } from "../schema";
 import { revalidatePath } from "next/cache";
 import { clearResumePdfCache } from "../pdf-cache";
+import { invalidateResumePdfServiceCache } from "../pdf-service";
 
 export async function updateResume(input: {
   slug: string;
   title: string;
   targetRole?: string | null;
   isDefault?: boolean;
+  defaultLayout?: string;
   data: ResumeData;
 }) {
   const admin = await requireAdmin();
@@ -39,17 +41,20 @@ export async function updateResume(input: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
+        defaultLayout: input.defaultLayout ?? "ats-standard",
         data: parsed.data,
       },
       update: {
         title: input.title,
         targetRole: input.targetRole ?? null,
         isDefault: Boolean(input.isDefault),
+        defaultLayout: input.defaultLayout ?? "ats-standard",
         data: parsed.data,
       },
     });
 
     clearResumePdfCache();
+    await invalidateResumePdfServiceCache(input.slug);
     revalidatePath("/resume");
     revalidatePath(`/resume/${input.slug}`);
     revalidatePath("/admin/resume");

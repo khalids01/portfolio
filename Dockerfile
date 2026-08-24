@@ -17,15 +17,42 @@ RUN apt-get update && apt-get install -y \
 
 # ---- Install deps ----
 COPY package.json package-lock.json* ./
-RUN if [ -f package-lock.json ]; then \
-      npm ci --legacy-peer-deps; \
-    else \
-      npm install --legacy-peer-deps; \
-    fi
+COPY prisma ./prisma
+RUN npm install --legacy-peer-deps
 
 # ---- App source ----
 COPY . .
 
+# ---- Build-time environment variables ----
+ARG DATABASE_URL
+ARG EMAIL
+ARG EMAIL_PASSWORD
+ARG EMAIL_FROM
+ARG SMTP_HOST
+ARG SMTP_PORT
+ARG NEXT_PUBLIC_APP_URL
+ARG FILE_SERVER_URL
+ARG FILE_SERVER_API_KEY
+ARG BETTER_AUTH_URL
+ARG BETTER_AUTH_SECRET
+ARG SKYCANVAS_PUBLISHABLE_KEY
+ARG SKYCANVAS_SECRET_KEY
+ARG SKYCANVAS_SSO_URL
+
+ENV DATABASE_URL=$DATABASE_URL
+ENV EMAIL=$EMAIL
+ENV EMAIL_PASSWORD=$EMAIL_PASSWORD
+ENV EMAIL_FROM=$EMAIL_FROM
+ENV SMTP_HOST=$SMTP_HOST
+ENV SMTP_PORT=$SMTP_PORT
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+ENV FILE_SERVER_URL=$FILE_SERVER_URL
+ENV FILE_SERVER_API_KEY=$FILE_SERVER_API_KEY
+ENV BETTER_AUTH_URL=$BETTER_AUTH_URL
+ENV BETTER_AUTH_SECRET=$BETTER_AUTH_SECRET
+ENV SKYCANVAS_PUBLISHABLE_KEY=$SKYCANVAS_PUBLISHABLE_KEY
+ENV SKYCANVAS_SECRET_KEY=$SKYCANVAS_SECRET_KEY
+ENV SKYCANVAS_SSO_URL=$SKYCANVAS_SSO_URL
 # ---- Prisma (NO DB needed) ----
 RUN npx prisma generate
 
@@ -61,6 +88,7 @@ COPY --from=builder --chown=appuser:appuser /app/prisma ./prisma
 # ---- Uploads ----
 ENV UPLOAD_DIR=/uploads
 ENV PORT=4000
+ENV HOSTNAME="0.0.0.0"
 ENV NODE_OPTIONS=--no-network-family-autoselection
 ENV CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium
 

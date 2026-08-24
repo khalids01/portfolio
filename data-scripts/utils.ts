@@ -1,4 +1,5 @@
 import { Prisma, type PrismaClient } from "../prisma/generated/client";
+import { resumeSchema } from "../src/features/resume/schema";
 import type { ProjectCaseStudy } from "./types";
 
 export const owner = {
@@ -89,6 +90,78 @@ export async function getOwnerProfile(prisma: PrismaClient) {
   return (await upsertOwner(prisma)).profile;
 }
 
+export async function upsertSkill(
+  prisma: PrismaClient,
+  input: {
+    slug: string;
+    name: string;
+    category: string;
+    icon?: string | null;
+    order?: number;
+    label?: string | null;
+    level?: number | null;
+    experienceYears?: number | null;
+    experienceMonths?: number | null;
+  },
+) {
+  const profile = await getOwnerProfile(prisma);
+
+  const update: Prisma.SkillUpdateInput = {
+    name: input.name,
+    category: input.category,
+    icon: input.icon ?? null,
+    order: input.order ?? 0,
+  };
+  // Preserve admin-managed optional fields unless the seed explicitly defines them.
+  if (input.label !== undefined) update.label = input.label;
+  if (input.level !== undefined) update.level = input.level;
+  if (input.experienceYears !== undefined) update.experienceYears = input.experienceYears;
+  if (input.experienceMonths !== undefined) update.experienceMonths = input.experienceMonths;
+
+  return prisma.skill.upsert({
+    where: {
+      profileId_slug: {
+        profileId: profile.id,
+        slug: input.slug,
+      },
+    },
+    update,
+    create: {
+      profileId: profile.id,
+      slug: input.slug,
+      name: input.name,
+      category: input.category,
+      icon: input.icon ?? null,
+      order: input.order ?? 0,
+    },
+  });
+}
+
+export async function resolveSkillsBySlugs(
+  prisma: PrismaClient,
+  profile: { id: string },
+  skillSlugs: string[] | undefined,
+  context: string,
+) {
+  const slugs = [...new Set(toLines(skillSlugs ?? []))];
+  if (!slugs.length) return [];
+
+  const skills = await prisma.skill.findMany({
+    where: {
+      profileId: profile.id,
+      slug: { in: slugs },
+    },
+  });
+
+  const found = new Set(skills.map((skill) => skill.slug));
+  const missing = slugs.filter((slug) => !found.has(slug));
+  if (missing.length) {
+    throw new Error(`Missing canonical skills for ${context}: ${missing.join(", ")}`);
+  }
+
+  return skills;
+}
+
 export async function upsertCategory(
   prisma: PrismaClient,
   input: {
@@ -140,7 +213,10 @@ export async function resolveCategoryId(
     },
     select: { id: true },
   });
-  return category?.id ?? null;
+  if (!category) {
+    throw new Error(`Missing canonical ${categoryType} category: ${slug}`);
+  }
+  return category.id;
 }
 
 export async function upsertExperience(
@@ -158,47 +234,65 @@ export async function upsertExperience(
     categorySlug?: string | null;
     coverImage?: string | null;
     images?: string[];
+    skillSlugs?: string[];
+    legacySlugs?: string[];
   },
 ) {
   const profile = await getOwnerProfile(prisma);
   const startDate = parseDate(input.startDate);
   if (!startDate) throw new Error(`Invalid startDate for experience ${input.slug}`);
   const categoryId = await resolveCategoryId(prisma, "experience", input.categorySlug);
+  const skillRecords = await resolveSkillsBySlugs(
+    prisma,
+    profile,
+    input.skillSlugs,
+    `experience ${input.slug}`,
+  );
 
-  const experience = await prisma.experience.upsert({
+  const matchingExperiences = await prisma.experience.findMany({
     where: {
-      profileId_slug: {
-        profileId: profile.id,
-        slug: input.slug,
-      },
-    },
-    update: {
-      company: input.company,
-      role: input.role,
-      location: input.location ?? null,
-      startDate,
-      endDate: parseDate(input.endDate),
-      current: Boolean(input.current),
-      description: input.description ?? null,
-      categoryId,
-      coverImage: input.coverImage ?? null,
-      images: input.images ?? [],
-    },
-    create: {
       profileId: profile.id,
-      slug: input.slug,
-      company: input.company,
-      role: input.role,
-      location: input.location ?? null,
-      startDate,
-      endDate: parseDate(input.endDate),
-      current: Boolean(input.current),
-      description: input.description ?? null,
-      categoryId,
-      coverImage: input.coverImage ?? null,
-      images: input.images ?? [],
+      slug: { in: [input.slug, ...toLines(input.legacySlugs)] },
     },
+    select: { id: true, slug: true },
   });
+  if (matchingExperiences.length > 1) {
+    throw new Error(
+      `Cannot adopt legacy experience ${input.slug}: multiple matching rows (${matchingExperiences
+        .map((experience) => experience.slug)
+        .join(", ")})`,
+    );
+  }
+
+  const data = {
+    slug: input.slug,
+    company: input.company,
+    role: input.role,
+    location: input.location ?? null,
+    startDate,
+    endDate: parseDate(input.endDate),
+    current: Boolean(input.current),
+    description: input.description ?? null,
+    categoryId,
+    coverImage: input.coverImage ?? null,
+    images: input.images ?? [],
+  };
+
+  const experience = matchingExperiences[0]
+    ? await prisma.experience.update({
+      where: { id: matchingExperiences[0].id },
+      data: {
+        ...data,
+        skills: { set: skillRecords.map((skill) => ({ id: skill.id })) },
+      },
+    })
+    : await prisma.experience.create({
+      data: {
+        profileId: profile.id,
+        ...data,
+        skills: { connect: skillRecords.map((skill) => ({ id: skill.id })) },
+      },
+    });
 
   await prisma.experienceHighlight.deleteMany({
     where: { experienceId: experience.id },
@@ -242,6 +336,8 @@ export async function upsertProject(
     startDate?: string | null;
     endDate?: string | null;
     tags?: string[];
+    skillSlugs?: string[];
+    experienceSlug?: string | null;
     categorySlug?: string | null;
     statusBadges?: string[];
     featuredRank?: number | null;
@@ -253,6 +349,32 @@ export async function upsertProject(
   const profile = await getOwnerProfile(prisma);
   const categoryId = await resolveCategoryId(prisma, "project", input.categorySlug);
   const tagRecords = await ensureTags(prisma, input.tags ?? []);
+  const skillRecords = await resolveSkillsBySlugs(
+    prisma,
+    profile,
+    input.skillSlugs,
+    `project ${input.slug}`,
+  );
+
+  let experienceId: string | null = null;
+  if (input.experienceSlug) {
+    const experience = await prisma.experience.findUnique({
+      where: {
+        profileId_slug: {
+          profileId: profile.id,
+          slug: input.experienceSlug,
+        },
+      },
+      select: { id: true },
+    });
+    if (!experience) {
+      throw new Error(
+        `Missing experience ${input.experienceSlug} for project ${input.slug}`,
+      );
+    }
+    experienceId = experience.id;
+  }
+
   const data = {
     profileId: profile.id,
     title: input.title,
@@ -264,6 +386,7 @@ export async function upsertProject(
     startDate: parseDate(input.startDate),
     endDate: parseDate(input.endDate),
     categoryId,
+    experienceId,
     statusBadges: input.statusBadges ?? [],
     featuredRank: input.featuredRank ?? null,
     role: input.role ?? null,
@@ -276,11 +399,17 @@ export async function upsertProject(
     update: {
       ...data,
       tags: { set: [], connect: tagRecords.map((tag) => ({ id: tag.id })) },
+      skills: {
+        set: skillRecords.map((skill) => ({ id: skill.id })),
+      },
     },
     create: {
       ...data,
       slug: input.slug,
       tags: { connect: tagRecords.map((tag) => ({ id: tag.id })) },
+      skills: {
+        connect: skillRecords.map((skill) => ({ id: skill.id })),
+      },
     },
   });
 
@@ -294,9 +423,12 @@ export async function upsertResume(
     title: string;
     targetRole?: string | null;
     isDefault?: boolean;
+    defaultLayout?: string;
     data: unknown;
   },
 ) {
+  const data = resumeSchema.parse(input.data);
+
   if (input.isDefault) {
     await prisma.resume.updateMany({
       where: { slug: { not: input.slug } },
@@ -310,14 +442,16 @@ export async function upsertResume(
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
-      data: input.data as Prisma.InputJsonValue,
+      defaultLayout: input.defaultLayout ?? "ats-standard",
+      data: data as Prisma.InputJsonValue,
     },
     create: {
       slug: input.slug,
       title: input.title,
       targetRole: input.targetRole ?? null,
       isDefault: Boolean(input.isDefault),
-      data: input.data as Prisma.InputJsonValue,
+      defaultLayout: input.defaultLayout ?? "ats-standard",
+      data: data as Prisma.InputJsonValue,
     },
   });
 

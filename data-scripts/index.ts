@@ -1,6 +1,7 @@
 import { createSeedClient } from "./db";
 import { resolveScripts, seedScripts } from "./registry";
-import type { SeedScript } from "./types";
+import { clearResumePdfCache } from "../src/features/resume/pdf-cache";
+import type { SeedGroup, SeedScript } from "./types";
 
 type Key = {
   name?: string;
@@ -85,20 +86,74 @@ async function runScripts(scripts: SeedScript[]) {
       console.log(`\nRunning ${script.id} - ${script.label}`);
       await script.run({ prisma: db.prisma });
     }
+    if (scripts.some((script) => script.group === "resume")) {
+      const cleared = clearResumePdfCache();
+      console.log(`\nCleared ${cleared} cached resume PDF(s).`);
+    }
     console.log(`\nCompleted ${scripts.length} data script(s).`);
   } finally {
     await db.close();
   }
 }
 
+function parseSelectionArgs(args: string[]) {
+  const explicitIds: string[] = [];
+  const groups: string[] = [];
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+    if (arg === "--all") continue;
+
+    if (arg === "--group") {
+      const group = args[index + 1];
+      if (!group || group.startsWith("-")) {
+        throw new Error("--group requires a data-script group name");
+      }
+      groups.push(group);
+      index += 1;
+      continue;
+    }
+
+    if (arg.startsWith("--group=")) {
+      groups.push(arg.slice("--group=".length));
+      continue;
+    }
+
+    if (arg.startsWith("-")) {
+      throw new Error(`Unknown option: ${arg}`);
+    }
+
+    explicitIds.push(arg);
+  }
+
+  const availableGroups = new Set<SeedGroup>(
+    seedScripts.map((script) => script.group),
+  );
+  for (const group of groups) {
+    if (!availableGroups.has(group as SeedGroup)) {
+      throw new Error(
+        `Unknown data-script group: ${group}. Available groups: ${[...availableGroups].join(", ")}`,
+      );
+    }
+  }
+
+  return {
+    explicitIds,
+    groupIds: seedScripts
+      .filter((script) => groups.includes(script.group))
+      .map((script) => script.id),
+  };
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const all = args.includes("--all");
-  const explicitIds = args.filter((arg) => !arg.startsWith("-"));
+  const { explicitIds, groupIds } = parseSelectionArgs(args);
+  const requestedIds = [...new Set([...explicitIds, ...groupIds])];
   const selectedIds = all
     ? seedScripts.map((script) => script.id)
-    : explicitIds.length
-      ? explicitIds
+    : requestedIds.length
+      ? requestedIds
       : await selectScripts();
 
   await runScripts(resolveScripts(selectedIds));

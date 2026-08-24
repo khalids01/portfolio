@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/admin";
 import { resumeSchema } from "@/features/resume/schema";
 import { clearResumePdfCache } from "@/features/resume/pdf-cache";
+import { invalidateResumePdfServiceCache } from "@/features/resume/pdf-service";
 
 export async function GET() {
   const guard = await requireAdmin();
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
       title?: string;
       targetRole?: string | null;
       isDefault?: boolean;
+      defaultLayout?: string;
       data?: unknown;
     };
     const slug = body.slug?.trim() || "default";
@@ -48,6 +50,7 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
+        defaultLayout: body.defaultLayout ?? "ats-standard",
         data: body.data || {},
       },
       create: {
@@ -55,11 +58,13 @@ export async function POST(req: Request) {
         title,
         targetRole: body.targetRole ?? null,
         isDefault: Boolean(body.isDefault),
+        defaultLayout: body.defaultLayout ?? "ats-standard",
         data: body.data || {},
       },
     });
 
     const cleared = clearResumePdfCache();
+    await invalidateResumePdfServiceCache(slug);
     if (cleared > 0) {
       console.log("Resume PDF cache invalidated due to data update");
     }
@@ -78,6 +83,7 @@ export async function DELETE() {
 
   try {
     const cleared = clearResumePdfCache();
+    await invalidateResumePdfServiceCache();
     if (cleared > 0) {
       return NextResponse.json({ message: "Cache cleared" });
     }

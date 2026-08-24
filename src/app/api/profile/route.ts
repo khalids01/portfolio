@@ -7,9 +7,26 @@ export async function GET() {
     const profile = await prisma.profile.findFirst({
       include: {
         skills: true,
-        experiences: { include: { highlights: true } },
+        experiences: {
+          include: {
+            highlights: true,
+            category: { select: { id: true, name: true, slug: true } },
+            skills: { orderBy: { order: "asc" }, select: { id: true, name: true, icon: true } },
+            projects: { select: { id: true, title: true, slug: true } },
+          },
+        },
         educations: true,
-        projects: { include: { tags: true } },
+        projects: {
+          include: {
+            tags: true,
+            skills: {
+              orderBy: { order: "asc" },
+              select: { id: true, name: true, icon: true },
+            },
+            category: { select: { id: true, name: true, slug: true } },
+            experience: { select: { id: true, slug: true, company: true, role: true } },
+          },
+        },
         socialLinks: true,
       },
       orderBy: { createdAt: "desc" },

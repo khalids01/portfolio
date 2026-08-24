@@ -27,6 +27,7 @@ export default async function AdminResumePage({
           title: record.title,
           targetRole: record.targetRole,
           isDefault: record.isDefault,
+          defaultLayout: record.defaultLayout,
           data: record.data,
         }}
         variants={variants}

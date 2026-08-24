@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, Search } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
@@ -78,7 +78,8 @@ export function SkillIconSelect({
                   key={key}
                   value={key}
                   onSelect={(currentValue) => {
-                    onChange(currentValue === value ? "" : currentValue);
+                    const path = SKILL_ICONS[currentValue] || currentValue;
+                    onChange(path === value ? "" : path);
                     setOpen(false);
                   }}
                 >

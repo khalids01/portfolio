@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "motion/react";
+import { useUser } from "@skycanvasstudio/sso/react";
 
-export function AnimatedName({ name }: { name: string }) {
+export function AnimatedName() {
+  const { user } = useUser();
   return (
     <motion.span
       initial={{ opacity: 0, y: 6 }}
@@ -10,7 +12,7 @@ export function AnimatedName({ name }: { name: string }) {
       className="bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-xl font-semibold tracking-tight text-transparent md:text-2xl"
       style={{ WebkitTextFillColor: "transparent" }}
     >
-      {name}
+      {user?.name}
     </motion.span>
   );
 }

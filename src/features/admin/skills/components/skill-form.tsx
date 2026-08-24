@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { useAdminSkills } from "../useAdminSkills";
-import { useAdminProjects } from "../../projects/useAdminProjects";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -13,6 +12,7 @@ import { SkillIconSelect } from "@/features/skills/components/skill-icon-select"
 
 type SkillFormData = {
   name: string;
+  slug: string;
   label: string;
   icon: string;
   category: string;
@@ -30,17 +30,24 @@ interface SkillFormProps {
 
 const CATEGORIES = [
   "Languages",
-  "Frameworks",
-  "Databases",
-  "Tools",
-  "Cloud",
-  "Other",
+  "Frontend",
+  "Backend",
+  "Database & Data",
+  "DevOps & Cloud",
+  "FinTech / Blockchain",
+  "Engineering",
 ];
+
+function slugify(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
 
 export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
   const { create, update, list: skillsList } = useAdminSkills();
-  const { list: projectsList } = useAdminProjects();
-  
   const skill = skillId
     ? skillsList.data?.data.find((s) => s.id === skillId)
     : null;
@@ -48,6 +55,7 @@ export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
   const { register, handleSubmit, reset, setValue, watch } = useForm<SkillFormData>({
     defaultValues: {
       name: "",
+      slug: "",
       label: "",
       icon: "",
       category: "Languages",
@@ -62,6 +70,7 @@ export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
   useEffect(() => {
     if (skill) {
       setValue("name", skill.name);
+      setValue("slug", skill.slug);
       setValue("label", skill.label || "");
       setValue("icon", skill.icon || "");
       setValue("category", skill.category || "Languages");
@@ -79,9 +88,13 @@ export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
   }, [skill, setValue, reset]);
 
   const onSubmit = (data: SkillFormData) => {
+    const payload = {
+      ...data,
+      slug: data.slug.trim() || slugify(data.name),
+    };
     if (skillId) {
       update.mutate(
-        { id: skillId, ...data },
+        { id: skillId, ...payload },
         {
           onSuccess: () => {
             onSuccess();
@@ -89,7 +102,7 @@ export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
         }
       );
     } else {
-      create.mutate(data, {
+      create.mutate(payload, {
         onSuccess: () => {
           onSuccess();
         },
@@ -111,6 +124,15 @@ export function SkillForm({ skillId, onSuccess }: SkillFormProps) {
           <Label htmlFor="label">Display Label</Label>
           <Input id="label" {...register("label")} placeholder="e.g. React.js" />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="slug">Slug</Label>
+        <Input
+          id="slug"
+          {...register("slug")}
+          placeholder="e.g. typescript (auto-generated from name)"
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">

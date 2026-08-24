@@ -1,4 +1,10 @@
 import type { SeedScript } from "../types";
+import {
+  PROJECT_CATEGORY,
+  PROJECT_STATUS,
+  PROJECT_TAG,
+  SKILL,
+} from "../portfolio-constants";
 import { upsertProject } from "../utils";
 
 export const algorithmicCryptoProjectSeed: SeedScript = {
@@ -6,39 +12,95 @@ export const algorithmicCryptoProjectSeed: SeedScript = {
   label: "Project: Algorithmic Crypto Trading Platform",
   group: "projects",
   order: 41,
-  dependsOn: ["profile/default", "categories/project"],
+  dependsOn: [
+    "profile/default",
+    "skills/default",
+    "categories/project",
+    "experience/interspeed",
+  ],
   async run({ prisma }) {
     await upsertProject(prisma, {
       title: "Algorithmic Crypto Trading Platform",
       slug: "crypto-trading-platform",
+      images: [],
+
       description:
-        "Non-custodial algorithmic trading and market intelligence platform supporting automated and manual swaps across centralized and decentralized exchanges.",
-      categorySlug: "fintech-blockchain",
-      statusBadges: ["R&D Platform", "Market Intelligence"],
-      featuredRank: 2,
-      role:
-        "Built core real-time market ingestion, arbitrage scanning, and execution logic.",
+        "R&D platform for algorithmic crypto trading infrastructure, real-time market intelligence, arbitrage research, strategy validation, and automated execution architecture.",
+
+      categorySlug: PROJECT_CATEGORY.FINTECH_BLOCKCHAIN.slug,
+
+      statusBadges: [
+        PROJECT_STATUS.ACTIVE_RND,
+        "Algorithmic Trading",
+        "Market Intelligence",
+      ],
+
+      featuredRank: 1,
+
+      role: "Built core market-data infrastructure, arbitrage research workflows, strategy validation systems, and execution architecture.",
+
       impact:
-        "Explored practical cross-exchange arbitrage workflows, latency constraints, and trading automation architecture.",
-      tags: ["TypeScript", "Bun", "Fastify", "PostgreSQL", "Redis", "Web3", "DEX"],
+        "Created an experimentation platform for evaluating trading strategies and execution workflows using real-time data, simulation, and cost-aware opportunity validation.",
+
+      skillSlugs: [
+        SKILL.TYPESCRIPT.slug,
+        SKILL.BUN.slug,
+        SKILL.ELYSIA.slug,
+        SKILL.REDIS.slug,
+        SKILL.POSTGRESQL.slug,
+        SKILL.PRISMA.slug,
+        SKILL.REACT.slug,
+        SKILL.TANSTACK_QUERY.slug,
+        SKILL.WEBSOCKETS.slug,
+        SKILL.ETHEREUM.slug,
+        SKILL.SOLIDITY.slug,
+        SKILL.FOUNDRY.slug,
+      ],
+
+      tags: [
+        PROJECT_TAG.FINTECH,
+        PROJECT_TAG.ALGORITHMIC_TRADING,
+        PROJECT_TAG.MARKET_INTELLIGENCE,
+      ],
+
+      experienceSlug: "interspeed-full-stack-typescript-developer",
+
       caseStudy: {
         problem:
-          "Crypto prices move across centralized and decentralized venues, creating short-lived opportunities that require fast ingestion and decision logic.",
-        role:
-          "Designed and implemented the TypeScript trading engine, exchange integrations, and real-time event flow.",
+          "Algorithmic trading opportunities are highly sensitive to stale market data, liquidity, fees, slippage, execution timing, and operational risk.",
+
+        role: "Designed and implemented market-data pipelines, arbitrage research systems, strategy validation workflows, and execution-oriented infrastructure.",
+
+        architecture: [
+          "Real-time market-data ingestion and synchronization",
+          "Redis-backed event-driven processing",
+          "Separation between analysis, strategy, simulation, and execution layers",
+          "Persistent trade and strategy evaluation records",
+          "Blockchain execution research using local test environments",
+        ],
+
         features: [
-          "Live order book ingestion",
-          "Redis pub/sub data flow",
-          "Cross-exchange arbitrage detection",
-          "Manual and automated swap support",
-          "Fee, slippage, and latency-aware execution checks",
+          "Live order-book and ticker ingestion",
+          "Cross-exchange opportunity detection",
+          "DEX liquidity and route analysis",
+          "Fee-aware profitability calculations",
+          "Slippage and liquidity-impact validation",
+          "Strategy signal generation",
+          "Trade lifecycle tracking",
+          "Simulation-first execution workflows",
+          "Historical strategy and decision review",
+          "EVM and DeFi execution research",
         ],
+
         challenges: [
-          "Keeping real-time streams reliable across multiple exchanges.",
-          "Filtering theoretical opportunities into realistic, executable signals.",
+          "Filtering theoretical price differences into realistically executable opportunities.",
+          "Maintaining fresh and synchronized market state across fast-moving venues.",
+          "Separating research and simulation from real-capital execution.",
+          "Accounting for fees, liquidity, slippage, latency, and execution risk.",
         ],
+
         result:
-          "R&D platform validating market intelligence and automated trading architecture.",
+          "Active R&D environment for exploring market intelligence, algorithmic strategy validation, arbitrage systems, and risk-aware automated trading architecture.",
       },
     });
   },

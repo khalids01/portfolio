@@ -19,6 +19,7 @@ export type ProjectMutationPayload = {
   tagNames: string[];
   skillIds: string[];
   categoryId: string | null;
+  experienceId: string | null;
   statusBadges: string[];
   featuredRank: number | null;
   role: string | null;

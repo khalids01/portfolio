@@ -117,6 +117,22 @@ body {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -242,6 +258,30 @@ body {
     animation: spin-slow 8s linear infinite;
   }
 
+  @keyframes hero-skills-scroll-down {
+    from {
+      transform: translateY(-50%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .hero-skills-window {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 16%,
+      black 84%,
+      transparent
+    );
+  }
+
+  .hero-skills-track {
+    animation: hero-skills-scroll-down 36s linear infinite;
+    will-change: transform;
+  }
+
   /* Pulse delays */
   .delay-500 {
     animation-delay: 500ms;
@@ -257,6 +297,13 @@ body {
 }
 
 @layer base {
+  .resume-sheet {
+    width: var(--resume-page-width);
+    min-height: var(--resume-page-height);
+    font-size: var(--resume-body-size);
+    line-height: var(--resume-line-height);
+  }
+
   @media print {
     * {
       print-color-adjust: exact !important;
@@ -269,8 +316,6 @@ body {
 
     html,
     body {
-      width: 210mm;
-      min-height: 297mm;
       background: white !important;
       color: black !important;
       margin: 0 !important;
@@ -282,19 +327,13 @@ body {
     }
 
     .resume-sheet {
-      width: 210mm !important;
-      min-height: 297mm !important;
+      width: var(--resume-page-width) !important;
+      min-height: var(--resume-page-height) !important;
       margin: 0 auto !important;
-      padding: 12mm !important;
       background: white !important;
       box-shadow: none !important;
       box-decoration-break: clone;
       -webkit-box-decoration-break: clone;
-    }
-
-    .resume-grid {
-      display: grid !important;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) !important;
     }
 
     .resume-block {
@@ -315,7 +354,6 @@ body {
     }
 
     @page {
-      size: A4;
       margin: 0;
     }
   }

@@ -1,0 +1,14 @@
+# Taste
+- Prefers direct execution of the requested task over lengthy exploration/planning phases; gets frustrated when the assistant spends long stretches on setup/analysis without making visible progress ("u have yet to do anything, just do what i asked for"). Keep reconnaissance lean and start implementing. Confidence: 0.8
+- Preserves existing architecture over rewriting; prefers minimal, surgical changes that keep current concepts, workflows, and component patterns intact. Confidence: 0.9
+- Inspects the actual current implementation before changing anything — explicitly does not assume code matches older instructions or docs. Confidence: 0.85
+- Uses stable canonical identifiers (e.g., slugs) as the permanent identity of records, never mutable display names, so relationships survive display-name changes. Confidence: 0.9
+- Prefers idempotent, non-destructive seeding (upserts keyed on stable identifiers) over delete-and-recreate; reseeding must not create duplicate rows or churn record IDs. Confidence: 0.9
+- Does not silently delete unknown/legacy data during refactors; preserves admin-managed fields and data, and reports any cleanup decisions explicitly. Confidence: 0.85
+- Prefers failing loudly with clear, actionable errors when declared dependencies are missing (e.g., a referenced skill slug was not seeded) rather than silently ignoring them. Confidence: 0.9
+- Never invents or fabricates data or relationships (fake icon files, unrelated icon mappings, guessed employer/project links); uses null/uncertain placeholders and reports them instead of guessing. Confidence: 0.9
+- Prefers data-safe migrations on existing databases (add-nullable → backfill → constrain) over destructive operations like `prisma migrate reset` or dropping tables. Confidence: 0.9
+- Keeps CLI and admin workflows compatible: canonical seeds should not clobber admin-set optional fields that aren't part of canonical data. Confidence: 0.8
+- Verifies end-to-end through the full data path (constants → seed → DB relationships → queries → admin → UI), not just typecheck/build; runs seeds multiple times to confirm idempotency. Confidence: 0.85
+- Tests individual entry points (e.g., a single seed script via the dependency resolver) in addition to full runs, to prove partial workflows produce complete data. Confidence: 0.8
+- Provides explicit final reports covering assumptions made, uncertain relationships deliberately left null, cleanup decisions, and validation results. Confidence: 0.8

@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 export function Snowfall() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { theme } = useTheme();
-  const prefersReducedMotion = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,8 +13,14 @@ export function Snowfall() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
+
     let animationFrame = 0;
-    let rafRunning = true;
+    let lastFrame = 0;
+    const frameInterval = 1000 / 30;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -25,15 +30,19 @@ export function Snowfall() {
     resize();
     window.addEventListener("resize", resize);
 
-    const flakes = Array.from({ length: prefersReducedMotion ? 40 : 120 }, () => ({
+    const flakeCount = window.innerWidth < 768 ? 60 : 90;
+    const flakes = Array.from({ length: flakeCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       r: Math.random() * 1.6 + 0.4,
       s: Math.random() * 0.6 + 0.2,
     }));
 
-    const draw = () => {
-      if (!rafRunning) return;
+    const draw = (timestamp: number) => {
+      animationFrame = requestAnimationFrame(draw);
+      if (timestamp - lastFrame < frameInterval) return;
+      lastFrame = timestamp;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = theme === "dark" ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)";
       for (const f of flakes) {
@@ -47,19 +56,29 @@ export function Snowfall() {
           f.x = Math.random() * canvas.width;
         }
       }
-      animationFrame = requestAnimationFrame(draw);
     };
 
-    if (!prefersReducedMotion) {
+    const handleVisibilityChange = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+
+      if (!document.hidden) {
+        lastFrame = performance.now();
+        animationFrame = requestAnimationFrame(draw);
+      }
+    };
+
+    if (!document.hidden) {
       animationFrame = requestAnimationFrame(draw);
     }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      rafRunning = false;
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [prefersReducedMotion, theme]);
+  }, [theme]);
 
   return (
     <canvas

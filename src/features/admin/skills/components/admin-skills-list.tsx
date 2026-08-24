@@ -86,6 +86,9 @@ export function AdminSkillsList() {
               {skill.label && (
                 <CardDescription>{skill.label}</CardDescription>
               )}
+              <div className="font-mono text-xs text-muted-foreground">
+                {skill.slug}
+              </div>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4">
               <div className="flex items-center gap-4 text-sm">

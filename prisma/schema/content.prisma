@@ -35,6 +35,7 @@ model Skill {
   id        String @id @default(cuid())
   profileId String
 
+  slug             String
   name             String
   label            String?
   icon             String?
@@ -44,9 +45,11 @@ model Skill {
   experienceYears  Int?    @default(0)
   experienceMonths Int?    @default(0)
 
-  profile  Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  projects Project[]
+  profile     Profile      @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  projects    Project[]
+  experiences Experience[]
 
+  @@unique([profileId, slug])
   @@index([profileId])
 }
 
@@ -68,6 +71,8 @@ model Experience {
 
   highlights ExperienceHighlight[]
   category   Category?              @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  skills     Skill[]
+  projects   Project[]
 
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
@@ -146,10 +151,14 @@ model Project {
   skills   Skill[]
   category Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
+  experienceId String?
+  experience   Experience? @relation(fields: [experienceId], references: [id], onDelete: SetNull)
+
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   @@index([profileId])
   @@index([categoryId])
+  @@index([experienceId])
 }
 
 model Tag {
@@ -187,6 +196,7 @@ model Resume {
   title      String   @default("Default Resume")
   targetRole String?
   isDefault  Boolean  @default(false)
+  defaultLayout String @default("classic")
   data       Json
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt

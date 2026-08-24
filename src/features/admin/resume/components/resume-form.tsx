@@ -4,6 +4,7 @@ import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { resumeSchema, type ResumeData } from "@/features/resume/schema";
 import type { ResumeMeta } from "@/features/resume/data";
+import { RESUME_LAYOUTS, normalizeResumeLayoutId, type ResumeLayoutId } from "@/features/resume/layouts";
 import { updateResume } from "@/features/resume/actions/update-resume";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,6 +37,7 @@ type ResumeRecordInput = {
   title: string;
   targetRole?: string | null;
   isDefault: boolean;
+  defaultLayout: string;
   data: ResumeData;
 };
 
@@ -52,6 +54,9 @@ export function ResumeForm({
   const [title, setTitle] = useState(initialRecord.title);
   const [targetRole, setTargetRole] = useState(initialRecord.targetRole ?? "");
   const [isDefault, setIsDefault] = useState(initialRecord.isDefault);
+  const [defaultLayout, setDefaultLayout] = useState<ResumeLayoutId>(
+    normalizeResumeLayoutId(initialRecord.defaultLayout),
+  );
 
   const form = useForm<ResumeData>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,6 +69,7 @@ export function ResumeForm({
     setTitle(initialRecord.title);
     setTargetRole(initialRecord.targetRole ?? "");
     setIsDefault(initialRecord.isDefault);
+    setDefaultLayout(normalizeResumeLayoutId(initialRecord.defaultLayout));
     form.reset(initialRecord.data);
   }, [form, initialRecord]);
 
@@ -74,6 +80,7 @@ export function ResumeForm({
         title,
         targetRole: targetRole || null,
         isDefault,
+        defaultLayout,
         data: values,
       });
       if (result.success) {
@@ -98,7 +105,7 @@ export function ResumeForm({
         <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold tracking-tight">Resume Editor</h1>
             <Button asChild variant="ghost">
-                <Link href={slug === "default" ? "/resume" : `/resume/${slug}`} target="_blank">
+                <Link href={slug === "default" ? `/resume?layout=${defaultLayout}` : `/resume/${slug}?layout=${defaultLayout}`} target="_blank">
                     View Resume <ArrowUpRight className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
@@ -149,7 +156,7 @@ export function ResumeForm({
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-4">
               <div className="space-y-2">
                 <FormLabel>Slug</FormLabel>
                 <Input value={slug} onChange={(event) => setSlug(event.target.value)} />
@@ -161,6 +168,24 @@ export function ResumeForm({
               <div className="space-y-2">
                 <FormLabel>Target Role</FormLabel>
                 <Input value={targetRole} onChange={(event) => setTargetRole(event.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <FormLabel>Default Layout</FormLabel>
+                <Select
+                  value={defaultLayout}
+                  onValueChange={(value) => setDefaultLayout(normalizeResumeLayoutId(value))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select layout" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {RESUME_LAYOUTS.map((layout) => (
+                      <SelectItem key={layout.id} value={layout.id}>
+                        {layout.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -321,7 +346,7 @@ export function ResumeForm({
            <CardHeader>
              <div className="flex items-center justify-between">
               <CardTitle>Education</CardTitle>
-              <Button type="button" variant="outline" size="sm" onClick={() => education.append({ institution: "", degree: "", start: "", end: "" })}>
+              <Button type="button" variant="outline" size="sm" onClick={() => education.append({ institution: "", degree: "" })}>
                 <Plus className="mr-2 h-4 w-4" /> Add Education
               </Button>
             </div>
@@ -353,13 +378,13 @@ export function ResumeForm({
                   )} />
                   <FormField control={form.control} name={`education.${index}.start`} render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Start</FormLabel>
+                      <FormLabel>Start (optional)</FormLabel>
                       <FormControl><Input placeholder="2016" {...field} /></FormControl>
                     </FormItem>
                   )} />
                   <FormField control={form.control} name={`education.${index}.end`} render={({ field }) => (
                     <FormItem>
-                      <FormLabel>End</FormLabel>
+                      <FormLabel>End (optional)</FormLabel>
                       <FormControl><Input placeholder="2020" {...field} /></FormControl>
                     </FormItem>
                   )} />

@@ -1,6 +1,7 @@
 export type Skill = {
   id: string;
   profileId: string;
+  slug: string;
   name: string;
   label?: string | null;
   icon?: string | null;

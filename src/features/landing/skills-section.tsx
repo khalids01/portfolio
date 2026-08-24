@@ -4,20 +4,23 @@ import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
 import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
-import { getSkillIcon, getSkillColor } from "@/constants/icons";
+import { getSkillColor, getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
 import Image from "next/image";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "Languages": Code2,
   "Frontend": Monitor,
   "Backend": Layers,
+  "Database & Data": Database,
   "Database & ORM": Database,
   "DevOps & Cloud": Cloud,
   "Tools & Others": Terminal,
-  "Other": Globe,
+  "Other": Terminal,
   "FinTech / Blockchain": Wallet,
   "AI Tools & Capabilities": Cpu,
+  "Engineering": Cpu,
   "Security": Shield,
+  "Cloud": Globe,
 };
 
 export function SkillsSection({ skills }: { skills: SkillData[] }) {
@@ -54,7 +57,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
         {/* Section header */}
         <div className="text-center space-y-4">
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-3xl font-bold tracking-tight md:text-5xl"
@@ -62,7 +65,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
             Skills & Expertise
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
@@ -101,7 +104,9 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
 
                   <div className="flex flex-wrap gap-3">
                     {categorySkills.map((skill) => {
-                      const iconPath = getSkillIcon(skill.name);
+                      // Prefer the persisted path, but keep older/legacy rows
+                      // working when their icon column is still null.
+                      const iconPath = normalizeSkillIcon(skill?.icon) ?? getSkillIcon(skill.name);
                       const brandColor = getSkillColor(skill.name);
                       return (
                         <div

@@ -1,17 +1,16 @@
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import { skycanvas } from "@/lib/skycanvas";
 import { prisma } from "@/lib/prisma";
 
 export async function requireAdmin() {
-  const hdrs = await headers();
-  const session = await auth.api.getSession({ headers: hdrs });
+  const auth = await skycanvas.auth();
+  const session = auth.session;
   if (!session) {
     return { ok: false as const, status: 401, message: "Unauthorized" };
   }
 
   // Ensure the current user's role is ADMIN
   const user = await prisma.user.findUnique({
-    where: { id: session.user.id },
+    where: { email: session.user.email },
     select: { role: true },
   });
 

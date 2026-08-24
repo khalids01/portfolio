@@ -1,174 +1,265 @@
 "use client";
 
 import type { ResumeData } from "../schema";
+import type { ResumeMeta } from "../data";
+import {
+  RESUME_LAYOUTS,
+  normalizeResumeLayoutId,
+  type ResumeLayoutId,
+} from "../layouts";
+import {
+  RESUME_DENSITIES,
+  RESUME_PAGE_SIZES,
+  type ResumeDensity,
+  type ResumeLayoutProps,
+  type ResumePageSize,
+  type ResumePreviewZoom,
+} from "../settings";
+import { AtsStandardLayout } from "./layouts/ats-standard";
+import { EngineeringProLayout } from "./layouts/engineering-pro";
+import { EuProfessionalLayout } from "./layouts/eu-professional";
+import { ModernSplitLayout } from "./layouts/modern-split";
+import { SeniorCompactLayout } from "./layouts/senior-compact";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Download, Github, Linkedin, ArrowLeft } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Download, ArrowLeft, ZoomIn } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
-export function ResumeView({ data }: { data: ResumeData }) {
+const LAYOUT_COMPONENTS = {
+  "ats-standard": AtsStandardLayout,
+  "engineering-pro": EngineeringProLayout,
+  "senior-compact": SeniorCompactLayout,
+  "eu-professional": EuProfessionalLayout,
+  "modern-split": ModernSplitLayout,
+} satisfies Record<ResumeLayoutId, React.ComponentType<ResumeLayoutProps>>;
+
+export function ResumeView({
+  data,
+  resumeSlug,
+  activeLayout,
+  activeDensity,
+  activePageSize,
+  variants,
+}: {
+  data: ResumeData;
+  resumeSlug: string;
+  activeLayout: ResumeLayoutId;
+  activeDensity: ResumeDensity;
+  activePageSize: ResumePageSize;
+  variants: ResumeMeta[];
+}) {
+  const layout = normalizeResumeLayoutId(activeLayout);
+  const SelectedLayout = LAYOUT_COMPONENTS[layout];
+  const [zoom, setZoom] = useState<ResumePreviewZoom>(100);
   return (
     <>
-      <ResumeToolbar />
-      <ClassicResumeLayout data={data} />
+      <ResumeToolbar
+        resumeSlug={resumeSlug}
+        activeLayout={layout}
+        activeDensity={activeDensity}
+        activePageSize={activePageSize}
+      />
+      <ResumeVariantSelector
+        activeSlug={resumeSlug}
+        variants={variants}
+      />
+      <ResumeDocumentControls
+        activeLayout={layout}
+        activeDensity={activeDensity}
+        activePageSize={activePageSize}
+        zoom={zoom}
+        onZoomChange={setZoom}
+      />
+      <div className="resume-preview-origin mx-auto w-full max-w-full origin-top overflow-hidden" style={{ transform: `scale(${zoom / 100})` }}>
+        <SelectedLayout data={data} density={activeDensity} pageSize={activePageSize} />
+      </div>
     </>
   );
 }
 
-function ResumeToolbar() {
+function ResumeVariantSelector({
+  activeSlug,
+  variants,
+}: {
+  activeSlug: string;
+  variants: ResumeMeta[];
+}) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  function updateVariant(slug: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    router.push(
+      slug === "default" ? `/resume?${params}` : `/resume/${slug}?${params}`,
+    );
+  }
   return (
-    <div className="no-print mx-auto mb-6 flex w-full max-w-[210mm] flex-wrap items-center justify-between gap-3">
-      <Button variant="ghost" size="sm" asChild className="text-slate-500 hover:text-primary transition-colors">
+    <div className="no-print mx-auto mb-4 flex w-full max-w-[210mm] flex-col items-stretch gap-1.5 sm:flex-row sm:items-center sm:gap-3">
+      <label
+        htmlFor="resume-variant"
+        className="shrink-0 text-sm font-medium text-slate-400"
+      >
+        Resume variant
+      </label>
+      <Select value={activeSlug} onValueChange={updateVariant}>
+        <SelectTrigger
+          id="resume-variant"
+          className="h-11 w-full max-w-none bg-background/80 sm:max-w-md"
+        >
+          <SelectValue placeholder="Select a resume variant" />
+        </SelectTrigger>
+        <SelectContent>
+          {variants.map((variant) => (
+            <SelectItem key={variant.slug} value={variant.slug}>
+              {variant.title}
+              {variant.isDefault ? " (default)" : ""}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+function ResumeToolbar({
+  resumeSlug,
+  activeLayout,
+  activeDensity,
+  activePageSize,
+}: {
+  resumeSlug: string;
+  activeLayout: ResumeLayoutId;
+  activeDensity: ResumeDensity;
+  activePageSize: ResumePageSize;
+}) {
+  const pdfHref = `/resume.pdf?variant=${encodeURIComponent(resumeSlug)}&layout=${activeLayout}&density=${activeDensity}&page=${activePageSize}`;
+  return (
+    <div className="no-print sticky top-2 z-20 mx-auto mb-5 flex w-full max-w-[210mm] items-center justify-between gap-2 rounded-xl border border-slate-800/80 bg-slate-950/95 px-2 py-2 shadow-lg backdrop-blur sm:static sm:mb-6 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+      <Button
+        variant="ghost"
+        size="default"
+        asChild
+        className="h-10 px-2 text-slate-400 hover:text-primary transition-colors sm:h-9"
+      >
         <Link href="/">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Home
         </Link>
       </Button>
-
-      <div className="flex flex-wrap gap-3">
-        <Button
-          size="lg"
-          className="rounded-full text-white! bg-slate-900! shadow-lg hover:shadow-xl transition-all"
-          onClick={() => window.print()}
-        >
+      <Button
+        size="default"
+        className="h-10 rounded-lg text-white! bg-slate-800! px-4 shadow-lg hover:bg-slate-700! hover:shadow-xl transition-all sm:h-11 sm:rounded-full"
+        asChild
+      >
+        <a href={pdfHref}>
           <Download className="mr-2 h-4 w-4" />
           Download PDF
-        </Button>
+        </a>
+      </Button>
+    </div>
+  );
+}
+function ResumeDocumentControls({
+  activeLayout,
+  activeDensity,
+  activePageSize,
+  zoom,
+  onZoomChange,
+}: {
+  activeLayout: ResumeLayoutId;
+  activeDensity: ResumeDensity;
+  activePageSize: ResumePageSize;
+  zoom: ResumePreviewZoom;
+  onZoomChange: (zoom: ResumePreviewZoom) => void;
+}) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  function updateDocumentSetting(key: "layout" | "density" | "page", value: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(key, key === "layout" ? normalizeResumeLayoutId(value) : value);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }
+  return (
+    <div className="no-print mx-auto mb-6 flex w-full max-w-[210mm] flex-col gap-3">
+      <div>
+        <p className="mb-1 text-sm font-medium text-slate-400">Layout</p>
+        <Tabs value={activeLayout} onValueChange={(value) => updateDocumentSetting("layout", value)}>
+        <div className="overflow-x-auto pb-1 [scrollbar-width:thin]">
+        <TabsList className="flex h-auto w-max min-w-full gap-1 rounded-md border bg-background/80 p-1 backdrop-blur">
+          {RESUME_LAYOUTS.map((layout) => (
+            <TabsTrigger
+              key={layout.id}
+              value={layout.id}
+              className="h-10 shrink-0 rounded-sm px-3 text-xs sm:px-4 md:text-sm"
+            >
+              {layout.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        </div>
+        </Tabs>
+      </div>
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <DocumentSelect
+          label="Density"
+          value={activeDensity}
+          options={Object.entries(RESUME_DENSITIES).map(([value, config]) => ({ value, label: config.label }))}
+          onChange={(value) => updateDocumentSetting("density", value)}
+        />
+        <DocumentSelect
+          label="Page"
+          value={activePageSize}
+          options={Object.entries(RESUME_PAGE_SIZES).map(([value, config]) => ({ value, label: config.label }))}
+          onChange={(value) => updateDocumentSetting("page", value)}
+        />
+        <DocumentSelect
+          label="Preview zoom"
+          value={String(zoom)}
+          options={([75, 90, 100] as const).map((value) => ({ value: String(value), label: `${value}%` }))}
+          onChange={(value) => onZoomChange(Number(value) as ResumePreviewZoom)}
+          icon={<ZoomIn className="h-3.5 w-3.5" />}
+          className="col-span-2 sm:col-span-1"
+        />
       </div>
     </div>
   );
 }
 
-function ClassicResumeLayout({ data }: { data: ResumeData }) {
-  const { basics, summary, skills, experience, projects, education, languages } = data;
-
+function DocumentSelect({
+  label,
+  value,
+  options,
+  onChange,
+  icon,
+  className = "",
+}: {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+  icon?: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="w-full overflow-x-auto print:overflow-visible">
-      <article className="resume-sheet mx-auto min-h-[297mm] w-[210mm] bg-white p-[12mm] text-slate-900 shadow-sm print:shadow-none">
-        <header className="resume-block mb-7">
-          <div className="space-y-2">
-            <h1 className="text-[34px] font-bold leading-tight tracking-tight">{basics.name}</h1>
-            <p className="text-[19px] font-medium leading-snug text-slate-600">{basics.title}</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5 pt-1 text-[13px] leading-5 text-slate-500">
-              <div className="flex items-center gap-1">
-                <Mail className="h-4 w-4" />
-                <span>{basics.email}</span>
-              </div>
-              {basics.location && (
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  <span>{basics.location}</span>
-                </div>
-              )}
-              <div className="flex gap-4">
-                {basics.links.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 transition-colors hover:text-primary"
-                  >
-                    {link.name === "GitHub" && <Github className="h-4 w-4" />}
-                    {link.name === "LinkedIn" && <Linkedin className="h-4 w-4" />}
-                    <span>{link.name}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </header>
-
-        <div className="resume-grid grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-9">
-          <div className="space-y-8 md:col-span-2">
-            <section className="resume-block space-y-3">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Professional Summary</h2>
-              <p className="text-[15px] leading-7 text-slate-600">
-                {summary}
-              </p>
-            </section>
-
-            <section className="resume-section space-y-4">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Experience</h2>
-              <div className="space-y-7">
-                {experience.map((exp, idx) => (
-                  <div key={idx} className="resume-block space-y-1.5">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h3 className="text-[17px] font-bold leading-snug">{exp.company}</h3>
-                      <span className="shrink-0 text-[13px] text-slate-500">{exp.start} — {exp.end}</span>
-                    </div>
-                    <p className="text-[15px] font-medium leading-snug text-slate-600">{exp.role}</p>
-                    <ul className="ml-4 list-outside list-disc space-y-1.5 text-[13.5px] leading-[1.45] text-slate-600">
-                      {exp.bullets.map((bullet, bIdx) => (
-                        <li key={bIdx}>{bullet}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="resume-section space-y-4">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Selected Projects</h2>
-              <div className="space-y-5">
-                {projects.map((proj, idx) => (
-                  <div key={idx} className="resume-block space-y-1.5">
-                    <h3 className="text-[16px] font-bold leading-snug">{proj.name}</h3>
-                    <p className="text-[13.5px] leading-6 text-slate-600">{proj.desc}</p>
-                    <ul className="ml-4 list-outside list-disc space-y-1 text-[13.5px] leading-[1.45] text-slate-600">
-                      {proj.bullets.map((bullet, bIdx) => (
-                        <li key={bIdx}>{bullet}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <div className="space-y-8">
-            <section className="resume-section space-y-5">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Skills</h2>
-              {skills.map((skillGroup, idx) => (
-                <div key={idx} className="resume-block space-y-1.5">
-                  <h3 className="text-[12px] font-semibold uppercase tracking-[0.12em] text-slate-500">{skillGroup.group}</h3>
-                  <div className="flex flex-wrap gap-x-1.5 gap-y-1.5">
-                    {skillGroup.items.map((skill, sIdx) => (
-                      <span key={sIdx} className="rounded-sm bg-slate-50 px-1.5 py-0.5 text-[12.5px] font-medium leading-5 text-slate-600 ring-1 ring-inset ring-slate-100">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </section>
-
-            <section className="resume-section space-y-4">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Education</h2>
-              <div className="space-y-3.5">
-                {education.map((edu, idx) => (
-                  <div key={idx} className="resume-block space-y-1">
-                    <h3 className="text-sm font-bold">{edu.institution}</h3>
-                    <p className="text-sm text-slate-600">{edu.degree}</p>
-                    <p className="text-xs text-slate-400">{edu.start} — {edu.end}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section className="resume-section space-y-3">
-              <h2 className="border-b border-slate-200 pb-1.5 text-[19px] font-bold">Languages</h2>
-              <div className="space-y-2">
-                {languages.map((lang, idx) => (
-                  <div key={idx} className="flex justify-between gap-4 text-sm">
-                    <span className="text-left font-medium">{lang.name}</span>
-                    <span className="text-right text-slate-500">{lang.level}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-        </div>
-      </article>
-    </div>
+    <label className={`grid gap-1 text-sm font-medium text-slate-400 ${className}`}>
+      {label}
+      <Select value={value} onValueChange={onChange}>
+        <SelectTrigger className="h-11 w-full bg-background/80">
+          {icon}
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {options.map((option) => <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>)}
+        </SelectContent>
+      </Select>
+    </label>
   );
 }

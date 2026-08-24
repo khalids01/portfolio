@@ -1,69 +1,53 @@
 "use client";
-
+import "@skycanvasstudio/sso/styles.css";
+import { SsoUserMenu, useSkycanvas } from "@skycanvasstudio/sso/react";
+import { Button } from "../ui/button";
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { LogOut, Settings, User, LayoutDashboard } from "lucide-react";
-import { authClient } from "@/lib/auth-client";
+import { LayoutDashboard, Settings, User2 } from "lucide-react";
 
-type Props = {
-  name?: string;
-  isAuthenticated?: boolean;
-  isAdmin?: boolean;
-};
+export function UserMenu({ showSignIn = true }: { showSignIn?: boolean }) {
+  const { session, status, logout } = useSkycanvas();
+  const user = session?.user;
 
-export function UserMenu({ name, isAuthenticated = true, isAdmin = false }: Props) {
-  const initial = (name?.[0] || "U").toUpperCase();
-  const onSignOut = async () => {
-    await authClient.signOut();
-  };
+  if (status === "loading") return null;
+
+  return user ? (
+    <SsoUserMenu
+      user={user}
+      items={[
+        {
+          label: "Dashboard",
+          href: "/admin",
+          icon: <LayoutDashboard className="size-8" />,
+        },
+        {
+          label: "Site Profile",
+          href: "/profile",
+          icon: <User2 className="size-8" />,
+        },
+        {
+          label: "Settings",
+          href: "/settings",
+          icon: <Settings className="size-8" />,
+        },
+      ]}
+      onLogout={() => logout({ returnTo: "/" })}
+    />
+  ) : showSignIn ? (
+    <Button asChild>
+      <Link href={"/auth/sign-in"}>Signin</Link>
+    </Button>
+  ) : null;
+}
+
+export function SignInButton() {
+  const { session, status } = useSkycanvas();
+
+  if (status === "loading" || session?.user) return null;
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="size-8">
-          <Avatar className="size-6">
-            <AvatarFallback className="text-xs">{initial}</AvatarFallback>
-          </Avatar>
-          <span className="sr-only">Open user menu</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52">
-        <DropdownMenuLabel>{name || "My Account"}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {isAuthenticated && (
-          <>
-            {isAdmin && (
-              <DropdownMenuItem asChild>
-                <Link href="/admin" className="flex items-center">
-                  <LayoutDashboard className="mr-2 size-4" /> Admin Dashboard
-                </Link>
-              </DropdownMenuItem>
-            )}
-            <DropdownMenuItem asChild>
-              <Link href="/profile" className="flex items-center">
-                <User className="mr-2 size-4" /> Profile
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/settings" className="flex items-center">
-                <Settings className="mr-2 size-4" /> Settings
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onSignOut} className="text-destructive">
-              <LogOut className="mr-2 size-4" /> Log out
-            </DropdownMenuItem>
-          </>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button variant="outline" size="sm" asChild>
+      <Link href="/auth/sign-in">Sign in</Link>
+    </Button>
   );
 }

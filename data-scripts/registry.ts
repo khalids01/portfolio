@@ -7,15 +7,12 @@ import { interspeedExperienceSeed } from "./experience/interspeed";
 import { freelanceExperienceSeed } from "./experience/freelance-contract";
 import { limsProjectSeed } from "./projects/lims";
 import { algorithmicCryptoProjectSeed } from "./projects/algorithmic-crypto";
+import { multiExchangeTradingProjectSeed } from "./projects/multi-exchange-trading";
 import { emrProjectSeed } from "./projects/emr";
 import { paybridgeProjectSeed } from "./projects/paybridge";
 import { jobPlatformsProjectSeed } from "./projects/job-platforms";
 import { ecommerceProjectSeed } from "./projects/ecommerce";
-import { defaultResumeSeed } from "./resume/default";
-import { fullStackDeveloperResumeSeed } from "./resume/full-stack-developer";
-import { fullStackTypescriptEngineerResumeSeed } from "./resume/full-stack-typescript-engineer";
-import { seniorFrontendDeveloperResumeSeed } from "./resume/senior-frontend-developer";
-import { nodejsDeveloperResumeSeed } from "./resume/nodejs-developer";
+import { resumeSeeds } from "./resume";
 
 export const seedScripts: SeedScript[] = [
   profileSeed,
@@ -26,15 +23,12 @@ export const seedScripts: SeedScript[] = [
   freelanceExperienceSeed,
   limsProjectSeed,
   algorithmicCryptoProjectSeed,
+  multiExchangeTradingProjectSeed,
   emrProjectSeed,
   paybridgeProjectSeed,
   jobPlatformsProjectSeed,
   ecommerceProjectSeed,
-  defaultResumeSeed,
-  fullStackDeveloperResumeSeed,
-  fullStackTypescriptEngineerResumeSeed,
-  seniorFrontendDeveloperResumeSeed,
-  nodejsDeveloperResumeSeed,
+  ...resumeSeeds,
 ].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id));
 
 export function resolveScripts(ids: string[]) {
