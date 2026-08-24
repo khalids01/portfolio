@@ -3,6 +3,7 @@ import "@skycanvasstudio/sso/styles.css";
 import { SsoUserMenu, useSkycanvas } from "@skycanvasstudio/sso/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { LayoutDashboard, Settings, User, User2 } from "lucide-react";
 
 export function UserMenu() {
   const { session, status, logout } = useSkycanvas();
@@ -14,9 +15,21 @@ export function UserMenu() {
     <SsoUserMenu
       user={user}
       items={[
-        { label: "Dashboard", href: "/admin" },
-        { label: "Profile", href: "/profile" },
-        { label: "Settings", href: "/settings" },
+        {
+          label: "Dashboard",
+          href: "/admin",
+          icon: <LayoutDashboard className="size-8" />,
+        },
+        {
+          label: "Site Profile",
+          href: "/profile",
+          icon: <User2 className="size-8" />,
+        },
+        {
+          label: "Settings",
+          href: "/settings",
+          icon: <Settings className="size-8" />,
+        },
       ]}
       onLogout={() => logout({ returnTo: "/" })}
     />
