@@ -5,7 +5,7 @@ import type { ProjectCaseStudy } from "./types";
 export const owner = {
   name: "Abdullah Khalid",
   username: "khalids01",
-  email: "khalid.code03@gmail.com",
+  email: "khalidk8774@gmail.com",
   image: null as string | null,
 };
 

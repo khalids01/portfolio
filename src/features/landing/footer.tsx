@@ -4,6 +4,7 @@ import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/core/user-menu";
 
 export function Footer({
   data,
