@@ -17,7 +17,19 @@ export const jobPlatformsProjectSeed: SeedScript = {
     await upsertProject(prisma, {
       title: "Job Posting Platforms",
       slug: "job-posting-platforms",
-      images: [],
+      coverImage:
+        "/projects/job-platform/nearheal/job-portal-landing-find-job-hero.png",
+      images: [
+        "/projects/job-platform/nearheal/job-portal-landing-find-job-hero.png",
+        "/projects/job-platform/nearheal/job-portal-landing-hiring-hero.png",
+        "/projects/job-platform/nearheal/job-portal-find-jobs.png",
+        "/projects/job-platform/nearheal/job-portal-profile-page.png",
+        "/projects/job-platform/nearheal/recruiter-portal-dashboard.png",
+        "/projects/job-platform/nearheal/recruiter-portal-jobs-management.png",
+        "/projects/job-platform/nearheal/recruiter-portal-applications-management.png",
+        "/projects/job-platform/nearheal/recruiter-portal-files-management.png",
+        "/projects/job-platform/nearheal/recruiter-portal-users-management.png",
+      ],
       description:
         "Production job posting applications built for real business recruitment workflows, including public listings, administration, and deployment.",
       categorySlug: PROJECT_CATEGORY.SAAS_PLATFORMS.slug,
