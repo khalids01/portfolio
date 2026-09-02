@@ -6,8 +6,10 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Resume | Abdullah Khalid",
-  description: "Professional resume of Abdullah Khalid",
+  title: "Resume Variant",
+  description: "Professional resume variant for Abdullah Khalid.",
+  alternates: { canonical: "/resume" },
+  robots: { index: false, follow: true },
 };
 
 export const dynamic = "force-dynamic";

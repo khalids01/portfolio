@@ -5,8 +5,10 @@ import { normalizeResumeDensity, normalizeResumePageSize } from "@/features/resu
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resume | Abdullah Khalid",
-  description: "Professional resume of Abdullah Khalid - Full-Stack TypeScript Engineer",
+  title: "Resume",
+  description:
+    "Resume of Abdullah Khalid, a Full-Stack TypeScript Developer experienced in SaaS, HealthTech, FinTech, APIs, real-time systems, and cloud infrastructure.",
+  alternates: { canonical: "/resume" },
 };
 
 export const dynamic = "force-dynamic";

@@ -9,8 +9,10 @@ import {
 import { AgentTextView } from "@/features/agent-text/components/agent-text-view";
 
 export const metadata: Metadata = {
-  title: "Agent Text | Abdullah Khalid",
+  title: "Agent Text",
   description: "Machine-readable profile and career data.",
+  alternates: { canonical: "/agent-text" },
+  robots: { index: false, follow: true },
 };
 export const dynamic = "force-dynamic";
 

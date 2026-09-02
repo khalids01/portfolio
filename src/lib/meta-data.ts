@@ -1,101 +1,33 @@
 import type { Metadata } from "next";
 
-const myDomain = "https://khalid.skycanvasstudio.com"
+export const siteUrl = "https://khalid.skycanvasstudio.com";
+
+const personName = "Abdullah Khalid";
+const professionalTitle = "Full-Stack TypeScript Developer";
+const description =
+  "Abdullah Khalid is a Full-Stack TypeScript Developer in Bangladesh building production SaaS, HealthTech, FinTech, APIs, real-time systems, and cloud infrastructure with TypeScript, React, Next.js, Node.js, and Bun.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(myDomain),
+  metadataBase: new URL(siteUrl),
 
   title: {
-    default: "Abdullah Khalid | Full-Stack TypeScript Developer",
-    template: "%s | Abdullah Khalid",
+    default: `${personName} | ${professionalTitle}`,
+    template: `%s | ${personName}`,
   },
 
-  description:
-    "Full-Stack TypeScript Developer specializing in React, Next.js, Node.js, Bun, real-time systems, APIs, PostgreSQL, Redis, cloud infrastructure, and FinTech applications.",
+  description,
 
-  applicationName: "Abdullah Khalid Portfolio",
+  applicationName: `${personName} Portfolio`,
 
   authors: [
     {
-      name: "Abdullah Khalid",
-      url: myDomain,
+      name: personName,
+      url: siteUrl,
     },
   ],
 
-  creator: "Abdullah Khalid",
-  publisher: "Abdullah Khalid",
-
-  keywords: [
-    "Abdullah Khalid",
-    "Khalid Developer",
-    "Software Engineer",
-    "Full Stack Developer",
-    "Full-Stack TypeScript Developer",
-    "Senior JavaScript Developer",
-    "Senior TypeScript Developer",
-    "Senior Frontend Developer",
-    "Senior React Developer",
-    "Next.js Developer",
-    "React Developer",
-    "Node.js Developer",
-    "Backend Developer",
-    "Full Stack Web Developer",
-    "JavaScript Developer",
-    "TypeScript Developer",
-
-    // Frontend
-    "React",
-    "Next.js",
-    "TypeScript",
-    "JavaScript",
-    "TanStack",
-    "Tailwind CSS",
-    "React Query",
-    "Zustand",
-
-    // Backend
-    "Node.js",
-    "Bun",
-    "Elysia",
-    "Fastify",
-    "NestJS",
-    "Express.js",
-    "REST API",
-    "WebSocket",
-    "Real-time Systems",
-
-    // Database
-    "PostgreSQL",
-    "MySQL",
-    "SQLite",
-    "MongoDB",
-    "Redis",
-    "Prisma",
-    "Drizzle ORM",
-
-    // DevOps
-    "Docker",
-    "AWS",
-    "Linux",
-    "CI/CD",
-    "Cloud Infrastructure",
-
-    // FinTech
-    "FinTech Developer",
-    "Blockchain Developer",
-    "Crypto Trading Systems",
-    "Algorithmic Trading",
-    "Solana",
-    "Web3",
-    "Stablecoin Infrastructure",
-
-    // Location / work
-    "Bangladesh Software Engineer",
-    "Bangladesh Web Developer",
-    "Remote Software Engineer",
-    "Remote TypeScript Developer",
-    "Remote Full Stack Developer",
-  ],
+  creator: personName,
+  publisher: personName,
 
   category: "technology",
 
@@ -107,25 +39,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Abdullah Khalid",
-    title: "Abdullah Khalid | Full-Stack TypeScript Developer",
-    description:
-      "Full-Stack TypeScript Developer building complex web applications, APIs, real-time systems, cloud infrastructure, and FinTech platforms.",
+    siteName: `${personName} — Developer Portfolio`,
+    title: `${personName} | ${professionalTitle}`,
+    description,
     images: [
       {
         url: "/meta/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Abdullah Khalid - Full-Stack TypeScript Developer",
+        alt: `${personName} - ${professionalTitle}`,
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Abdullah Khalid | Full-Stack TypeScript Developer",
-    description:
-      "Full-Stack TypeScript Developer specializing in React, Next.js, Node.js, Bun, real-time systems, infrastructure, and FinTech.",
+    title: `${personName} | ${professionalTitle}`,
+    description,
     images: ["/meta/og-image.png"],
   },
 
@@ -158,11 +88,6 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
 
   verification: {
-    // Add after registering the site with Google Search Console.
-    // google: "YOUR_GOOGLE_SITE_VERIFICATION",
+    google: process.env.GOOGLE_SITE_VERIFICATION,
   },
-
-//   other: {
-//     "google-site-verification": "YOUR_GOOGLE_SITE_VERIFICATION",
-//   },
 };

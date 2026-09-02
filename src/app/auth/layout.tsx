@@ -4,6 +4,11 @@ import { ModeToggle } from "@/components/core/mode-toggle";
 import { RedirectGuard } from "./redirect-guard";
 import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
 import { skycanvas } from "@/lib/skycanvas";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AuthLayout({ children }: { children: ReactNode }) {
   const bootstrap = await skycanvas.getBootstrap();

@@ -5,6 +5,11 @@ import { AdminShell } from "@/features/admin/components/admin-shell";
 import { skycanvas } from "@/lib/skycanvas";
 import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
 import { QueryProvider } from "@/components/core/query-provider";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // Admin pages are authenticated and database-backed. Never execute their
 // queries during static generation; only the public landing page uses ISR.

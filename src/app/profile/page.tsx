@@ -12,6 +12,12 @@ import Link from "next/link";
 import { SkyCanvasProvider } from "@skycanvasstudio/sso/react";
 import { AnimatedName } from "@/components/core/animated-name";
 import { UserMenu } from "@/components/core/user-menu";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile",
+  robots: { index: false, follow: false },
+};
 
 export default async function ProfilePage() {
   const bootstrap = await skycanvas.getBootstrap();

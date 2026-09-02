@@ -4,7 +4,6 @@ import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
 import { Button } from "@/components/ui/button";
-import { UserMenu } from "@/components/core/user-menu";
 
 export function Footer({
   data,
@@ -32,8 +31,8 @@ export function Footer({
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">{data.name}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Building exceptional digital experiences with modern
-                technologies and best practices.
+                Abdullah Khalid is a Full-Stack TypeScript Developer building
+                SaaS, HealthTech, FinTech, APIs, and real-time systems.
               </p>
               {/* Social links */}
               <div className="flex items-center gap-3">
