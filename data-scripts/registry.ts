@@ -13,6 +13,7 @@ import { paybridgeProjectSeed } from "./projects/paybridge";
 import { jobPlatformsProjectSeed } from "./projects/job-platforms";
 import { ecommerceProjectSeed } from "./projects/ecommerce";
 import { serveFileStorageProjectSeed } from "./projects/serve-file-storage";
+import { diskVacuumProjectSeed } from "./projects/disk-vacuum";
 import { resumeSeeds } from "./resume";
 
 export const seedScripts: SeedScript[] = [
@@ -30,6 +31,7 @@ export const seedScripts: SeedScript[] = [
   jobPlatformsProjectSeed,
   ecommerceProjectSeed,
   serveFileStorageProjectSeed,
+  diskVacuumProjectSeed,
   ...resumeSeeds,
 ].sort((a, b) => a.order - b.order || a.id.localeCompare(b.id));
 

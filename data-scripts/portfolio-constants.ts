@@ -33,6 +33,10 @@ export const PROJECT_CATEGORY = {
     name: "Developer Tools",
     slug: "developer-tools",
   },
+  NATIVE_APPLICATIONS: {
+    name: "Native Applications",
+    slug: "native-applications",
+  },
 } as const;
 
 export type ProjectCategory = (typeof PROJECT_CATEGORY)[keyof typeof PROJECT_CATEGORY];

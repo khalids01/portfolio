@@ -9,6 +9,7 @@ const categories = [
   { ...PROJECT_CATEGORY.ECOMMERCE, order: 3 },
   { ...PROJECT_CATEGORY.BUSINESS_APPS, order: 4 },
   { ...PROJECT_CATEGORY.DEVELOPER_TOOLS, order: 5 },
+  { ...PROJECT_CATEGORY.NATIVE_APPLICATIONS, order: 6 },
 ];
 
 const obsoleteSeededCategorySlugs = [
