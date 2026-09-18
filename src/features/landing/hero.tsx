@@ -1,6 +1,6 @@
 import type { LandingData } from "@/features/landing/data";
 import { Button } from "@/components/ui/button";
-import { MapPin, Mail, Github, Linkedin, ArrowRight } from "lucide-react";
+import { MapPin, Mail, Github, Linkedin, ArrowRight, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
@@ -119,6 +119,17 @@ export function Hero({ data }: { data: LandingData }) {
                   View Resume
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-full px-8 text-base"
+                asChild
+              >
+                <a href="#schedule">
+                  Book a Call
+                  <CalendarDays className="ml-2 h-4 w-4" />
+                </a>
               </Button>
             </div>
 

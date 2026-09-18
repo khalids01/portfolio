@@ -76,7 +76,7 @@ export function CalBooking() {
   }, []);
 
   return (
-    <section aria-labelledby="schedule-heading" className="scroll-mt-20">
+    <section id="schedule" aria-labelledby="schedule-heading" className="scroll-mt-20">
       <div className="mx-auto max-w-6xl text-center">
         <p className="mb-3 text-xs font-semibold tracking-[0.35em] text-primary">
           — SCHEDULE —
