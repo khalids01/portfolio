@@ -117,6 +117,12 @@ body {
   scroll-behavior: smooth;
 }
 
+/* The Cal embed supplies this link as a small branding-only footer. */
+a[href*="https://go.cal.com/booking"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html,
   body {

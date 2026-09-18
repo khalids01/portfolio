@@ -7,6 +7,7 @@ import { ProjectsSection } from "@/features/landing/projects-section";
 import { ServicesSection } from "@/features/landing/services-section";
 import { Footer } from "@/features/landing/footer";
 import { Snowfall } from "@/components/core/snowfall";
+import { WhatsAppButton } from "@/features/landing/whatsapp-button";
 import { MotionConfig } from "motion/react";
 import { siteUrl } from "@/lib/meta-data";
 
@@ -93,6 +94,7 @@ export default async function Home() {
           <ServicesSection />
         </main>
         <Footer data={data} />
+        <WhatsAppButton />
         <Snowfall />
       </div>
     </MotionConfig>

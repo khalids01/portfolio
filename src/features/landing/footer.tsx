@@ -4,6 +4,7 @@ import { Github, Linkedin, Mail, Heart } from "lucide-react";
 import type { LandingData } from "@/features/landing/data";
 import { ContactForm } from "./contact-form";
 import { Button } from "@/components/ui/button";
+import { CalBooking } from "./cal-booking";
 
 export function Footer({
   data,
@@ -22,6 +23,8 @@ export function Footer({
     >
       <div className="container mx-auto px-3 py-12 md:py-16">
         <div className="mx-auto max-w-6xl space-y-12">
+          <CalBooking />
+
           {/* Contact Form */}
           <ContactForm />
 
