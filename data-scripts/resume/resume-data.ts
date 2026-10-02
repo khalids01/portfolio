@@ -14,6 +14,11 @@ const languages: ResumeData["languages"] = [
   { name: "Bangla", level: "Native" },
 ];
 
+const aiIntegrationSkillGroup: ResumeData["skills"][number] = {
+  group: "AI Integration",
+  items: ["LLM APIs", "Streaming Responses", "Structured Outputs"],
+};
+
 const freelanceExperience = (bullets: string[]): ResumeData["experience"][number] => ({
   company: "Freelance / Contract",
   role: "Web Designer & Web Developer",
@@ -171,6 +176,7 @@ export const fullStackSkills: ResumeData["skills"] = [
   { group: "Backend", items: ["Node.js", "Bun", "Fastify", "NestJS", "Elysia.js", "REST APIs"] },
   { group: "Data", items: ["PostgreSQL", "MariaDB", "MongoDB", "Redis", "Prisma", "WebSockets"] },
   { group: "Cloud & Delivery", items: ["AWS", "Docker", "CI/CD", "Linux", "Vercel", "Grafana"] },
+  aiIntegrationSkillGroup,
 ];
 
 export const typescriptSkills: ResumeData["skills"] = [
@@ -178,6 +184,7 @@ export const typescriptSkills: ResumeData["skills"] = [
   { group: "Applications", items: ["React", "Next.js", "Node.js", "Bun", "Fastify", "NestJS", "Elysia.js"] },
   { group: "Data & Realtime", items: ["PostgreSQL", "MariaDB", "Redis", "Prisma", "WebSockets"] },
   { group: "Delivery", items: ["AWS", "Docker", "CI/CD", "Linux", "Grafana"] },
+  aiIntegrationSkillGroup,
 ];
 
 export const frontendSkills: ResumeData["skills"] = [
@@ -186,6 +193,7 @@ export const frontendSkills: ResumeData["skills"] = [
   { group: "Cross-Platform", items: ["React Native", "SvelteKit"] },
   { group: "Integration", items: ["REST APIs", "WebSockets", "Node.js", "Prisma", "PostgreSQL"] },
   { group: "Delivery", items: ["Vercel", "AWS", "CI/CD", "Production Debugging"] },
+  aiIntegrationSkillGroup,
 ];
 
 export const nodeSkills: ResumeData["skills"] = [
@@ -193,4 +201,5 @@ export const nodeSkills: ResumeData["skills"] = [
   { group: "APIs & Realtime", items: ["REST APIs", "WebSockets", "Redis Pub/Sub", "API Security", "Third-Party Integrations"] },
   { group: "Data", items: ["PostgreSQL", "MariaDB", "MongoDB", "Redis", "Prisma"] },
   { group: "Cloud & Operations", items: ["AWS", "Docker", "Linux", "CI/CD", "Grafana"] },
+  aiIntegrationSkillGroup,
 ];

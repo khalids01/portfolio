@@ -36,6 +36,7 @@ const CATEGORIES = [
   "DevOps & Cloud",
   "FinTech / Blockchain",
   "Engineering",
+  "AI Integration",
 ];
 
 function slugify(value: string) {

@@ -69,6 +69,7 @@ export const SKILL_CATEGORY = {
   DEVOPS_CLOUD: "DevOps & Cloud",
   FINTECH_BLOCKCHAIN: "FinTech / Blockchain",
   ENGINEERING: "Engineering",
+  AI_INTEGRATION: "AI Integration",
 } as const;
 
 export type SkillCategory = (typeof SKILL_CATEGORY)[keyof typeof SKILL_CATEGORY];
@@ -419,6 +420,26 @@ export const SKILL = {
     category: SKILL_CATEGORY.ENGINEERING,
     icon: "/icons/api-security.svg",
   },
+
+  // AI Integration
+  LLM_APIS: {
+    slug: "llm-apis",
+    name: "LLM APIs",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: null,
+  },
+  STREAMING_RESPONSES: {
+    slug: "streaming-responses",
+    name: "Streaming Responses",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: null,
+  },
+  STRUCTURED_OUTPUTS: {
+    slug: "structured-outputs",
+    name: "Structured Outputs",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: null,
+  },
 } satisfies Record<string, PortfolioSkillDefinition>;
 
 // Explicit, ordered list of portfolio skills for deterministic seeding/display.
@@ -476,6 +497,9 @@ export const SKILLS = [
   SKILL.EVENT_DRIVEN_ARCHITECTURE,
   SKILL.PERFORMANCE_OPTIMIZATION,
   SKILL.API_SECURITY,
+  SKILL.LLM_APIS,
+  SKILL.STREAMING_RESPONSES,
+  SKILL.STRUCTURED_OUTPUTS,
 ] as const;
 
 // ---------------------------------------------------------------------------

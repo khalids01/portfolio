@@ -63,7 +63,11 @@
     { "name": "System Design", "category": "Other" },
     { "name": "Clean Architecture", "category": "Other" },
     { "name": "Performance Optimization", "category": "Other" },
-    { "name": "API Security", "category": "Other" }
+    { "name": "API Security", "category": "Other" },
+
+    { "name": "LLM APIs", "category": "AI Integration" },
+    { "name": "Streaming Responses", "category": "AI Integration" },
+    { "name": "Structured Outputs", "category": "AI Integration" }
   ],
   "experiences": [
     {
@@ -187,7 +191,8 @@
       { "group": "Frontend", "items": ["React", "React Native", "Next.js", "SvelteKit", "Tailwind CSS"] },
       { "group": "Database & ORM", "items": ["PostgreSQL", "MySQL", "MariaDB", "MongoDB", "Redis", "Prisma", "Drizzle", "TypeORM"] },
       { "group": "FinTech / Web3", "items": ["Solana RPC", "Anchor", "Jupiter DEX Aggregator", "Binance API", "Web3.js"] },
-      { "group": "DevOps", "items": ["AWS", "Docker", "CI/CD", "Linux Server Ops", "Grafana"] }
+      { "group": "DevOps", "items": ["AWS", "Docker", "CI/CD", "Linux Server Ops", "Grafana"] },
+      { "group": "AI Integration", "items": ["LLM APIs", "Streaming Responses", "Structured Outputs"] }
     ],
     "experience": [
       {
