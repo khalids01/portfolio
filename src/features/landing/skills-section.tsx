@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import type { SkillData } from "@/features/landing/data";
-import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet } from "lucide-react";
+import { Code2, Database, Cloud, Terminal, Monitor, Layers, Shield, Cpu, Globe, Wallet, BrainCircuit } from "lucide-react";
 import { motion } from "framer-motion";
 import { getSkillColor, getSkillIcon, normalizeSkillIcon } from "@/constants/icons";
 import Image from "next/image";
@@ -17,7 +17,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   "Tools & Others": Terminal,
   "Other": Terminal,
   "FinTech / Blockchain": Wallet,
-  "AI Tools & Capabilities": Cpu,
+  "AI Integration": BrainCircuit,
   "Engineering": Cpu,
   "Security": Shield,
   "Cloud": Globe,
@@ -121,7 +121,7 @@ export function SkillsSection({ skills }: { skills: SkillData[] }) {
                                 alt={skill.name}
                                 fill
                                 className={`object-contain transition-all duration-300 ${
-                                  ["next.js", "express", "fastify", "prisma", "typeorm", "vercel", "rust", "kubernetes"].some(base => 
+                                  ["next.js", "express", "fastify", "prisma", "typeorm", "vercel", "rust", "kubernetes", "openai"].some(base =>
                                     skill.name.toLowerCase().includes(base)
                                   ) ? "dark:invert" : ""
                                 }`}

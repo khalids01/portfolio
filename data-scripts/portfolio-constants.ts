@@ -426,19 +426,49 @@ export const SKILL = {
     slug: "llm-apis",
     name: "LLM APIs",
     category: SKILL_CATEGORY.AI_INTEGRATION,
-    icon: null,
+    icon: "/icons/llm-apis.svg",
   },
   STREAMING_RESPONSES: {
     slug: "streaming-responses",
     name: "Streaming Responses",
     category: SKILL_CATEGORY.AI_INTEGRATION,
-    icon: null,
+    icon: "/icons/streaming-responses.svg",
   },
   STRUCTURED_OUTPUTS: {
     slug: "structured-outputs",
     name: "Structured Outputs",
     category: SKILL_CATEGORY.AI_INTEGRATION,
-    icon: null,
+    icon: "/icons/structured-outputs.svg",
+  },
+  OPENAI_API: {
+    slug: "openai-api",
+    name: "OpenAI API",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: "/icons/openai.svg",
+  },
+  CLAUDE_API: {
+    slug: "claude-api",
+    name: "Claude API",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: "/icons/claude-color.svg",
+  },
+  DEEPSEEK_API: {
+    slug: "deepseek-api",
+    name: "DeepSeek API",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: "/icons/deepseek-color.svg",
+  },
+  KIMI_API: {
+    slug: "kimi-api",
+    name: "Kimi API",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: "/icons/kimi-color.svg",
+  },
+  QWEN_API: {
+    slug: "qwen-api",
+    name: "Qwen API",
+    category: SKILL_CATEGORY.AI_INTEGRATION,
+    icon: "/icons/qwen-color.svg",
   },
 } satisfies Record<string, PortfolioSkillDefinition>;
 
@@ -500,6 +530,11 @@ export const SKILLS = [
   SKILL.LLM_APIS,
   SKILL.STREAMING_RESPONSES,
   SKILL.STRUCTURED_OUTPUTS,
+  SKILL.OPENAI_API,
+  SKILL.CLAUDE_API,
+  SKILL.DEEPSEEK_API,
+  SKILL.KIMI_API,
+  SKILL.QWEN_API,
 ] as const;
 
 // ---------------------------------------------------------------------------

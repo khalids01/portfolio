@@ -13,6 +13,16 @@ const toCamelCase = (str: string): string => {
 };
 
 export const SKILL_ICONS: Record<string, string> = {
+  // AI Integration
+  llmApis: "/icons/llm-apis.svg",
+  streamingResponses: "/icons/streaming-responses.svg",
+  structuredOutputs: "/icons/structured-outputs.svg",
+  openaiApi: "/icons/openai.svg",
+  claudeApi: "/icons/claude-color.svg",
+  deepseekApi: "/icons/deepseek-color.svg",
+  kimiApi: "/icons/kimi-color.svg",
+  qwenApi: "/icons/qwen-color.svg",
+
   // Languages
   typeScript: "/icons/typescript.svg",
   javaScript: "/icons/javascript.svg",
@@ -105,6 +115,16 @@ export const SKILL_ICONS: Record<string, string> = {
 };
 
 export const SKILL_COLORS: Record<string, string> = {
+  // AI Integration
+  llmApis: "#A78BFA",
+  streamingResponses: "#38BDF8",
+  structuredOutputs: "#34D399",
+  openaiApi: "#10A37F",
+  claudeApi: "#D97757",
+  deepseekApi: "#4D6BFE",
+  kimiApi: "#027AFF",
+  qwenApi: "#615CED",
+
   typeScript: "#3178C6",
   javaScript: "#F7DF1E",
   php: "#777BB4",

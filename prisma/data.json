@@ -67,7 +67,12 @@
 
     { "name": "LLM APIs", "category": "AI Integration" },
     { "name": "Streaming Responses", "category": "AI Integration" },
-    { "name": "Structured Outputs", "category": "AI Integration" }
+    { "name": "Structured Outputs", "category": "AI Integration" },
+    { "name": "OpenAI API", "category": "AI Integration" },
+    { "name": "Claude API", "category": "AI Integration" },
+    { "name": "DeepSeek API", "category": "AI Integration" },
+    { "name": "Kimi API", "category": "AI Integration" },
+    { "name": "Qwen API", "category": "AI Integration" }
   ],
   "experiences": [
     {
