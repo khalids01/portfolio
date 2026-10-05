@@ -8,6 +8,7 @@ import {
   emrProject,
   frontendExperience,
   frontendSkills,
+  fullStackOwnershipExperience,
   fullStackSkills,
   jobPlatformsProject,
   limsProject,
@@ -64,8 +65,20 @@ function resumeSeed({
 export const resumeSeeds: SeedScript[] = [
   resumeSeed({
     slug: "default", label: "Full-Stack TypeScript Engineer", title: "Full-Stack TypeScript Engineer", order: 50, isDefault: true,
-    summary: `${baseSummary} Strong across TypeScript, React, Next.js, Node.js, Bun, relational data, real-time systems, cloud delivery, and domain-heavy HealthTech, FinTech, SaaS, and ecommerce applications.`,
-    skills: typescriptSkills, projects: [limsProject, cryptoProject, tradingProject],
+    summary: "Full-stack TypeScript engineer with experience spanning web design and production application development since 2020. Led delivery of an enterprise laboratory platform from requirements discussions and technical decisions through implementation, deployment, and production support. Builds complete product workflows across React and Next.js interfaces, backend APIs, relational data, and cloud infrastructure.",
+    skills: typescriptSkills,
+    experience: fullStackOwnershipExperience,
+    projects: [
+      {
+        ...limsProject,
+        bullets: [
+          "Translated clinical and anatomical laboratory requirements into patient and sample workflows, dynamic forms, reporting, and operational automation.",
+          "Made technical decisions across Next.js, Fastify, TypeScript, and MariaDB, and handled deployment and ongoing production support.",
+        ],
+      },
+      ecommerceProject,
+      cryptoProject,
+    ],
   }),
   resumeSeed({
     slug: "senior-javascript-engineer", label: "Senior JavaScript Engineer", title: "Senior JavaScript Engineer", order: 51,

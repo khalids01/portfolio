@@ -53,6 +53,21 @@ export const balancedExperience: ResumeData["experience"] = [
 
 export const typescriptExperience = balancedExperience;
 
+export const fullStackOwnershipExperience: ResumeData["experience"] = [
+  interspeedExperience("Full-Stack TypeScript Developer", [
+    "Led delivery of an enterprise Laboratory Information Management System over 2.5 years, personally handling requirements discussions, technical decisions, implementation, deployment, and production support.",
+    "Delivered patient and sample workflows, clinical and anatomical laboratory processes, dynamic forms, and reporting across Next.js interfaces, Fastify APIs, and MariaDB models.",
+    "Implemented role-based access control across laboratory interfaces and backend services to support different operational responsibilities.",
+    "Built real-time crypto market-data pipelines and processing with Bun, Elysia.js, Redis, and WebSockets, including opportunity detection, fee-aware checks, and persistent trade lifecycle tracking.",
+    "Built and maintained production infrastructure with AWS, Docker, Linux, CI/CD, Grafana, and cloud-hosted databases; contributed frontend and REST API improvements to an OpenEMR fork.",
+  ]),
+  freelanceExperience([
+    "Delivered client ecommerce work across storefronts, product and order workflows, dashboards, and integrations, handling requirements, revisions, deployment, and maintenance.",
+    "Built responsive business websites and interfaces with JavaScript, React, Next.js, and Node.js, progressing from web design into full-stack development.",
+    "Delivered 100+ website designs as part of a remote web-design team after an initial Fiverr engagement became longer-term direct work.",
+  ]),
+];
+
 export const frontendExperience: ResumeData["experience"] = [
   interspeedExperience("Full-Stack TypeScript Developer", [
     "Owned approximately 85% of an enterprise LIMS over 2.5 years, building multi-role Next.js interfaces for patient, sample, clinical, anatomical, dynamic-form, and reporting workflows.",
