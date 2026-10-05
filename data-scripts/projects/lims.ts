@@ -27,7 +27,7 @@ export const limsProjectSeed: SeedScript = {
         "Paused After Funding Ended",
       ],
       featuredRank: 3,
-      role: "Primary full-stack developer, owning and building approximately 85% of the system over 2.5 years.",
+      role: "Primary full-stack developer over 2.5 years, responsible for requirements discussions, technical decisions, implementation, deployment, and support.",
       impact:
         "Built a feature-rich enterprise healthcare platform covering complex laboratory workflows before development paused after funding ended.",
       skillSlugs: [
@@ -46,7 +46,7 @@ export const limsProjectSeed: SeedScript = {
       caseStudy: {
         problem:
           "Hospitals and diagnostic centers needed one system to manage patient registration, samples, lab workflows, reports, and internal access control.",
-        role: "Primary full-stack developer responsible for most product workflows, backend APIs, data modeling, and UI flows.",
+        role: "Personally handled requirements discussions, technical decisions, implementation, deployment, and support across laboratory workflows, backend APIs, data models, and interfaces.",
         features: [
           "Patient and sample workflows",
           "Clinical and anatomical laboratory processes",

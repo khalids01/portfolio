@@ -20,10 +20,10 @@ export const interspeedExperienceSeed: SeedScript = {
       current: true,
       categorySlug: EXPERIENCE_CATEGORY.FULL_TIME.slug,
       description:
-        "Building complex HealthTech and FinTech systems across enterprise laboratory workflows, real-time market infrastructure, automated trading, and financial-system R&D.",
+        "Owning complex HealthTech and FinTech workflows across requirements, technical decisions, frontend and backend development, deployment, and ongoing support.",
 
       highlights: [
-        "Owned approximately 85% of an enterprise Laboratory Information Management System over 2.5 years, building clinical and anatomical workflows, dynamic forms, reporting, role-based access, backend APIs, and database models.",
+        "Led delivery of an enterprise Laboratory Information Management System over 2.5 years, personally handling requirements discussions, technical decisions, implementation, deployment, and production support across clinical and anatomical workflows, dynamic forms, reporting, permissions, APIs, and data models.",
 
         "Built TypeScript-based crypto trading infrastructure integrating centralized exchanges and Solana liquidity venues, including Binance, KuCoin, Coinbase, dYdX, and Jupiter.",
 

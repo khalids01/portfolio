@@ -12,7 +12,7 @@ export const owner = {
 export const profileData = {
   fullName: "Abdullah Khalid",
   headline: "Full-Stack TypeScript Developer",
-  bio: "Results-driven Full-Stack TypeScript Developer specializing in building scalable SaaS, HealthTech, and FinTech platforms. Experienced in architecting microservices, designing real-time data pipelines, and developing secure, production-grade systems. Strong background in crypto arbitrage engines, WebSocket-based market data ingestion, and cloud-native infrastructure.",
+  bio: "I take ownership of features and complex product workflows from requirements and technical decisions through implementation, deployment, and support. My work spans enterprise laboratory software, ecommerce, and real-time systems, connecting React and Next.js interfaces with TypeScript APIs, databases, and cloud infrastructure.",
   avatarUrl: null as string | null,
   location: "Dhaka, Bangladesh",
   phone: "+88 01604-152737",
