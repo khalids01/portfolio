@@ -1,6 +1,7 @@
 # Taste
 - Prefers direct execution of the requested task over lengthy exploration/planning phases; gets frustrated when the assistant spends long stretches on setup/analysis without making visible progress ("u have yet to do anything, just do what i asked for"). Keep reconnaissance lean and start implementing. Confidence: 0.8
 - Preserves existing architecture over rewriting; prefers minimal, surgical changes that keep current concepts, workflows, and component patterns intact. Confidence: 0.9
+- Expects a strict read-only/ask-first mode unless changes are explicitly requested: investigate and report findings (including problems spotted, like stale data or inconsistencies) and wait for approval before modifying anything ("dont change anything unless i ask u to"). Confidence: 0.85
 - Inspects the actual current implementation before changing anything — explicitly does not assume code matches older instructions or docs. Confidence: 0.85
 - Uses stable canonical identifiers (e.g., slugs) as the permanent identity of records, never mutable display names, so relationships survive display-name changes. Confidence: 0.9
 - Prefers idempotent, non-destructive seeding (upserts keyed on stable identifiers) over delete-and-recreate; reseeding must not create duplicate rows or churn record IDs. Confidence: 0.9
@@ -12,3 +13,6 @@
 - Verifies end-to-end through the full data path (constants → seed → DB relationships → queries → admin → UI), not just typecheck/build; runs seeds multiple times to confirm idempotency. Confidence: 0.85
 - Tests individual entry points (e.g., a single seed script via the dependency resolver) in addition to full runs, to prove partial workflows produce complete data. Confidence: 0.8
 - Provides explicit final reports covering assumptions made, uncertain relationships deliberately left null, cleanup decisions, and validation results. Confidence: 0.8
+- Prefers having an AI agent make code changes to their codebase rather than implementing manually themselves; asks the assistant to produce the implementation artifacts the agent will execute. Confidence: 0.9
+- Wants written implementation guides/instructions (structured, copy-paste-ready) that the agent can follow when adding new features or integrations. Confidence: 0.85
+- Manages environment variables personally; expects agents to leave env configuration (provider URLs, API keys) to them and writes code that reads configuration from env vars rather than hardcoding it. Confidence: 0.85

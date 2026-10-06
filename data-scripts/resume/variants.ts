@@ -65,7 +65,7 @@ function resumeSeed({
 export const resumeSeeds: SeedScript[] = [
   resumeSeed({
     slug: "default", label: "Full-Stack TypeScript Engineer", title: "Full-Stack TypeScript Engineer", order: 50, isDefault: true,
-    summary: "Full-stack TypeScript engineer with experience spanning web design and production application development since 2020. Led delivery of an enterprise laboratory platform from requirements discussions and technical decisions through implementation, deployment, and production support. Builds complete product workflows across React and Next.js interfaces, backend APIs, relational data, and cloud infrastructure.",
+    summary: "Full-stack TypeScript engineer who owns applications and complex product workflows from requirements and technical decisions through deployment and production support. Experienced in system design, application architecture, API development, data modeling, third-party integrations, and real-time processing. Builds complete solutions across React and Next.js interfaces, TypeScript backend services, databases, and cloud infrastructure.",
     skills: typescriptSkills,
     experience: fullStackOwnershipExperience,
     projects: [
